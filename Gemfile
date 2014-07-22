@@ -11,10 +11,6 @@ gem 'unicorn'
 gem 'devise'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
 
 group :default do
 	# Required dependencies
@@ -26,6 +22,12 @@ group :default do
 	gem 'paperclip-dropbox', '>= 1.1.7'
 	# Simple Rails app configuration.
 	gem 'figaro'
+	# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+	gem 'turbolinks'
+	# Templating system for generating JSON, XML, MessagePack, PList and BSON.
+	gem 'rabl'
+	# JSON Parsing
+	gem 'oj'
 end
 
 group :doc, :test do

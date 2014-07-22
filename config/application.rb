@@ -20,8 +20,11 @@ module Api
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.generators do |g|
-      g.assets false
+    # Disable generation of helpers, javascripts, css, and view specs
+    config.generators do |generate|
+      generate.helper false
+      generate.assets false
+      generate.view_specs false
     end
     
   end
