@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
+
+  resources :users
+  resources :transactions
+  resources :vouchers
+  resources :redemptions
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
