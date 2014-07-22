@@ -1,0 +1,65 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  type: MyText
+  first_name: MyText
+  last_name: MyText
+  company_name: MyText
+  email: MyText
+  street_address: MyText
+  city: MyText
+  state: MyText
+  country: MyText
+  zip: MyText
+  tags: MyText
+  summary: MyText
+  description: MyText
+  website: MyText
+  is_authenticated: false
+  created_on: 2014-07-22 16:14:06
+  last_login: 2014-07-22 16:14:06
+  balance: 9.99
+  total_debits: 1
+  total_debits_value: 9.99
+  total_credits: 1
+  total_credits_value: 9.99
+  profile_picture: 
+  is_featured: false
+  supporters: 1
+  supported_causes: 1
+  vouchers: 1
+  transactions: 1
+  redemptions: 1
+
+two:
+  id: 1
+  type: MyText
+  first_name: MyText
+  last_name: MyText
+  company_name: MyText
+  email: MyText
+  street_address: MyText
+  city: MyText
+  state: MyText
+  country: MyText
+  zip: MyText
+  tags: MyText
+  summary: MyText
+  description: MyText
+  website: MyText
+  is_authenticated: false
+  created_on: 2014-07-22 16:14:06
+  last_login: 2014-07-22 16:14:06
+  balance: 9.99
+  total_debits: 1
+  total_debits_value: 9.99
+  total_credits: 1
+  total_credits_value: 9.99
+  profile_picture: 
+  is_featured: false
+  supporters: 1
+  supported_causes: 1
+  vouchers: 1
+  transactions: 1
+  redemptions: 1
