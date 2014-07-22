@@ -15,11 +15,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
-gem 'uglifier', '>= 1.3.0'
 
 group :default do
 	# Required dependencies
-	gem 'sass-rails', '~> 4.0.3'
 	gem 'coffee-rails', '~> 4.0.0'
 	gem 'jquery-rails'
 	# Easy file attachment management for ActiveRecord.
@@ -50,3 +48,5 @@ group :production do
 	# Makes running your Rails app easier. https://github.com/heroku/rails_12factor
 	gem 'rails_12factor'
 end
+
+
