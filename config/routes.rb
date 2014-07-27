@@ -1,12 +1,9 @@
 Rails.application.routes.draw do
 
+  devise_for :user, :controllers => { :registrations => 'users' }
   root 'welcome#index'
+  mount API::Root => '/'
 
-  resources :users
-  resources :transactions
-  resources :vouchers
-  resources :redemptions
-  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,2 +1,0 @@
-class VouchersController < ApplicationController
-end

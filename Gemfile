@@ -22,12 +22,13 @@ group :default do
 	gem 'paperclip-dropbox', '>= 1.1.7'
 	# Simple Rails app configuration.
 	gem 'figaro'
-	# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-	gem 'turbolinks'
-	# Templating system for generating JSON, XML, MessagePack, PList and BSON.
-	gem 'rabl'
-	# JSON Parsing
-	gem 'oj'
+	# Generate Database SEED data for multiple environments
+	gem 'seedbank'
+	### API Gems ###
+	gem 'grape'
+	gem 'grape-entity'
+	# API Documentation Library
+#	gem 'apipie-rails'
 end
 
 group :doc, :test do
@@ -40,15 +41,17 @@ group :development, :test do
 	gem 'spring'
 	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
 	gem 'faker'
+	# debugger2 is a fork of debugger for Ruby 2.0
 	gem 'debugger2'
-#	gem 'rspec-rails'
+	# Better, more useful error handling
+	gem "better_errors"
+	# A library for setting up Ruby objects as test data.
 #	gem 'factory_girl'
-#	gem 'simplecov'
+	# Rails Unit Testing RSPEC
+#	gem 'rspec-rails'
 end
 
 group :production do
 	# Makes running your Rails app easier. https://github.com/heroku/rails_12factor
 	gem 'rails_12factor'
 end
-
-
