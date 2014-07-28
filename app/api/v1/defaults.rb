@@ -25,9 +25,10 @@ module V1
       end
 
       # HTTP header based authentication
-      # before do
+      before do
       #   error!('Unauthorized', 401) unless headers['Authorization'] == "some token"
-      # end
+        header 'Access-Control-Allow-Origin', '*'
+      end
     end
   end
 

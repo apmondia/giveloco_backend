@@ -17,6 +17,9 @@ ActiveRecord::Schema.define(version: 20140727171135) do
   enable_extension "plpgsql"
 
   create_table "transactions", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "trans_id"
+    t.string   "trans_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20140727171135) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                   default: 0, null: false
+    t.integer  "sign_in_count",                                   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -47,21 +50,18 @@ ActiveRecord::Schema.define(version: 20140727171135) do
     t.string   "state"
     t.string   "country"
     t.string   "zip"
-    t.text     "tags",                                            default: [], array: true
+    t.text     "tags",                                            default: [],              array: true
     t.text     "summary"
     t.text     "description"
     t.string   "website"
-    t.decimal  "balance",                                         precision: 15, scale: 2
+    t.decimal  "balance",                precision: 15, scale: 2
     t.integer  "total_debits"
-    t.decimal  "total_debits_value",                              precision: 15, scale: 2
+    t.decimal  "total_debits_value",     precision: 15, scale: 2
     t.integer  "total_credits"
-    t.decimal  "total_credits_value",                             precision: 15, scale: 2
+    t.decimal  "total_credits_value",    precision: 15, scale: 2
     t.boolean  "is_featured"
-    t.integer  "supporters",                                      default: [], array: true
-    t.integer  "supported_causes",                                default: [], array: true
-    t.integer  "vouchers",                                        default: [], array: true
-    t.integer  "transactions",                                    default: [], array: true
-    t.integer  "redemptions",                                     default: [], array: true
+    t.integer  "supporters",                                      default: [],              array: true
+    t.integer  "supported_causes",                                default: [],              array: true
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

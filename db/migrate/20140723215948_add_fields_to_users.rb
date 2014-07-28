@@ -21,8 +21,5 @@ class AddFieldsToUsers < ActiveRecord::Migration
   	add_column :users, :is_featured, :boolean
   	add_column :users, :supporters, :integer, array: true, default: []
   	add_column :users, :supported_causes, :integer, array: true, default: []
-  	add_column :users, :vouchers, :integer, array: true, default: []
-  	add_column :users, :transactions, :integer, array: true, default: []
-  	add_column :users, :redemptions, :integer, array: true, default: []
   end
 end
