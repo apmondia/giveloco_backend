@@ -8,6 +8,7 @@ require 'faker'
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 admin = User.create(
+	:role => 'admin',
     :first_name => "Taliflo",
     :last_name => "Admin",
     :email => "ben@taliflo.com",
