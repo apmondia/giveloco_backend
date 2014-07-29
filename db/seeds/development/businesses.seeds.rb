@@ -1,6 +1,6 @@
 require 'faker'
 
-@num = 15
+@num = 30
 
 @num.times do
 	User.create(

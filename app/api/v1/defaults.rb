@@ -27,6 +27,7 @@ module V1
       # HTTP header based authentication
       before do
       #   error!('Unauthorized', 401) unless headers['Authorization'] == "some token"
+        header "X-Robots-Tag", "noindex"
         header 'Access-Control-Allow-Origin', '*'
       end
     end

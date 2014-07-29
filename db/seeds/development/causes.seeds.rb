@@ -1,11 +1,11 @@
 require 'faker'
 
-@num = 15
+@num = 30
 
 @num.times do
 	User.create(
-		:role => User::Roles::ROLES[3],
-		:first_name => Faker::Name.first_name,
+	:role => User::Roles::ROLES[3],
+	:first_name => Faker::Name.first_name,
         :last_name => Faker::Name.last_name,
         :company_name => Faker::Company.name,
         :email => Faker::Internet.email,
