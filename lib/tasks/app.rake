@@ -9,4 +9,8 @@ namespace :app  do
   # Custom install for developement environment
   desc "Install"
   task :install => [:ensure_development_environment, "db:setup", "db:migrate", "db:seed"]
+
+  # Rebuild database and schema for developement environment
+  desc "Rebuild"
+  task :rebuild => [:ensure_development_environment, "db:drop", "db:create", "db:migrate", "db:seed"]
 end
