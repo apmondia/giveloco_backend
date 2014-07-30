@@ -13,5 +13,7 @@ admin = User.create(
     :email => "ben@taliflo.com",
     :password => "password"
 )
+admin.skip_confirmation!
+admin.save!
 
 puts "#{'*'*(`tput cols`.to_i)}\nSuper Admin created!\n"
