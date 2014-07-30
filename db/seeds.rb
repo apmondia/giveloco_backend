@@ -11,7 +11,8 @@ admin = User.create(
     :first_name => "Taliflo",
     :last_name => "Admin",
     :email => "ben@taliflo.com",
-    :password => "password"
+    :password => "password",
+    :confirmed_at => DateTime.now
 )
 admin.skip_confirmation!
 admin.save!
