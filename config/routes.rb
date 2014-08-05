@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
-  devise_for :user, :controllers => { :registrations => 'users' }
+  devise_for :user, :controllers => { :registrations => 'user/registrations', :sessions => 'user/sessions' }
   root 'welcome#index'
+  match "/user/sign_in" => "user/sessions#create", via: :options 
   mount API::Root => '/'
 
   # The priority is based upon order of creation: first created -> highest priority.

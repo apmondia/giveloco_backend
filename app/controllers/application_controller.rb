@@ -10,8 +10,14 @@ class ApplicationController < ActionController::Base
 		cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
 	end
 
+	rescue_from ActionController::InvalidAuthenticityToken do |exception|
+		sign_out(current_user)
+		cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+		render :error => 'invalid token', :status => :unprocessable_entity
+	end
+
 	protected
-		def verified_request?
-			super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
-		end
+	def verified_request?
+		super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+	end
 end
