@@ -25,7 +25,7 @@ module V1
 			expose :supporters, :documentation => {:type => "integer", :desc => "A list of user IDs that have supported a cause"}
 			expose :supported_causes, :documentation => {:type => "integer", :desc => "A list of user IDs that a business has supported"}
 			# expose :vouchers, :documentation => {:type => "integer", :desc => "A list of voucher IDs claimed by a user"}
-			# expose :transactions, :documentation => {:type => "integer", :desc => "A list of transaction IDs pertaining to a user"}
+			expose :transactions, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions perform by this user. Pulled from the Transactions model."}
 			# expose :redemptions, :documentation => {:type => "integer", :desc => "A list of voucher IDs that a user has redeemed"}
 			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
@@ -33,3 +33,5 @@ module V1
 		end
 	end
 end
+
+# Ex.Entities: https://github.com/bloudraak/grape-sample-blog-api-with-entities/blob/master/app/api/blog/entities.rb
