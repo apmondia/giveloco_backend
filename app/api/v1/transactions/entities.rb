@@ -2,10 +2,10 @@ module V1
 	module Transactions
 		class Entities < Grape::Entity
 			expose :id, :documentation => {:type => "integer", :desc => "The database ID of the transaction."}
-			expose :trans_type, :documentation => {:type => "string", :desc => "The type of transaction. Can be PLEDGE or DONATION."}
+			expose :created_by_id, :documentation => {:type => "integer", :desc => "The user who started the transaction."}
+	    	expose :accepted_by_id, :documentation => {:type => "integer", :desc => "The ID of the user who accepted the transaction."}
 	    	expose :trans_id, :documentation => {:type => "integer", :desc => "The numeric ID of the transaction."}
-	    	expose :user_id, :documentation => {:type => "integer", :desc => "The user who started the transaction."}
-	    	expose :to_user_id, :documentation => {:type => "integer", :desc => "The ID of the user who accepted the transaction."}
+			expose :trans_type, :documentation => {:type => "string", :desc => "The type of transaction. Can be PLEDGE or DONATION."}
 	    	expose :from_name, :documentation => {:type => "string", :desc => "The ID of the name of the user who started the transaction."}
 	    	expose :to_name, :documentation => {:type => "string", :desc => "The name of the user who accepted the transaction."}
 	    	expose :total_debt, :documentation => {:type => "decimal", :desc => ""}
