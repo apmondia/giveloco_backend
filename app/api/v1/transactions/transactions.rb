@@ -23,7 +23,7 @@ class V1::Transactions::Transactions < V1::Base
 			@transaction.save 
 
 			status 201
-			present @transaction, with: Transaction::Entities::Transactions
+			present @transaction, with: V1::Entities::Transactions
 		end
 
 		desc "Update a single transaction"
@@ -33,7 +33,7 @@ class V1::Transactions::Transactions < V1::Base
 			@transaction.last_name = params[:last_name] if params[:last_name]
 			@transaction.save
 
-			present @transaction, with: Transaction::Entities::Transactions
+			present @transaction, with: V1::Entities::Transactions
 		end
 
 		desc "Delete a single transaction"

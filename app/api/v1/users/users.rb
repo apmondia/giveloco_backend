@@ -23,7 +23,7 @@ class V1::Users::Users < V1::Base
 			@user.save 
 
 			status 201
-			present @user, with: User::Entities::Users
+			present @user, with: V1::Entities::Users
 		end
 
 		desc "Update a single user"
@@ -33,7 +33,7 @@ class V1::Users::Users < V1::Base
 			@user.last_name = params[:last_name] if params[:last_name]
 			@user.save
 
-			present @user, with: User::Entities::Users
+			present @user, with: V1::Entities::Users
 		end
 
 		desc "Delete a single user"

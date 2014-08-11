@@ -24,12 +24,24 @@ class User::RegistrationsController < Devise::RegistrationsController
 		params.require(:user).permit(:email, :password, :first_name, :last_name)
 	end
 	 
-	# Signs in a user on sign up. You can overwrite this method in your own
-	# RegistrationsController.
+	# Signs in a user on sign up.
 	def sign_up(resource_name, resource)
 		sign_in(resource_name, resource)
 	end
 
+	def destroy
+		resource.soft_delete
+		Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+		set_flash_message :notice, :destroyed if is_navigational_format?
+		respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
+		render 	status: 200,
+				json: { 
+				auth_token: null,
+				success: true,
+				info: "User Disabled",
+				uid: user.id
+			}
+	end
 
  
 	protected

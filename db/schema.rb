@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 20140811171819) do
   end
 
   create_table "transactions", force: true do |t|
+    t.integer  "trans_id"
     t.integer  "created_by_id"
     t.integer  "accepted_by_id"
-    t.integer  "trans_id"
     t.string   "trans_type"
     t.string   "from_name"
     t.string   "to_name"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20140811171819) do
     t.boolean  "is_featured"
     t.integer  "supporters",                                      default: [],              array: true
     t.integer  "supported_causes",                                default: [],              array: true
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
