@@ -18,6 +18,8 @@ class V1::Transactions::Transactions < V1::Base
 		desc "Create a new transaction"
 		post do
 			@transaction = Transaction.new
+			@transaction.created_by = params[:created_by] if params[:created_by]
+			@transaction.accepted_by = params[:accepted_by] if params[:accepted_by]
 			@transaction.trans_type = params[:trans_type] if params[:trans_type]
 			@transaction.from_name = params[:from_name] if params[:from_name]
 			@transaction.to_name = params[:to_name] if params[:to_name]
@@ -45,10 +47,10 @@ class V1::Transactions::Transactions < V1::Base
 			present @transaction, with: V1::Entities::Transactions
 		end
 
-		desc "Delete a single transaction"
-		delete ':id' do
-			Transaction.destroy(params[:id])
-		end
+		# desc "Delete a single transaction"
+		# delete ':id' do
+		# 	Transaction.destroy(params[:id])
+		# end
 	end
 
 end # End Class

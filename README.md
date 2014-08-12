@@ -61,7 +61,7 @@ The API uses the Devise gem for user authentication, and thus CRUD commands foll
  GET         /user/confirmation(.:format)     user/confirmations#show
 ```
 
-The full list of API routes can be accessed from the command line using ```rake api:routes```, but if the command line is not available, the complete list is as follows (not the "/v1" prefix):
+The full list of API routes can be accessed from the command line using ```rake api:routes```, but if the command line is not available, the complete list is as follows (note the "/v1" prefix):
 
 ```
 # Users
@@ -74,34 +74,32 @@ The full list of API routes can be accessed from the command line using ```rake 
  GET        /v1/users/:id/transactions_accepted/:trans_id(.:format)
 
  GET        /v1/users/:id/vouchers_issued(.:format)
- GET        /v1/users/:id/vouchers_issued/:v_id(.:format)
+ GET        /v1/users/:id/vouchers_issued/:voucher_id(.:format)
  GET        /v1/users/:id/vouchers_claimed(.:format)
- GET        /v1/users/:id/vouchers_claimed/:v_id(.:format)
+ GET        /v1/users/:id/vouchers_claimed/:voucher_id(.:format)
 
  GET        /v1/users/:id/redemptions(.:format)
- GET        /v1/users/:id/redemptions/:v_id(.:format)
+ GET        /v1/users/:id/redemptions/:voucher_id(.:format)
 
 # Transactions
  GET        /v1/transactions(.:format)
  GET        /v1/transactions/:id(.:format)
  POST       /v1/transactions(.:format)
  PUT        /v1/transactions/:id(.:format)
- DELETE     /v1/transactions/:id(.:format)
 
  # Vouchers
  GET        /v1/vouchers(.:format)
  GET        /v1/vouchers/:id(.:format)
  POST       /v1/vouchers(.:format)
  PUT        /v1/vouchers/:id(.:format)
- DELETE     /v1/vouchers/:id(.:format)
 
  # Redemptions
  GET        /v1/redemptions(.:format)
  GET        /v1/redemptions/:id(.:format)
  POST       /v1/redemptions(.:format)
- PUT        /v1/redemptions/:id(.:format)
- DELETE     /v1/redemptions/:id(.:format)
 ```
+
+The DELETE method has been removed from the API to prevent accidental deletion of database fields.
 
 A User's JSON data looks like this:
 
