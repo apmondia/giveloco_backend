@@ -7,4 +7,5 @@ class User::UserController < ApplicationController
 		else
 			render json: {}, status: :unauthorized
 		end
+	end
 end
