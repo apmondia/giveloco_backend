@@ -15,31 +15,74 @@ class V1::Users::Users < V1::Base
 			present @user, with: V1::Users::Entities
 		end
 
-		desc "Create a New User"
-		post do
-			@user = User.new
-			@user.first_name = params[:first_name] if params[:first_name]
-			@user.last_name = params[:last_name] if params[:last_name]
-			@user.save 
+		segment '/:id' do
+			resource '/transactions_created' do
 
-			status 201
-			present @user, with: V1::Entities::Users
+				desc "Return list of user's CREATED Transactions"
+				get do
+					@created_transactions_list = User.find(params[:id]).transactions_created
+				end
+
+				desc "Return a single transaction CREATED by this user"
+				get '/:trans_id' do
+					# @transaction = Transaction.find(params[:id])
+					@created_transaction = User.find(params[:id]).transactions_created.find(params[:trans_id])
+				end
+			end
+
+			resource '/transactions_accepted' do
+
+				desc "Return list of user's ACCEPTED Transactions"
+				get do
+					@accepted_transactions_list = User.find(params[:id]).transactions_accepted
+				end
+
+				desc "Return a single transaction ACCEPTED by this user"
+				get '/:trans_id' do
+					@accepted_transaction = User.find(params[:id]).transactions_accepted.find(params[:trans_id])
+				end
+			end
+
+			resource '/vouchers_issued' do
+
+				desc "Return list of user's ISSUED Vouchers"
+				get do
+					@issued_voucher_list = User.find(params[:id]).vouchers_issued
+				end
+
+				desc "Return a single Voucher ISSUED by this user"
+				get '/:v_id' do
+					@issued_voucher = User.find(params[:id]).vouchers_issued.find(params[:v_id])
+				end
+			end
+
+			resource '/vouchers_claimed' do
+
+				desc "Return list of user's CLAIMED Vouchers"
+				get do
+					@claimed_voucher_list = User.find(params[:id]).vouchers_claimed
+				end
+
+				desc "Return a single Voucher CLAIMED by this user"
+				get '/:v_id' do
+					@claimed_voucher = User.find(params[:id]).vouchers_claimed.find(params[:v_id])
+				end
+			end
+
+			resource '/redemptions' do
+
+				desc "Return list of user's REDEEMED Vouchers"
+				get do
+					@redeemed_voucher_list = User.find(params[:id]).redemptions
+				end
+
+				desc "Return a single Voucher REDEEMED by this user"
+				get '/:v_id' do
+					@redeemed_voucher = User.find(params[:id]).redemptions.find(params[:v_id])
+				end
+			end
 		end
 
-		desc "Update a single user"
-		put ':id' do
-			@user = User.find(params[:id])
-			@user.first_name = params[:first_name] if params[:first_name]
-			@user.last_name = params[:last_name] if params[:last_name]
-			@user.save
-
-			present @user, with: V1::Entities::Users
-		end
-
-		desc "Delete a single user"
-		delete ':id' do
-			User.destroy(params[:id])
-		end
 	end
 
 end # End Class

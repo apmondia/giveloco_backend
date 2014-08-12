@@ -15,7 +15,7 @@ class User::ConfirmationsController < Devise::ConfirmationsController
 	end
 
 	protected
-	# Redirect to ACCOUNT_CONFIRMATION_PATH on confirmation
+	# Redirect to FRONT_END_BASE_URL on confirmation
 	def after_confirmation_path_for(resource_name, resource)
 		ENV["FRONT_END_BASE_URL"] + 'auth/login'
 	end
