@@ -51,8 +51,8 @@ class V1::Users::Users < V1::Base
 				end
 
 				desc "Return a single Voucher ISSUED by this user"
-				get '/:v_id' do
-					@issued_voucher = User.find(params[:id]).vouchers_issued.find(params[:v_id])
+				get '/:voucher_id' do
+					@issued_voucher = User.find(params[:id]).vouchers_issued.find(params[:voucher_id])
 				end
 			end
 
@@ -64,8 +64,8 @@ class V1::Users::Users < V1::Base
 				end
 
 				desc "Return a single Voucher CLAIMED by this user"
-				get '/:v_id' do
-					@claimed_voucher = User.find(params[:id]).vouchers_claimed.find(params[:v_id])
+				get '/:voucher_id' do
+					@claimed_voucher = User.find(params[:id]).vouchers_claimed.find(params[:voucher_id])
 				end
 			end
 
@@ -77,8 +77,8 @@ class V1::Users::Users < V1::Base
 				end
 
 				desc "Return a single Voucher REDEEMED by this user"
-				get '/:v_id' do
-					@redeemed_voucher = User.find(params[:id]).redemptions.find(params[:v_id])
+				get '/:voucher_id' do
+					@redeemed_voucher = User.find(params[:id]).redemptions.find(params[:voucher_id])
 				end
 			end
 		end

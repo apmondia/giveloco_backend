@@ -18,8 +18,12 @@ class V1::Vouchers::Vouchers < V1::Base
 		desc "Create a new voucher"
 		post do
 			@voucher = Voucher.new
-			@voucher.first_name = params[:first_name] if params[:first_name]
-			@voucher.last_name = params[:last_name] if params[:last_name]
+			@voucher.issued_by = params[:issued_by] if params[:issued_by]
+			@voucher.claimed_by = params[:claimed_by] if params[:claimed_by]
+			@voucher.issued_by_name = params[:issued_by_name] if params[:issued_by_name]
+			@voucher.claimed_by_name = params[:claimed_by_name] if params[:claimed_by_name]
+			@voucher.max_value = params[:max_value] if params[:max_value]
+			@voucher.redeemed = params[:redeemed] if params[:redeemed]
 			@voucher.save 
 
 			status 201
@@ -29,17 +33,16 @@ class V1::Vouchers::Vouchers < V1::Base
 		desc "Update a single voucher"
 		put ':id' do
 			@voucher = Voucher.find(params[:id])
-			@voucher.first_name = params[:first_name] if params[:first_name]
-			@voucher.last_name = params[:last_name] if params[:last_name]
+			@voucher.redeemed = params[:redeemed] if params[:redeemed]
 			@voucher.save
 
 			present @voucher, with: V1::Entities::Vouchers
 		end
 
-		desc "Delete a single voucher"
-		delete ':id' do
-			Voucher.destroy(params[:id])
-		end
+		# desc "Delete a single voucher"
+		# delete ':id' do
+		# 	Voucher.destroy(params[:id])
+		# end
 	end
 
 end # End Class
