@@ -43,8 +43,7 @@ end
 group :development, :test do
 	# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 	gem 'spring'
-	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
-	gem 'faker'
+	
 	# debugger2 is a fork of debugger for Ruby 2.0
 	gem 'debugger2'
 	# Better, more useful error handling
@@ -58,4 +57,6 @@ end
 group :production do
 	# Makes running your Rails app easier. https://github.com/heroku/rails_12factor
 	gem 'rails_12factor'
+	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
+	gem 'faker'
 end
