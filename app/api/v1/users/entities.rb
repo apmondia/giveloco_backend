@@ -24,11 +24,13 @@ module V1
 			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
 			expose :supporters, :documentation => {:type => "integer", :desc => "A list of user IDs that have supported a cause"}
 			expose :supported_causes, :documentation => {:type => "integer", :desc => "A list of user IDs that a business has supported"}
+			
 			expose :transactions_created, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions CREATED by this user."}
 			expose :transactions_accepted, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions ACCEPTED by this user."}
 			expose :vouchers_issued, :using => Vouchers::Entities, :documentation => {:type => "integer", :desc => "A list of voucher IDs claimed by a user"}
 			expose :vouchers_claimed, :using => Vouchers::Entities, :documentation => {:type => "integer", :desc => "A list of voucher IDs claimed by a user"}
 			expose :redemptions, :using => Redemptions::Entities, :documentation => {:type => "integer", :desc => "A list of the user's redeemed vouchers"}
+			
 			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
 			expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}

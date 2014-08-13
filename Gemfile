@@ -26,6 +26,8 @@ group :default do
 	gem 'global'
 	# Seedbank - Generate Database SEED data for multiple environments
 	gem 'seedbank'
+	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
+	gem 'faker'
 	### API Gems ###
 	gem 'grape'
 	gem 'grape-entity'
@@ -33,8 +35,6 @@ group :default do
 	gem 'rack-cors', :require => 'rack/cors'
 	# API Documentation Library
 #	gem 'apipie-rails'
-	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
-	gem 'faker'
 end
 
 group :doc, :test do
@@ -45,7 +45,6 @@ end
 group :development, :test do
 	# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 	gem 'spring'
-	
 	# debugger2 is a fork of debugger for Ruby 2.0
 	gem 'debugger2'
 	# Better, more useful error handling
