@@ -33,6 +33,8 @@ group :default do
 	gem 'rack-cors', :require => 'rack/cors'
 	# API Documentation Library
 #	gem 'apipie-rails'
+	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
+	gem 'faker'
 end
 
 group :doc, :test do
@@ -57,6 +59,4 @@ end
 group :production do
 	# Makes running your Rails app easier. https://github.com/heroku/rails_12factor
 	gem 'rails_12factor'
-	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
-	gem 'faker'
 end
