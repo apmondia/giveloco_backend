@@ -1,5 +1,3 @@
-require 'faker'
-
 @num = 60
 @count = 0
 
