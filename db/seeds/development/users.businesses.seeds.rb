@@ -1,5 +1,3 @@
-require 'faker'
-
 @num = 30
 
 @num.times do
