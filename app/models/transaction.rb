@@ -18,20 +18,16 @@ class Transaction < ActiveRecord::Base
 	end
 
 	# Status Functions
-	def update_status
-		if self.status == 'cancelled'
-		  self.update(:cancelled_at, Time.now)
+	def self.update_status(id)
+		@transaction = self.find(id)
+		if @transaction.status == :cancelled then
+		  @transaction.update(:cancelled_at => Time.now)
 		end
 
-		# if @transaction.status == 'cancelled'
-		# 	# cancelled
-		# 	self.update(:cancelled_at, Time.now)
-		# end
-		# if @transaction.status == 'complete'
-		# 	# complete
-		# 	self.update(:completed_at, Time.now)
-		# 	self.update(:complete, true)
-		# end
+		if @transaction.status == :complete then
+			self.update(:completed_at => Time.now)
+			self.update(:is_complete => true)
+		end
 	end
 			
 	def pending
@@ -43,10 +39,10 @@ class Transaction < ActiveRecord::Base
 		self.cancelled_at = Time.now
 	end
 
-	def complete
+	def completed
 		self.update(:status, :complete)
 		self.update(:completed_at, Time.now)
-		self.update(:complete, true)
+		self.update(:is_complete, true)
 	end
 
 	# Generate unique ID for each transaction
