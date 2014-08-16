@@ -1,4 +1,4 @@
-class V1::Users::Users < V1::Base
+class V1::Users::UsersController < V1::Base
 	include V1::Defaults
 
 	resource :users do

@@ -1,20 +1,21 @@
 @num = 60
-@count = 60
 
 @num.times do
-        @count += 1
-        pledge = Transaction.create do |t|
-                t.created_by_id = rand(2...31)
-                t.accepted_by_id = rand(32...61)
-                t.trans_id = @count # 1-60
+        donation = Transaction.create do |t|
+                @from_id = rand(2...31)
+                @to_id = rand(32...61)
+
+                t.trans_id = Transaction.new.create_id
                 t.trans_type = Transaction::Type::TYPE[0]
-                t.from_name = Faker::Name.name 
-                t.to_name = Faker::Company.name
-                t.total_debt = rand(0.00...5000.00)
-                t.total_credit = rand(0.00...5000.00)
-                t.remaining_debt = t.total_credit - t.total_debt
-                t.status = Transaction::Status::STATUS[rand(0...1)]
-                t.active = [true, false].sample
+                t.from_user_id = @from_id
+                t.to_user_id = @to_id
+                t.from_name = User.get_user_name(@from_id)
+                t.to_name = User.get_user_name(@to_id)
+                t.from_user_role = User.get_user_role(@from_id)
+                t.to_user_role = User.get_user_role(@to_id)
+                t.amount = rand(0.00...5000.00)
+                # t.status = Transaction::Status::STATUS[1]
+                t.status = Transaction::Status::STATUS[rand(0...3)]
         end
 end
 
