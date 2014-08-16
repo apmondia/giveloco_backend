@@ -1,2 +1,0 @@
-class RedemptionController < ApplicationController
-end

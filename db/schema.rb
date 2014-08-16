@@ -11,37 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811171819) do
+ActiveRecord::Schema.define(version: 20140808220755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "redemptions", force: true do |t|
-    t.integer  "voucher_id"
-    t.integer  "vendor_id"
-    t.integer  "redeemed_by_id"
-    t.string   "redeemer_name"
-    t.string   "vendor_name"
-    t.decimal  "value",          precision: 8, scale: 2
+  create_table "transactions", force: true do |t|
+    t.integer  "trans_id"
+    t.integer  "stripe_id"
+    t.string   "trans_type"
+    t.integer  "from_user_id"
+    t.integer  "to_user_id"
+    t.string   "from_name"
+    t.string   "to_name"
+    t.string   "from_user_role"
+    t.string   "to_user_role"
+    t.decimal  "amount",         precision: 8, scale: 2
+    t.string   "status"
+    t.datetime "cancelled_at"
+    t.datetime "completed_at"
+    t.boolean  "complete"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "transactions", force: true do |t|
-    t.integer  "trans_id"
-    t.integer  "created_by_id"
-    t.integer  "accepted_by_id"
-    t.string   "trans_type"
-    t.string   "from_name"
-    t.string   "to_name"
-    t.decimal  "total_debt",     precision: 8, scale: 2
-    t.decimal  "total_credit",   precision: 8, scale: 2
-    t.decimal  "remaining_debt", precision: 8, scale: 2
-    t.string   "status"
-    t.boolean  "active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "transactions", ["from_user_id"], name: "from_user_id_index", using: :btree
+  add_index "transactions", ["to_user_id"], name: "to_user_id_index", using: :btree
+  add_index "transactions", ["trans_id"], name: "trans_id_index", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                                           default: "", null: false
@@ -85,19 +81,9 @@ ActiveRecord::Schema.define(version: 20140811171819) do
     t.datetime "deleted_at"
   end
 
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "vouchers", force: true do |t|
-    t.integer  "issued_by_id"
-    t.integer  "claimed_by_id"
-    t.string   "issued_by_name"
-    t.string   "claimed_by_name"
-    t.decimal  "max_value",       precision: 8, scale: 2
-    t.boolean  "redeemed"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

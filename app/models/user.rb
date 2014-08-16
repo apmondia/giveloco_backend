@@ -5,13 +5,9 @@ class User < ActiveRecord::Base
 	       :recoverable, :rememberable, :trackable, :validatable
 
 	# Associations
-	has_many :redemptions, :through => :vouchers_claimed
-
-	has_many :vouchers_issued, :class_name => "Voucher", :foreign_key => "issued_by_id"
-	has_many :vouchers_claimed, :class_name => "Voucher", :foreign_key => "claimed_by_id"
-
-	has_many :transactions_created, :class_name => "Transaction", :foreign_key => "created_by_id"
-	has_many :transactions_accepted, :class_name => "Transaction", :foreign_key => "accepted_by_id"
+	has_many :transactions_created, :class_name => "Transaction", :foreign_key => "from_user_id"
+	has_many :transactions_accepted, :class_name => "Transaction", :foreign_key => "to_user_id"
+	
 	
 	########################################################################
 	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
@@ -40,7 +36,7 @@ class User < ActiveRecord::Base
 
 
 	class Roles < User
-		ROLES = [ "admin", "individual", "business", "cause" ]
+		ROLES = [ :admin, :individual, :business, :cause ]
 	end
 
 	class Admin < User
@@ -53,6 +49,22 @@ class User < ActiveRecord::Base
 	end
 
 	class Cause < User
+	end
+
+	# Get user's full name (if individual) or company name (if business or cause)
+	def self.get_user_name(uid)
+		@user = self.find(uid)
+		if @user.role == :individual
+			@user.first_name + ' ' + @user.last_name
+		else
+			@user.company_name
+		end
+	end
+
+	# Get user type
+	def self.get_user_role(uid)
+		@user = self.find(uid)
+		@user.role
 	end
 
 
