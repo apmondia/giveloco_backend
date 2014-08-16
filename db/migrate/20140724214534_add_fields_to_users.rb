@@ -18,7 +18,7 @@ class AddFieldsToUsers < ActiveRecord::Migration
   	add_column :users, :total_debits_value, :decimal, precision: 15, scale: 2
   	add_column :users, :total_credits, :integer
   	add_column :users, :total_credits_value, :decimal, precision: 15, scale: 2
-  	add_column :users, :is_featured, :boolean
+  	add_column :users, :is_featured, :boolean, default: false
   	add_column :users, :supporters, :integer, array: true, default: []
   	add_column :users, :supported_causes, :integer, array: true, default: []
     add_column :users, :deleted_at, :datetime

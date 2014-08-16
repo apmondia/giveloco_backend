@@ -39,10 +39,10 @@ class V1::Transactions::TransactionsController < V1::Base
 		put ':id' do
 			@transaction = Transaction.find(params[:id])
 			@transaction.status = params[:status] if params[:status]
-			if params[:status] == "cancelled"
+			if params[:status] == :cancelled
 				Transaction.cancelled
 			end
-			if params[:status] == "complete"
+			if params[:status] == :complete
 				Transaction.complete
 			end
 			@transaction.save
