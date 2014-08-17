@@ -15,7 +15,6 @@ module V1
 	    	expose :status, :documentation => {:type => "string", :desc => "The status of the transaction. Can be PENDING, CANCELLED, or COMPLETED"}
 	    	expose :cancelled_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was CANCELLED."}
 	    	expose :completed_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was COMPLETED."}
-	    	expose :complete, :documentation => {:type => "boolean", :desc => "Is the transaction complete?"}
 	    	expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was started."}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was last updated."}
 		end

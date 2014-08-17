@@ -15,7 +15,6 @@ class CreateTransactions < ActiveRecord::Migration
     	t.string		:status
         t.datetime      :cancelled_at
         t.datetime      :completed_at
-        t.boolean       :is_complete, default: false
 
     	t.timestamps
     end

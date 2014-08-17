@@ -26,7 +26,6 @@ class Transaction < ActiveRecord::Base
 
 		if @transaction.status == :complete then
 			self.update(:completed_at => Time.now)
-			self.update(:is_complete => true)
 		end
 	end
 			
@@ -42,7 +41,6 @@ class Transaction < ActiveRecord::Base
 	def completed
 		self.update(:status, :complete)
 		self.update(:completed_at, Time.now)
-		self.update(:is_complete, true)
 	end
 
 	# Generate unique ID for each transaction
