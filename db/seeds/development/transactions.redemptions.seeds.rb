@@ -17,7 +17,6 @@
                 t.status = Transaction::Status::STATUS[rand(0...3)]
                 t.cancelled_at = if t.status == :cancelled then Time.now end
                 t.completed_at = if t.status == :complete then Time.now end
-                t.is_complete = t.status == :complete ? true : false
         end
 end
 

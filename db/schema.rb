@@ -27,10 +27,9 @@ ActiveRecord::Schema.define(version: 20140808220755) do
     t.string   "from_user_role"
     t.string   "to_user_role"
     t.decimal  "amount",         precision: 8, scale: 2
-    t.string   "status",                                 default: "pending"
+    t.string   "status"
     t.datetime "cancelled_at"
     t.datetime "completed_at"
-    t.boolean  "is_complete",                            default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

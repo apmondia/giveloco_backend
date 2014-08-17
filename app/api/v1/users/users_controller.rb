@@ -16,6 +16,13 @@ class V1::Users::UsersController < V1::Base
 		end
 
 		segment '/:id' do
+			resource '/transactions' do
+				desc "Return COMPLETE list of user's Transactions"
+				get do
+					@transactions_created_list = User.find(params[:id]).transactions_created + User.find(params[:id]).transactions_accepted
+				end
+			end
+
 			resource '/transactions_created' do
 
 				desc "Return list of user's CREATED Transactions"
@@ -24,9 +31,9 @@ class V1::Users::UsersController < V1::Base
 				end
 
 				desc "Return a single transaction CREATED by this user"
-				get '/:trans_id' do
+				get '/:transaction_id' do
 					# @transaction = Transaction.find(params[:id])
-					@created_transaction = User.find(params[:id]).transactions_created.find(params[:trans_id])
+					@created_transaction = User.find(params[:id]).transactions_created.find(params[:transaction_id])
 				end
 			end
 
@@ -38,47 +45,8 @@ class V1::Users::UsersController < V1::Base
 				end
 
 				desc "Return a single transaction ACCEPTED by this user"
-				get '/:trans_id' do
-					@accepted_transaction = User.find(params[:id]).transactions_accepted.find(params[:trans_id])
-				end
-			end
-
-			resource '/vouchers_issued' do
-
-				desc "Return list of user's ISSUED Vouchers"
-				get do
-					@issued_voucher_list = User.find(params[:id]).vouchers_issued
-				end
-
-				desc "Return a single Voucher ISSUED by this user"
-				get '/:voucher_id' do
-					@issued_voucher = User.find(params[:id]).vouchers_issued.find(params[:voucher_id])
-				end
-			end
-
-			resource '/vouchers_claimed' do
-
-				desc "Return list of user's CLAIMED Vouchers"
-				get do
-					@claimed_voucher_list = User.find(params[:id]).vouchers_claimed
-				end
-
-				desc "Return a single Voucher CLAIMED by this user"
-				get '/:voucher_id' do
-					@claimed_voucher = User.find(params[:id]).vouchers_claimed.find(params[:voucher_id])
-				end
-			end
-
-			resource '/redemptions' do
-
-				desc "Return list of user's REDEEMED Vouchers"
-				get do
-					@redeemed_voucher_list = User.find(params[:id]).redemptions
-				end
-
-				desc "Return a single Voucher REDEEMED by this user"
-				get '/:voucher_id' do
-					@redeemed_voucher = User.find(params[:id]).redemptions.find(params[:voucher_id])
+				get '/:transaction_id' do
+					@accepted_transaction = User.find(params[:id]).transactions_accepted.find(params[:transaction_id])
 				end
 			end
 		end
