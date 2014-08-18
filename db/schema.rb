@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.string   "last_name"
     t.string   "company_name"
     t.string   "street_address"
+    t.string   "phone"
     t.string   "city"
     t.string   "state"
     t.string   "country"

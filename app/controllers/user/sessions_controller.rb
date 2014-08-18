@@ -1,4 +1,5 @@
 class User::SessionsController < Devise::SessionsController
+	before_filter :configure_permitted_parameters
 	before_filter :authenticate_user_from_token!, except: [:create]
 	after_filter :set_csrf_headers, only: [:create, :destroy]
 
@@ -27,5 +28,11 @@ class User::SessionsController < Devise::SessionsController
 	protected
 	def set_csrf_headers
 		cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?  
+	end
+	
+	def configure_permitted_parameters
+		devise_parameter_sanitizer.for(:sign_in) do |u|
+		  u.permit(:email, :password)
+		end
 	end
 end
