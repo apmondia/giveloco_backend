@@ -7,8 +7,27 @@ class User < ActiveRecord::Base
 	# Associations
 	has_many :transactions_created, :class_name => "Transaction", :foreign_key => "from_user_id"
 	has_many :transactions_accepted, :class_name => "Transaction", :foreign_key => "to_user_id"
-	
-	
+	# Taggable
+	acts_as_taggable_on :tags
+
+	# User Roles
+	class Roles < User
+		ROLES = [ :admin, :individual, :business, :cause ]
+	end
+
+	class Admin < User
+	end
+
+	class Person < User
+	end
+
+	class Business < User
+	end
+
+	class Cause < User
+	end
+
+
 	########################################################################
 	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
 	########################################################################
@@ -35,20 +54,9 @@ class User < ActiveRecord::Base
 	########################################################################
 
 
-	class Roles < User
-		ROLES = [ :admin, :individual, :business, :cause ]
-	end
-
-	class Admin < User
-	end
-
-	class Person < User
-	end
-
-	class Business < User
-	end
-
-	class Cause < User
+	# Set user profile picture for JSON
+	def profile_picture_url
+		# to be set with paperclip + google drive
 	end
 
 	# Get user's full name (if individual) or company name (if business or cause)
@@ -66,7 +74,6 @@ class User < ActiveRecord::Base
 		@user = self.find(uid)
 		@user.role
 	end
-
 
 	# Soft Delete user when "destroy" method is called instead of a deleting entire database field
 	def soft_delete

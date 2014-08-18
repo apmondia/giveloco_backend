@@ -9,7 +9,7 @@ class AddFieldsToUsers < ActiveRecord::Migration
   	add_column :users, :state, :string
   	add_column :users, :country, :string
   	add_column :users, :zip, :string
-  	add_column :users, :tags, :text, array: true, default: []
+    # tags are added using 'acts_as_taggable_on' gem
   	add_column :users, :summary, :text
   	add_column :users, :description, :text
   	add_column :users, :website, :string
