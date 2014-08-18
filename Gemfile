@@ -20,6 +20,8 @@ group :default do
 	gem 'paperclip', '~> 4.1'
 	# Dropbox file attachment storage
 	gem 'paperclip-dropbox', '>= 1.1.7'
+	# Tagging model for anything
+	gem 'acts-as-taggable-on'
 	# Figaro - Simple Rails app configuration.
 	gem 'figaro'
 	# Global - Provides accessor methods for your configuration data

@@ -6,13 +6,14 @@ module V1
 			expose :email, :documentation => {:type => "string", :desc => "The email address of the user"}
 			expose :first_name, :documentation => {:type => "string", :desc => "The user's First Name"}
 			expose :last_name, :documentation => {:type => "string", :desc => "The user's Last Name"}
+			# expose :profile_picture_url, :documentation => {:type => "image", :desc => "The URL for the user's profile picture"}
 			expose :company_name, :documentation => {:type => "string", :desc => "The user's Business or Cause Name"}
 			expose :street_address, :documentation => {:type => "string", :desc => "The user's Address"}
 			expose :city, :documentation => {:type => "string", :desc => "The user's City"}
 			expose :state, :documentation => {:type => "string", :desc => "The user's State"}
 			expose :country, :documentation => {:type => "string", :desc => "The user's Country"}
 			expose :zip, :documentation => {:type => "string", :desc => "The user's Zip / Postal Code"}
-			expose :tags, :documentation => {:type => "text", :desc => "Tags describing the business/cause's field of operation"}
+			expose :tags, :using => Tags::Entities, :documentation => {:type => "text", :desc => "Tags describing the business/cause's field of operation"}
 			expose :summary, :documentation => {:type => "text", :desc => "A tweet-length summary description of the business/cause"}
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
