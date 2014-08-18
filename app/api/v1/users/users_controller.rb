@@ -49,6 +49,13 @@ class V1::Users::UsersController < V1::Base
 					@accepted_transaction = User.find(params[:id]).transactions_accepted.find(params[:transaction_id])
 				end
 			end
+
+			resource '/tags' do
+				desc "Return COMPLETE list of user's Tags"
+				get do
+					@tags = User.find(params[:id]).tag_counts_on(:tags)
+				end
+			end
 		end
 
 	end
