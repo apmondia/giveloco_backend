@@ -17,16 +17,7 @@ class V1::Transactions::TransactionsController < V1::Base
 
 		desc "Create a new transaction"
 		post do
-			@transaction = Transaction.new
-			@transaction.stripe_id = params[:stripe_id] if params[:stripe_id]
-			@transaction.trans_type = params[:trans_type] if params[:trans_type]
-			@transaction.from_user_id = params[:from_user_id] if params[:from_user_id]
-			@transaction.to_user_id = params[:to_user_id] if params[:to_user_id]
-			@transaction.from_name = User.get_user_name(params[:from_user_id])
-			@transaction.to_name = User.get_user_name(params[:to_user_id])
-			@transaction.from_user_role = User.get_user_role(params[:to_user_id])
-			@transaction.to_user_role = User.get_user_role(params[:to_user_id])
-			@transaction.amount = params[:amount] if params[:amount]
+			@transaction = Transaction.new(create_transaction_params)
 			@transaction.status = :pending
 			@transaction.save 
 
@@ -37,7 +28,7 @@ class V1::Transactions::TransactionsController < V1::Base
 		desc "Update a single transaction"
 		put ':id' do
 			@transaction = Transaction.find(params[:id])
-			@transaction.status = params[:status] if params[:status]
+			@transaction.update_attributes(update_transaction_params)
 			@transaction.save
 
 			present @transaction, with: V1::Transactions::Entities
@@ -47,6 +38,16 @@ class V1::Transactions::TransactionsController < V1::Base
 		# delete ':id' do
 		# 	Transaction.destroy(params[:id])
 		# end
+	end
+
+	private
+
+	def create_transaction_params
+		params.require(:transaction).permit(:stripe_id, :trans_type, :from_user_id, :to_user_id, :amount, :status)
+	end
+
+	def update_transaction_params
+		params.require(:transaction).permit(:status)
 	end
 
 end # End Class
