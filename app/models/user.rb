@@ -7,8 +7,12 @@ class User < ActiveRecord::Base
 	# Associations
 	has_many :transactions_created, :class_name => "Transaction", :foreign_key => "from_user_id"
 	has_many :transactions_accepted, :class_name => "Transaction", :foreign_key => "to_user_id"
+
 	# Taggable
 	acts_as_taggable_on :tags
+
+	# Callbacks
+	after_create :set_default_user_values
 
 	# User Roles
 	class Roles < User
@@ -88,7 +92,7 @@ class User < ActiveRecord::Base
 	# Used for user authentication
 	def ensure_authentication_token
 		self.authentication_token = generate_authentication_token
-		self.save!
+		self.save
 		self.authentication_token
 	end
 
@@ -98,6 +102,13 @@ class User < ActiveRecord::Base
 			token = Devise.friendly_token
 			break token unless User.where(authentication_token: token).first
 		end
+	end
+
+	def set_default_user_values
+		u = User.find(self.id)
+		u.total_funds_raised = 0.00
+		u.balance = 0.00
+		u.save
 	end
 	
 end

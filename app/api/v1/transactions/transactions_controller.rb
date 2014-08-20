@@ -18,7 +18,6 @@ class V1::Transactions::TransactionsController < V1::Base
 		desc "Create a new transaction"
 		post do
 			@transaction = Transaction.new
-			@transaction.trans_id = @transaction.create_id
 			@transaction.stripe_id = params[:stripe_id] if params[:stripe_id]
 			@transaction.trans_type = params[:trans_type] if params[:trans_type]
 			@transaction.from_user_id = params[:from_user_id] if params[:from_user_id]
@@ -39,12 +38,6 @@ class V1::Transactions::TransactionsController < V1::Base
 		put ':id' do
 			@transaction = Transaction.find(params[:id])
 			@transaction.status = params[:status] if params[:status]
-			if params[:status] == :cancelled
-				Transaction.cancelled
-			end
-			if params[:status] == :complete
-				Transaction.complete
-			end
 			@transaction.save
 
 			present @transaction, with: V1::Transactions::Entities
