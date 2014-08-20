@@ -1,11 +1,10 @@
 @num = 60
 
 @num.times do
-        donation = Transaction.create do |t|
+        pledge = Transaction.create do |t|
                 @from_id = rand(2...31)
                 @to_id = rand(32...61)
 
-                # t.trans_id = Transaction.new.create_id
                 t.trans_type = Transaction::Type::TYPE[0]
                 t.from_user_id = @from_id
                 t.to_user_id = @to_id
@@ -15,8 +14,6 @@
                 t.to_user_role = User.get_user_role(@to_id)
                 t.amount = rand(0.00...5000.00)
                 t.status = Transaction::Status::STATUS[rand(0...3)]
-                # t.cancelled_at = if t.status == :cancelled then Time.now end
-                # t.completed_at = if t.status == :complete then Time.now end
         end
 end
 

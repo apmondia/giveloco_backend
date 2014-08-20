@@ -65,8 +65,8 @@ class User < ActiveRecord::Base
 
 	# Get user's full name (if individual) or company name (if business or cause)
 	def self.get_user_name(uid)
-		@user = self.find(uid)
-		if @user.role == :individual
+		@user = User.find(uid)
+		if @user.role == 'individual'
 			@user.first_name + ' ' + @user.last_name
 		else
 			@user.company_name

@@ -5,9 +5,8 @@ class Transaction < ActiveRecord::Base
 
 	# Callbacks 
 	before_validation :create_id, :if => 'self.new_record?'
-	# validates :trans_id, :uniqueness => true
 	validates :amount, :presence => true
-	before_save :update_status, :transaction_possible?
+	before_save :update_status#, :transaction_possible?
 	after_save :variables_init, :update_supporters, :update_user_balance
 	after_create :set_trans_id
 
@@ -27,12 +26,12 @@ class Transaction < ActiveRecord::Base
 
 	# Generate unique ID for each new transaction
 	def create_id
-		@uniqueId = Time.now.to_i + (1000 + Random.rand(8999))
+		@uniqueId = Time.now.to_i + (10000 + Random.rand(89999))
 		# Ensure uniqueness
 		Transaction.all.each do |t|
 			if t.trans_id == @uniqueId
 				puts "Found matching Transaction ID! Generating new one."
-				@uniqueId = Time.now.to_i + (1000 + Random.rand(8999))
+				@uniqueId = Time.now.to_i + (10000 + Random.rand(89999))
 			end
 		end
 	end
@@ -66,7 +65,7 @@ class Transaction < ActiveRecord::Base
 
 	# Update Business' list of supported_causes and Cause's list of supporters (businesses)
 	def update_supporters
-		if @type == 'pledge' && @status == 'complete' then
+		if self.trans_type == 'pledge' && self.status == 'complete' then
 			# Update businesses with IDs of supported causes
 			b = User.find(@from_user_id)
 			b.supported_causes += Array(@to_user_id)
@@ -79,7 +78,7 @@ class Transaction < ActiveRecord::Base
 	end
 
 	def update_user_balance
-		if @type == 'donation' && @status == 'complete' then
+		if self.trans_type == 'donation' && self.status == 'complete' then
 			# Increase Individual's (donor) credits balance
 			u = User.find(@from_user_id)
 			u.balance += @transaction.amount
@@ -92,7 +91,7 @@ class Transaction < ActiveRecord::Base
 			c.save
 		end
 
-		if @type == 'pledge' && @status == 'complete' then
+		if self.trans_type == 'pledge' && self.status == 'complete' then
 			# Decrease Business' credits balance
 			b = User.find(@from_user_id)
 			b.balance -= @transaction.amount
@@ -104,7 +103,7 @@ class Transaction < ActiveRecord::Base
 			c.save
 		end
 
-		if @type == 'redemption' && @status == 'complete' then
+		if self.trans_type == 'redemption' && self.status == 'complete' then
 			# Decrease Individual's credits balance
 			u = User.find(@from_user_id)
 			u.balance -= @transaction.amount
