@@ -19,10 +19,7 @@ module V1
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
 			expose :balance, :documentation => {:type => "decimal", :desc => "The user's current credit balance"}
-			expose :total_debits, :documentation => {:type => "integer", :desc => "The user's total debit transactions"}
-			expose :total_debits_value, :documentation => {:type => "decimal", :desc => "The total value of the user's debit transactions"}
-			expose :total_credits, :documentation => {:type => "integer", :desc => "The user's total debit transactions"}
-			expose :total_credits_value, :documentation => {:type => "decimal", :desc => "The total value of the user's credit transactions"}
+			expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}
 			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
 			expose :supporters, :documentation => {:type => "integer", :desc => "A list of user IDs that have supported a cause"}
 			expose :supported_causes, :documentation => {:type => "integer", :desc => "A list of user IDs that a business has supported"}
