@@ -90,10 +90,7 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.text     "description"
     t.string   "website"
     t.decimal  "balance",                precision: 15, scale: 2
-    t.integer  "total_debits"
-    t.decimal  "total_debits_value",     precision: 15, scale: 2
-    t.integer  "total_credits"
-    t.decimal  "total_credits_value",    precision: 15, scale: 2
+    t.decimal  "total_funds_raised",     precision: 15, scale: 2
     t.boolean  "is_featured",                                     default: false
     t.integer  "supporters",                                      default: [],                 array: true
     t.integer  "supported_causes",                                default: [],                 array: true
