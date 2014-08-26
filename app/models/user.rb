@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 	has_many :transactions_accepted, :class_name => "Transaction", :foreign_key => "to_user_id"
 
 	# Taggable
-	acts_as_taggable_on :tags
+	acts_as_taggable
 
 	# Callbacks
 	after_create :set_default_user_values
