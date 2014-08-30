@@ -14,11 +14,21 @@ class User < ActiveRecord::Base
 	# Callbacks
 	after_create :set_default_user_values
 
-
 	########################################################################
 	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
 	########################################################################
-	if Rails.env.development?
+	if Rails.env.local?
+		has_attached_file 	:image, 
+							:styles => {
+								:medium => "220x165#", 
+								:thumb => "100x100#" 
+							}, 
+							:default_url => "/images/users/default.jpg",
+							:path => ":rails_root/public/system/:class/:id/:style/:filename",
+							:url => "/system/:class/:id/:style/:basename.:extension"
+	    validates_attachment :image,
+			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
+	elsif Rails.env.development?
 		has_attached_file 	:image, 
 							:styles => {
 								:medium => "220x165#", 
