@@ -1,0 +1,4 @@
+client_id: <%= ENV["GDRIVE_CLIENT_ID"] %>
+client_secret: <%= ENV["GDRIVE_CLIENT_SECRET"] %>
+access_token: <%= ENV["GDRIVE_ACCESS_TOKEN"] %>
+refresh_token: <%= ENV["GDRIVE_REFRESH_TOKEN"] %>

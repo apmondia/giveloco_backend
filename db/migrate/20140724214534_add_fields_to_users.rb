@@ -20,5 +20,8 @@ class AddFieldsToUsers < ActiveRecord::Migration
   	add_column :users, :supporters, :integer, array: true, default: []
   	add_column :users, :supported_causes, :integer, array: true, default: []
     add_column :users, :deleted_at, :datetime
+    add_attachment :users, :image
+
+    add_index :users, :company_name, :name => "company_name_index", unique: true
   end
 end

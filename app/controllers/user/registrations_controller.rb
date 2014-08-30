@@ -21,7 +21,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 	end
 
 	def user_params
-		params.require(:user).permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [])
+		params.require(:user).permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [], :image)
 	end
 	 
 	# Signs in a user on sign up.
@@ -48,10 +48,10 @@ class User::RegistrationsController < Devise::RegistrationsController
 	
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.for(:sign_up) do |u|
-		  u.permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [])
+		  u.permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [], :image)
 		end
 		devise_parameter_sanitizer.for(:account_update) do |u|
-		  u.permit(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [])
+		  u.permit(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [], :image)
 		end
 	end
 end
