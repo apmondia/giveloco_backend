@@ -14,6 +14,41 @@ class User < ActiveRecord::Base
 	# Callbacks
 	after_create :set_default_user_values
 
+
+	########################################################################
+	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
+	########################################################################
+	if Rails.env.development?
+		has_attached_file 	:image, 
+							:styles => {
+								:medium => "220x165#", 
+								:thumb => "100x100#" 
+							}, 
+							:default_url => "/images/users/default.jpg",
+							:storage => :dropbox,
+						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
+						    :dropbox_options => {
+						    	:path => proc { |style| "dev/user_images/#{id}/#{style}/#{image.original_filename}" }
+					    	}
+	    validates_attachment :image,
+			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
+	else
+		has_attached_file 	:image,
+							:styles => {
+								:medium => "220x165#", 
+								:thumb => "100x100#" 
+							}, 
+							:default_url => "/images/users/default.jpg",
+							:storage => :dropbox,
+						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
+						    :dropbox_options => {
+						    	:path => proc { |style| "prod/user_images/#{id}/#{style}/#{image.original_filename}" }
+					    	}
+	    validates_attachment :image,
+			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
+	end
+	########################################################################
+
 	# User Roles
 	class Roles < User
 		ROLES = [ :admin, :individual, :business, :cause ]
@@ -30,33 +65,6 @@ class User < ActiveRecord::Base
 
 	class Cause < User
 	end
-
-
-	########################################################################
-	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
-	########################################################################
-	# if Rails.env.development?
-	# 	has_attached_file 	:image, 
-	# 						:styles => { :medium => "256x192#", :thumb => "100x100#" }, 
-	# 						:default_url => "/images/users/default.jpg",
-	# 						:path => ":rails_root/public/system/:class/:id/:style/:filename",
-	# 						:url => "/system/:class/:id/:style/:basename.:extension"
-	#     validates_attachment :image,
-	# 		:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	# else
-	# 	has_attached_file 	:image,
-	# 						:styles => { :medium => "256x192#", :thumb => "100x100#" }, 
-	# 						:default_url => "/images/users/default.jpg",
-	# 						:storage => :dropbox,
-	# 					    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
-	# 					    :dropbox_options => {
-	# 					    	:path => proc { |style| "prod/listings/#{id}/#{style}/#{image.original_filename}" }
-	# 				    	}
-	#     validates_attachment :image,
-	# 		:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	# end
-	########################################################################
-
 
 	# Set user profile picture for JSON
 	def profile_picture_url

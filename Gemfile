@@ -17,7 +17,7 @@ group :default do
 	gem 'coffee-rails', '~> 4.0.0'
 	gem 'jquery-rails'
 	# Easy file attachment management for ActiveRecord.
-	gem 'paperclip', '~> 4.1'
+	gem 'paperclip', '~> 4.2'
 	# Dropbox file attachment storage
 	gem 'paperclip-dropbox', '>= 1.1.7'
 	# Tagging model for anything
