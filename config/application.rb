@@ -47,6 +47,9 @@ module ApiBase
     config.paths.add 'app/api', glob: '**/*.rb'
     config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
 
+    # Auto-Load all library files
+    config.autoload_paths += Dir["#{Rails.root}/lib"]
+
     # CORS configuration
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
