@@ -26,6 +26,7 @@ module V1
 			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
 			expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
+			expose :authentication_token, as: :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}
 			expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
 			expose :transactions_created, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}
 			expose :transactions_accepted, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}
