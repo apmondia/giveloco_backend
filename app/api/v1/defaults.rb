@@ -28,6 +28,14 @@ module V1::Defaults
       header "X-Robots-Tag", "noindex"
       header 'Access-Control-Allow-Origin', '*'
     end
+
+    use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: :any
+      end
+    end
+
   end
 end
 

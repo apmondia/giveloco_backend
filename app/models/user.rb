@@ -18,43 +18,43 @@ class User < ActiveRecord::Base
 	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
 	########################################################################
 	if Rails.env.local?
-		has_attached_file 	:image, 
+		has_attached_file 	:profile_picture, 
 							:styles => {
-								:medium => "220x165#", 
+								:medium => "260x192#", 
 								:thumb => "100x100#" 
-							}, 
-							:default_url => "/images/users/default.jpg",
+							},
+							:default_url => ActionController::Base.helpers.image_url("users/default.png"),
 							:path => ":rails_root/public/system/:class/:id/:style/:filename",
 							:url => "/system/:class/:id/:style/:basename.:extension"
-	    validates_attachment :image,
+	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	elsif Rails.env.development?
-		has_attached_file 	:image, 
+		has_attached_file 	:profile_picture, 
 							:styles => {
-								:medium => "220x165#", 
+								:medium => "260x192#", 
 								:thumb => "100x100#" 
 							}, 
-							:default_url => "/images/users/default.jpg",
+							:default_url => "#{Rails.root}/app/assets/images/users/default.png",
 							:storage => :dropbox,
 						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
 						    :dropbox_options => {
 						    	:path => proc { |style| "dev/user_images/#{id}/#{style}/#{image.original_filename}" }
 					    	}
-	    validates_attachment :image,
+	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	else
-		has_attached_file 	:image,
+		has_attached_file 	:profile_picture,
 							:styles => {
-								:medium => "220x165#", 
+								:medium => "260x192#", 
 								:thumb => "100x100#" 
 							}, 
-							:default_url => "/images/users/default.jpg",
+							:default_url => "#{Rails.root}/app/assets/images/users/default.png",
 							:storage => :dropbox,
 						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
 						    :dropbox_options => {
 						    	:path => proc { |style| "prod/user_images/#{id}/#{style}/#{image.original_filename}" }
 					    	}
-	    validates_attachment :image,
+	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	end
 	########################################################################
