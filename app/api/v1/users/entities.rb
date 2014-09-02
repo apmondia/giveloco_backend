@@ -6,7 +6,7 @@ module V1
 			expose :email, :documentation => {:type => "string", :desc => "The email address of the user"}
 			expose :first_name, :documentation => {:type => "string", :desc => "The user's First Name"}
 			expose :last_name, :documentation => {:type => "string", :desc => "The user's Last Name"}
-			# expose :profile_picture_url, :documentation => {:type => "image", :desc => "The URL for the user's profile picture"}
+			expose :profile_picture_url, :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
 			expose :phone, :documentation => {:type => "string", :desc => "The phone number for the business or cause"}
 			expose :company_name, :documentation => {:type => "string", :desc => "The user's Business or Cause Name"}
 			expose :street_address, :documentation => {:type => "string", :desc => "The user's Address"}

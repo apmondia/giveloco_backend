@@ -1,6 +1,10 @@
 class V1::Users::UsersController < V1::Base
 	include V1::Defaults
 
+	before do
+    	authenticate!
+    end
+
 	resource :users do
 
 	    desc "Return list of users"
@@ -12,6 +16,30 @@ class V1::Users::UsersController < V1::Base
 	    desc "Return a single user"
 	    get ':id' do
 			@user = User.find(params[:id])
+			present @user, with: V1::Users::Entities
+		end
+
+		desc "Update a single user"
+		put ':id' do
+			@user = current_user
+			@user.update(update_user_params)
+			@user.save
+
+			# @user = User.find(params[:id])
+			# profile_picture = params[:profile_picture]
+
+			# attachment = {
+			# 	:filename => profile_picture[:filename],
+			# 	:type => profile_picture[:type],
+			# 	:headers => profile_picture[:head],
+			# 	:tempfile => profile_picture[:tempfile]
+			# }
+
+			# @user.update_attributes(update_user_params)
+			# @user.profile_picture = ActionDispatch::Http::UploadedFile.new(attachment)
+			# @user.profile_picture_url = attachment[:filename]
+			# @user.save
+
 			present @user, with: V1::Users::Entities
 		end
 
@@ -58,6 +86,12 @@ class V1::Users::UsersController < V1::Base
 			end
 		end
 
+	end
+
+	private
+
+	def update_user_params
+		params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
 	end
 
 end # End Class
