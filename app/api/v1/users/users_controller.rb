@@ -1,10 +1,6 @@
 class V1::Users::UsersController < V1::Base
 	include V1::Defaults
 
-	before do
-    	authenticate!
-    end
-
 	resource :users do
 
 	    desc "Return list of users"
@@ -21,6 +17,9 @@ class V1::Users::UsersController < V1::Base
 
 		desc "Update a single user"
 		put ':id' do
+			# before do
+		 #    	authenticate!
+		 #    end
 			@user = current_user
 			@user.update(update_user_params)
 			@user.save
