@@ -21,7 +21,7 @@ class V1::Users::UsersController < V1::Base
 		 #    	authenticate!
 		 #    end
 			@user = current_user
-			@user.update(update_user_params)
+			@user.update_attributes(update_user_params)
 			@user.save
 
 			# @user = User.find(params[:id])
