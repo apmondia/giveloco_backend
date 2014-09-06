@@ -6,7 +6,13 @@ module V1
 			expose :email, :documentation => {:type => "string", :desc => "The email address of the user"}
 			expose :first_name, :documentation => {:type => "string", :desc => "The user's First Name"}
 			expose :last_name, :documentation => {:type => "string", :desc => "The user's Last Name"}
-			expose :profile_picture_url, :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+			expose :images do
+				expose :profile_picture do
+					expose :original,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+					expose :medium,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+					expose :thumb,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+				end
+			end
 			expose :phone, :documentation => {:type => "string", :desc => "The phone number for the business or cause"}
 			expose :company_name, :documentation => {:type => "string", :desc => "The user's Business or Cause Name"}
 			expose :street_address, :documentation => {:type => "string", :desc => "The user's Address"}
@@ -26,7 +32,7 @@ module V1
 			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
 			expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
-			expose :authentication_token, as: :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}
+			expose :authentication_token, as: :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}, if: {:type => 'single_user'}
 			expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
 			expose :transactions_created, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}
 			expose :transactions_accepted, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}

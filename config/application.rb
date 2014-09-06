@@ -27,6 +27,9 @@ module ApiBase
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # Disable assets pipeline
+    config.assets.enabled = false
+
     # Disable generation of helpers, javascripts, css, and view specs
     config.generators do |generate|
       generate.helper false

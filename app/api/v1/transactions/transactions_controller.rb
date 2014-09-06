@@ -1,9 +1,9 @@
 class V1::Transactions::TransactionsController < V1::Base
 	include V1::Defaults
 
-	before do
-    	authenticate!
-    end
+	# before do
+ #    	authenticate!
+ #    end
 
 	resource :transactions do
 

@@ -20,39 +20,40 @@ class User < ActiveRecord::Base
 	if Rails.env.local?
 		has_attached_file 	:profile_picture, 
 							:styles => {
-								:medium => "260x192#", 
-								:thumb => "100x100#" 
+								:medium => ["260x192#", :jpeg], 
+								:thumb => ["100x100#", :jpeg] 
 							},
-							:default_url => ActionController::Base.helpers.image_url("users/default.png"),
-							:path => ":rails_root/public/system/:class/:id/:style/:filename",
-							:url => "/system/:class/:id/:style/:basename.:extension"
+							:use_timestamp => false,
+							:default_url => "",
+							:path => ":rails_root/public/system/:attachment/:class/:id/:style/:filename",
+							:url => ":rails_root/public/system/:attachment/:class/:id/:style/:filename"
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	elsif Rails.env.development?
 		has_attached_file 	:profile_picture, 
 							:styles => {
-								:medium => "260x192#", 
-								:thumb => "100x100#" 
-							}, 
-							:default_url => "#{Rails.root}/app/assets/images/users/default.png",
+								:medium => ["260x192#", :jpeg], 
+								:thumb => ["100x100#", :jpeg] 
+							},
+							:default_url => "",
 							:storage => :dropbox,
 						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
 						    :dropbox_options => {
-						    	:path => proc { |style| "dev/user_images/#{id}/#{style}/#{image.original_filename}" }
+						    	:path => proc { |style| "dev/user_images/#{id}/#{style}/#{profile_picture.original_filename}" }
 					    	}
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	else
 		has_attached_file 	:profile_picture,
 							:styles => {
-								:medium => "260x192#", 
-								:thumb => "100x100#" 
-							}, 
-							:default_url => "#{Rails.root}/app/assets/images/users/default.png",
+								:medium => ["260x192#", :jpeg], 
+								:thumb => ["100x100#", :jpeg] 
+							},
+							:default_url => "",
 							:storage => :dropbox,
 						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
 						    :dropbox_options => {
-						    	:path => proc { |style| "prod/user_images/#{id}/#{style}/#{image.original_filename}" }
+						    	:path => proc { |style| "prod/user_images/#{id}/#{style}/#{profile_picture.original_filename}" }
 					    	}
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
@@ -76,9 +77,17 @@ class User < ActiveRecord::Base
 	class Cause < User
 	end
 
-	# Set user profile picture for JSON
-	def profile_picture_url
-		# to be set with paperclip + google drive
+	# Profile picture styles for JSON rendering
+	def original
+		profile_picture.url(:original)
+	end
+
+	def medium
+		profile_picture.url(:medium)
+	end
+
+	def thumb
+		profile_picture.url(:thumb)
 	end
 
 	# Get user's full name (if individual) or company name (if business or cause)

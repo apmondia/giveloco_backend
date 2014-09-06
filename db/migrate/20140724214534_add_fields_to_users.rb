@@ -19,7 +19,6 @@ class AddFieldsToUsers < ActiveRecord::Migration
   	add_column :users, :is_featured, :boolean, default: false
   	add_column :users, :supporters, :integer, array: true, default: []
   	add_column :users, :supported_causes, :integer, array: true, default: []
-    add_column :users, :profile_picture_url, :string
     add_attachment :users, :profile_picture
     add_column :users, :deleted_at, :datetime
 
