@@ -31,7 +31,7 @@ group :default do
 	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
 	gem 'faker'
 	### API Gems ###
-	gem 'grape'
+	gem 'grape', '~> 0.9.0'
 	gem 'grape-entity'
 	# Rack Middleware for handling Cross-Origin Resource Sharing (CORS)
 	gem 'rack-cors', :require => 'rack/cors'

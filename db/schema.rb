@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.boolean  "is_featured",                                           default: false
     t.integer  "supporters",                                            default: [],                 array: true
     t.integer  "supported_causes",                                      default: [],                 array: true
-    t.string   "profile_picture_url"
     t.string   "profile_picture_file_name"
     t.string   "profile_picture_content_type"
     t.integer  "profile_picture_file_size"
