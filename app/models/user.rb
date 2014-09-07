@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
 							},
 							:use_timestamp => false,
 							:default_url => "",
-							:path => ":rails_root/public/system/:attachment/:class/:id/:style/:filename",
-							:url => ":rails_root/public/system/:attachment/:class/:id/:style/:filename"
+							:path => "/public/system/:attachment/:class/:id/:style/:filename",
+							:url => "/system/:attachment/:class/:id/:style/:filename"
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	elsif Rails.env.development?
