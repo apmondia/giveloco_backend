@@ -3,7 +3,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 	respond_to :json
 
 	def create
-		@user = User.new(user_params)
+		@user = User.new(create_user_params)
 
 		if @user.save
 			token = @user.ensure_authentication_token
@@ -15,6 +15,20 @@ class User::RegistrationsController < Devise::RegistrationsController
 				uid: @user.id
 			}
 			return
+		else
+			render nothing: true, status: 422
+		end
+	end
+
+	 def change_password
+		@user = User.find(params[:id])
+		@user.update_with_password(change_password_params)
+		if @user.save
+			render 	status: 200,
+					json: { 
+				success: true,
+				info: "Account Updated"
+			}
 		else
 			render nothing: true, status: 422
 		end
@@ -42,8 +56,12 @@ class User::RegistrationsController < Devise::RegistrationsController
  
 	protected
 
-	def user_params
+	def create_user_params
 		params.require(:user).permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
+	end
+
+	def change_password_params
+		params.require(:user).permit(:password, :password_confirmation, :current_password)
 	end
 	
 	def configure_permitted_parameters

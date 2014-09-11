@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post '/user/login' => 'user/sessions#create'
     delete '/user/logout' => 'user/sessions#destroy'
     post '/user/signup' => 'user/registrations#create'
+    put '/user/:id/change_password' => 'user/registrations#change_password'
   end
 
   root 'welcome#index'
