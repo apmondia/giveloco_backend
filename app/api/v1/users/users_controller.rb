@@ -81,7 +81,7 @@ class V1::Users::UsersController < V1::Base
 		params do
 			requires :id, type: Integer
 		end
-		delete ':id/remove_image' do
+		delete ':id/delete_image' do
 			@user = User.find(params[:id])
 			@user.profile_picture = nil
 			@user.save
