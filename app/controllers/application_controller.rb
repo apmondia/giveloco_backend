@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   	protect_from_forgery with: :null_session
 	respond_to :json
 
+	before_filter :make_action_mailer_use_request_host_and_protocol
 	after_filter :set_csrf_cookie_for_ng
 
 	# Authenticate user based on token
@@ -24,6 +25,13 @@ class ApplicationController < ActionController::Base
 		sign_out(current_user)
 		cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
 		render :error => 'invalid token', :status => :unprocessable_entity
+	end
+
+	private
+	# Automatically sets base url for action mailer
+	def make_action_mailer_use_request_host_and_protocol
+		ActionMailer::Base.default_url_options[:protocol] = request.protocol
+		ActionMailer::Base.default_url_options[:host] = request.host_with_port
 	end
 
 	protected
