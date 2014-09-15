@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.string   "website"
     t.decimal  "balance",                      precision: 15, scale: 2
     t.decimal  "total_funds_raised",           precision: 15, scale: 2
+    t.boolean  "is_published",                                          default: false
     t.boolean  "is_featured",                                           default: false
     t.integer  "supporters",                                            default: [],                 array: true
     t.integer  "supported_causes",                                      default: [],                 array: true

@@ -26,11 +26,13 @@ module V1
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
 			expose :balance, :documentation => {:type => "decimal", :desc => "The user's current credit balance"}
 			expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}
+			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
 			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
 			expose :supporters, :documentation => {:type => "integer", :desc => "A list of user IDs that have supported a cause"}
 			expose :supported_causes, :documentation => {:type => "integer", :desc => "A list of user IDs that a business has supported"}
 			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
+			expose :confirmed_at, :documentation => {:type => "datetime", :desc => "The date and time when the user's account registration was confirmed'"}
 			expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
 			expose :authentication_token, as: :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}, if: {:type => 'single_user'}
 			expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
