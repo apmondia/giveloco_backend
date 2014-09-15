@@ -67,7 +67,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Required for Devise gem. Make sure to change the host to your production URL (ex: 'yoursite.herokuapp.com')
-  config.action_mailer.default_url_options = { host: ENV["API_BASE_URL"] }
+  # config.action_mailer.default_url_options = { host: ENV["API_BASE_URL"] }
   
   # If a "ActionView::Template::Error:" is displayed when deploying to heroku, uncomment and configure the following line:
   # Rails.application.routes.default_url_options[:host] = 'yoursite.herokuapp.com'
