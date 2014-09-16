@@ -17,7 +17,7 @@
                 u.tag_list = Faker::Lorem.words(rand(1...10)) # acts_as_taggable_on: renders as "tags" field in JSON
                 u.summary = Faker::Lorem.sentences(3).join(" ")
                 u.description = Faker::Lorem.paragraphs(2).join(" ")
-                u.website = Faker::Internet.url('http://www.example.com')
+                u.website = Faker::Internet.url('www.example.com')
                 u.is_featured = [true, false].sample
                 u.confirmed_at = DateTime.now
                 u.skip_confirmation!

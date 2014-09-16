@@ -56,11 +56,12 @@ module ApiBase
     # CORS configuration
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
-        origins(/http:\/\/localhost:(\d*)/, 
-                /http:\/\/127.0.0.1:(\d*)/, 
-                'http://www.taliflo.com', 
-                'https://www.taliflo.com'
-                )
+        # origins(/http:\/\/localhost:(\d*)/, 
+        #         /http:\/\/127.0.0.1:(\d*)/, 
+        #         'http://www.taliflo.com', 
+        #         'https://www.taliflo.com'
+        #         )
+        origins '*'
         resource '*', 
             :headers => '*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type', 
             :methods => [:get, :post, :put, :delete, :options]
