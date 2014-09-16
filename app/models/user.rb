@@ -12,7 +12,9 @@ class User < ActiveRecord::Base
 	acts_as_taggable
 
 	# Callbacks
+	before_save :smart_add_url_protocol
 	after_create :set_default_user_values
+
 
 	########################################################################
 	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
@@ -123,7 +125,9 @@ class User < ActiveRecord::Base
 		self.authentication_token
 	end
 
+
 	private
+
 	def generate_authentication_token
 		loop do
 			token = Devise.friendly_token
@@ -136,6 +140,19 @@ class User < ActiveRecord::Base
 		u.total_funds_raised = 0.00
 		u.balance = 0.00
 		u.save
+	end
+
+
+	protected
+	# Add http:// protocol to website if it is absent
+	def smart_add_url_protocol
+		if self.website && !url_protocol_present?
+			self.website = "http://#{self.website}"
+		end
+	end
+
+	def url_protocol_present?
+		self.website[/\Ahttp:\/\//] || self.website[/\Ahttps:\/\//]
 	end
 	
 end
