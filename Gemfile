@@ -18,8 +18,8 @@ group :default do
 	gem 'jquery-rails'
 	# Easy file attachment management for ActiveRecord.
 	gem 'paperclip', '~> 4.2'
-	# Dropbox file attachment storage
-	gem 'paperclip-dropbox', '>= 1.1.7'
+	# Amazon S3 for file storage
+	gem 'aws-sdk'
 	# Tagging model for anything
 	gem 'acts-as-taggable-on'
 	# Figaro - Simple Rails app configuration.
