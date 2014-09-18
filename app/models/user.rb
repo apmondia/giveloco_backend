@@ -37,12 +37,7 @@ class User < ActiveRecord::Base
 								:medium => ["260x192#", :jpeg], 
 								:thumb => ["100x100#", :jpeg] 
 							},
-							:default_url => "",
-							:storage => :dropbox,
-						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
-						    :dropbox_options => {
-						    	:path => proc { |style| "dev/user_images/#{id}/#{style}/#{profile_picture.original_filename}" }
-					    	}
+							:default_url => ""
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	else
@@ -51,12 +46,7 @@ class User < ActiveRecord::Base
 								:medium => ["260x192#", :jpeg], 
 								:thumb => ["100x100#", :jpeg] 
 							},
-							:default_url => "",
-							:storage => :dropbox,
-						    :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
-						    :dropbox_options => {
-						    	:path => proc { |style| "prod/user_images/#{id}/#{style}/#{profile_picture.original_filename}" }
-					    	}
+							:default_url => ""
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	end
