@@ -18,8 +18,7 @@ class User::ConfirmationsController < Devise::ConfirmationsController
 	# Redirect to FRONT_END_BASE_URL on confirmation
 	def after_confirmation_path_for(resource_name, resource)
       if signed_in?(resource_name)
-      	user = User.find_by_confirmation_token(params[:confirmation_token])
-		ENV["FRONT_END_BASE_URL"] + 'user/' + user.id.to_s + '/account/details'
+		ENV["FRONT_END_BASE_URL"]
       else
       	ENV["FRONT_END_BASE_URL"] + 'user/login'
       end
