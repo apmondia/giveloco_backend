@@ -12,6 +12,16 @@ admin = User.create do |u|
     u.last_name = "Admin"
     u.email = "ben@taliflo.com"
     u.password = "password"
+    u.company_name = "Taliflo Inc."
+    u.website = "http://www.taliflo.com"
+    u.street_address = nil
+    u.country = "Canada"
+    u.state = "BC"
+    u.zip = nil
+    u.phone = nil
+    u.tag_list = nil
+    u.description = nil
+    u.summary = nil
     u.confirmed_at = DateTime.now
 	u.skip_confirmation!
     u.skip_confirmation_notification!
