@@ -1,8 +1,8 @@
 class User::SessionsController < Devise::SessionsController
+	skip_before_filter :verify_signed_out_user
 	before_filter :configure_permitted_parameters
 	before_filter :authenticate_user_from_token!, except: [:create]
 	after_filter :set_csrf_headers, only: [:create, :destroy]
-	skip_before_filter :verify_signed_out_user
 
 	def create
 		user = User.find_for_database_authentication(email: params[:email])
