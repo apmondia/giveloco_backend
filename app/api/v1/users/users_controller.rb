@@ -3,10 +3,28 @@ class V1::Users::UsersController < V1::Base
 
 	resource :users do
 
-	    desc "Return list of users"
+	    desc "Return complete list of users"
 	    get do
 			@users = User.all
 			present @users, with: V1::Users::Entities
+	    end
+
+	    desc "Return list of causes"
+	    get 'role/cause' do
+			@causes = User.where("role = 'cause'")
+			present @causes, with: V1::Users::Entities
+	    end
+
+	    desc "Return list of businesses"
+	    get 'role/business' do
+			@businesses = User.where("role = 'business'")
+			present @businesses, with: V1::Users::Entities
+	    end
+
+	    desc "Return list of individuals"
+	    get 'role/individual' do
+			@individuals = User.where("role = 'individual'")
+			present @individuals, with: V1::Users::Entities
 	    end
 
 
@@ -109,7 +127,6 @@ class V1::Users::UsersController < V1::Base
 
 				desc "Return a single transaction CREATED by this user"
 				get '/:transaction_id' do
-					# @transaction = Transaction.find(params[:id])
 					@created_transaction = User.find(params[:id]).transactions_created.find(params[:transaction_id])
 				end
 			end
