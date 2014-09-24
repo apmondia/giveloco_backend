@@ -2,6 +2,7 @@ class User::SessionsController < Devise::SessionsController
 	before_filter :configure_permitted_parameters
 	before_filter :authenticate_user_from_token!, except: [:create]
 	after_filter :set_csrf_headers, only: [:create, :destroy]
+	skip_before_filter :verify_signed_out_user
 
 	def create
 		user = User.find_for_database_authentication(email: params[:email])
@@ -22,7 +23,11 @@ class User::SessionsController < Devise::SessionsController
 	def destroy
 		current_user.authentication_token = nil
 		current_user.save!
-		render status: 200, json: {}
+		render 	status: 200, 
+				json: {
+					success: true,
+					info: "Logged out"
+				}
 	end
 
 	protected
