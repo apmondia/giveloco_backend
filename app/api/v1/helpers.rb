@@ -3,14 +3,13 @@ module V1::Helpers
 	def current_user
 		env['warden'].user
 	end
-
-	# Ensure user is authenticated before continuing
+	
 	def authenticate!
-		if env['warden'].authenticated?
-			return true
-		else
-			error!('401 Unauthorized', 401)
-		end
+		@request_user = User.find(params[:id])
+		@auth_token = @request_user.authentication_token
+		@session_token = request.headers['X-Session-Token']
+
+		error!('Unauthorized', 401) unless @session_token == @auth_token
 	end
 
 	# Define Strong Parameters for Rails app

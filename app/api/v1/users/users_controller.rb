@@ -12,6 +12,7 @@ class V1::Users::UsersController < V1::Base
 
 	    desc "Return a single user"
 	    get ':id' do
+	    	authenticate!
 			@user = User.find(params[:id])
 			present @user, with: V1::Users::Entities, type: 'single_user'
 		end
@@ -39,6 +40,7 @@ class V1::Users::UsersController < V1::Base
 			optional :tag_list
 		end
 		put ':id' do
+			authenticate!
 			@user = User.find(params[:id])
 
 			update_user_params = safe_params(params).permit(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [])
@@ -55,6 +57,7 @@ class V1::Users::UsersController < V1::Base
 			requires :profile_picture
 		end
 		post ':id/upload_image' do
+			authenticate!
 			upload_picture_params = safe_params(params).permit(:profile_picture)
 			@user = User.find(params[:id])
 
@@ -82,6 +85,7 @@ class V1::Users::UsersController < V1::Base
 			requires :id, type: Integer
 		end
 		delete ':id/delete_image' do
+			authenticate!
 			@user = User.find(params[:id])
 			@user.profile_picture = nil
 			@user.save

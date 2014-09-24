@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140818042106) do
 
   create_table "transactions", force: true do |t|
     t.integer  "trans_id"
-    t.integer  "stripe_id"
+    t.integer  "customer_id"
     t.string   "trans_type"
     t.integer  "from_user_id"
     t.integer  "to_user_id"

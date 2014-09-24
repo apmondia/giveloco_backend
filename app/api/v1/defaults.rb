@@ -22,9 +22,8 @@ module V1::Defaults
       end
     end
 
-    # HTTP header based authentication
+    # HTTP headers
     before do
-    #   error!('Unauthorized', 401) unless headers['HTTP_SECRET_KEY'] == env['HTTP_SECRET_KEY']
       header "X-Robots-Tag", "noindex"
       header 'Access-Control-Allow-Origin', '*'
     end
