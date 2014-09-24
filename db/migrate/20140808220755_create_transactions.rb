@@ -2,7 +2,7 @@ class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
         t.integer       :trans_id
-        t.integer       :stripe_id
+        t.integer       :customer_id
         t.string        :trans_type
 
     	t.belongs_to 	:from_user, :class_name => "User", :foreign_key => "from_user_id"
