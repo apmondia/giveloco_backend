@@ -46,7 +46,9 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.string   "to_name"
     t.string   "from_user_role"
     t.string   "to_user_role"
-    t.decimal  "amount",         precision: 8, scale: 2
+    t.decimal  "amount",            precision: 8, scale: 2
+    t.decimal  "from_user_balance", precision: 8, scale: 2
+    t.decimal  "to_user_balance",   precision: 8, scale: 2
     t.string   "status"
     t.datetime "cancelled_at"
     t.datetime "completed_at"

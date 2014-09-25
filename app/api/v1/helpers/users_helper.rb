@@ -1,4 +1,4 @@
-module V1::Helpers
+module V1::Helpers::UsersHelper
 	# Get current user
 	def current_user
 		env['warden'].user
@@ -18,8 +18,4 @@ module V1::Helpers
 		error!('Unauthorized', 401) unless @session_token == @auth_token && @auth_token != nil
 	end
 
-	# Define Strong Parameters for Rails app
-	def safe_params(params)
-		ActionController::Parameters.new(params)
-	end
 end
