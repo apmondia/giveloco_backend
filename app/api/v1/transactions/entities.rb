@@ -12,6 +12,8 @@ module V1
 	    	expose :from_user_role, :documentation => {:type => "string", :desc => "The ROLE of the user who accepted the transaction."}
 	    	expose :to_user_role, :documentation => {:type => "string", :desc => "The ROLE of the user who accepted the transaction."}
 	    	expose :amount, :documentation => {:type => "decimal", :desc => "The financial value of the transaction"}
+	    	expose :from_user_balance, :documentation => {:type => "decimal", :desc => "The running balance of the user who STARTED the transaction"}
+	    	expose :to_user_balance, :documentation => {:type => "decimal", :desc => "The running balance of the user who ACCEPTED the transaction"}
 	    	expose :status, :documentation => {:type => "string", :desc => "The status of the transaction. Can be PENDING, CANCELLED, or COMPLETED"}
 	    	expose :cancelled_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was CANCELLED."}
 	    	expose :completed_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was COMPLETED."}

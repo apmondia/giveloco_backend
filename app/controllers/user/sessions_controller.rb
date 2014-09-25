@@ -21,8 +21,10 @@ class User::SessionsController < Devise::SessionsController
 	end
 
 	def destroy
-		current_user.authentication_token = nil
-		current_user.save!
+		if current_user
+			current_user.authentication_token = nil
+			current_user.save!
+		end
 		render 	status: 200, 
 				json: {
 					success: true,

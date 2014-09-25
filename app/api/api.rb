@@ -1,7 +1,11 @@
 module API
 	class Root < Grape::API
 		prefix '' # Appends to base URL ex: /api
-		helpers V1::Helpers
+
+		helpers V1::Helpers::ApiHelper
+		helpers V1::Helpers::TransactionsHelper
+		helpers V1::Helpers::UsersHelper
+		
 		mount V1::Base
 		# mount V2::Base
 		# etc.
