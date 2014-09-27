@@ -5,7 +5,11 @@ module V1::Helpers::UsersHelper
 	end
 
 	# Authenticate user by auth_token and request header
-	def authenticate!
+	def authenticate!		
+		error!('Unauthorized', 401) unless :is_authenticated
+	end
+
+	def is_authenticated
 		@session_token = request.headers['X-Session-Token']
 		@request_user = User.find(params[:id])
 
@@ -14,8 +18,8 @@ module V1::Helpers::UsersHelper
 		else
 			@auth_token = @request_user.authentication_token
 		end
-		
-		error!('Unauthorized', 401) unless @session_token == @auth_token && @auth_token != nil
+
+		(@session_token == @auth_token && @auth_token != nil) ? true : false
 	end
 
 end
