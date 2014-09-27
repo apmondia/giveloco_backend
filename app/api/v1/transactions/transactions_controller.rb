@@ -65,7 +65,8 @@ class V1::Transactions::TransactionsController < V1::Base
 		end
 
 	# =======================================================================
-	# 	Create a new transaction
+	# 	Create a new transaction 
+	# 	(the type is automatically defined by who is involved)
 	# =======================================================================
 		desc "Create a new transaction"
 		params do
@@ -83,6 +84,34 @@ class V1::Transactions::TransactionsController < V1::Base
 			status 201
 			present @transaction, with: V1::Transactions::Entities
 		end
+
+
+	# =======================================================================
+	# 	Make a donation (using Braintree)
+	# =======================================================================
+		desc "Make a donation using Braintree"
+		post '/donation' do
+			result = Braintree::Transaction.sale(
+			    :amount => params[:amount],
+			    :credit_card => {
+					:number => params[:number],
+					:cvv => params[:cvv],
+					:expiration_month => params[:month],
+					:expiration_year => params[:year]
+			    },
+			    :options => {
+			    	:store_in_vault_on_success => true,
+			    	:submit_for_settlement => true
+			    }
+			)
+
+			if result.success?
+				puts "Success! Transaction ID: #{result.transaction.id}"
+			else
+				puts "Error: #{result.message}"
+			end
+		end
+
 
 	# =======================================================================
 	# 	Update a single transaction
