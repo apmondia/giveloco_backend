@@ -27,12 +27,12 @@ class Transaction < ActiveRecord::Base
 	# 	Generate and set unique ID for each new transaction
 	# =======================================================================
 	def create_id
-		@uniqueId = Time.now.to_i + (10000 + Random.rand(89999))
+		@uniqueId = Time.now.to_i + SecureRandom.random_number(1000000)
 		# Ensure uniqueness
 		Transaction.all.each do |t|
 			if t.trans_id == @uniqueId
 				puts "Found matching Transaction ID! Generating new one."
-				@uniqueId = Time.now.to_i + (10000 + Random.rand(89999))
+				@uniqueId = Time.now.to_i + SecureRandom.random_number(1000000)
 			end
 		end
 	end

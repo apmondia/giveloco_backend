@@ -66,7 +66,7 @@ class V1::Transactions::TransactionsController < V1::Base
 
 	# =======================================================================
 	# 	Create a new transaction 
-	# 	(the type is automatically defined by who is involved)
+	# 	(the type is automatically defined by the user roles involved)
 	# =======================================================================
 		desc "Create a new transaction"
 		params do
@@ -87,29 +87,11 @@ class V1::Transactions::TransactionsController < V1::Base
 
 
 	# =======================================================================
-	# 	Make a donation (using Braintree)
+	# 	Make a donation (using Stripe)
 	# =======================================================================
-		desc "Make a donation using Braintree"
+		desc "Make a donation using Stripe"
 		post '/donation' do
-			result = Braintree::Transaction.sale(
-			    :amount => params[:amount],
-			    :credit_card => {
-					:number => params[:number],
-					:cvv => params[:cvv],
-					:expiration_month => params[:month],
-					:expiration_year => params[:year]
-			    },
-			    :options => {
-			    	:store_in_vault_on_success => true,
-			    	:submit_for_settlement => true
-			    }
-			)
-
-			if result.success?
-				puts "Success! Transaction ID: #{result.transaction.id}"
-			else
-				puts "Error: #{result.message}"
-			end
+			
 		end
 
 

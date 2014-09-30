@@ -38,8 +38,9 @@ ActiveRecord::Schema.define(version: 20140818042106) do
 
   create_table "transactions", force: true do |t|
     t.integer  "trans_id"
-    t.integer  "customer_id"
     t.string   "trans_type"
+    t.string   "from_customer_id"
+    t.string   "to_customer_id"
     t.integer  "from_user_id"
     t.integer  "to_user_id"
     t.string   "from_name"
@@ -77,14 +78,13 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.text     "summary"
     t.text     "description"
     t.string   "website"
+    t.string   "customer_id"
     t.decimal  "balance",                      precision: 15, scale: 2
     t.decimal  "total_funds_raised",           precision: 15, scale: 2
     t.integer  "supporters",                                            default: [],                 array: true
     t.integer  "supported_causes",                                      default: [],                 array: true
     t.boolean  "is_published",                                          default: false
     t.boolean  "is_featured",                                           default: false
-    t.integer  "customer_id"
-    t.string   "customer_token"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
