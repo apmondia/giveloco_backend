@@ -1,3 +1,4 @@
+source 'https://code.stripe.com'
 source 'https://rubygems.org'
 ruby '2.1.2'
 
@@ -30,8 +31,9 @@ group :default do
 	gem 'seedbank'
 	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
 	gem 'faker'
-	# Braintree Payment Processor
-	gem 'braintree'
+	# Stripe Payment Processor
+	gem 'stripe'
+
 	### API Gems ###
 	gem 'grape', '~> 0.9.0'
 	gem 'grape-entity'

@@ -13,7 +13,8 @@ class User::SessionsController < Devise::SessionsController
 				auth_token: token,
 				success: true,
 				info: "Logged in",
-				uid: user.id
+				uid: user.id,
+				cid: user.customer_id
 			}
 		else
 			render nothing: true, status: :unauthorized

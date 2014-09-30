@@ -25,6 +25,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.text   :description
       t.string :website
 
+      ## Payment Gateway (Stripe)
+      t.string  :customer_id
+
       ## User Financials and Supporters
       t.decimal :balance,             precision: 15, scale: 2
       t.decimal :total_funds_raised,  precision: 15, scale: 2
@@ -34,10 +37,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Account Variables
       t.boolean   :is_published, default: false
       t.boolean   :is_featured, default: false
-
-      ## Payment Gateway (Braintree)
-      t.integer :customer_id
-      t.string  :customer_token
 
       ## Recoverable
       t.string   :reset_password_token
