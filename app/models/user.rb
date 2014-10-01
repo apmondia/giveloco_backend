@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 
 	# Callbacks
 	before_save :smart_add_url_protocol
-	after_create :set_default_user_values, :assign_customer_id
+	after_create :set_default_user_values
 
 
 	########################################################################
@@ -138,36 +138,6 @@ class User < ActiveRecord::Base
 		u.total_funds_raised = 0.00
 		u.balance = 0.00
 		u.save
-	end
-
-	# Generate customer ID for Braintree (stored in the database)
-	def generate_random_number
-		SecureRandom.random_number(100000000)
-	end
-
-	def assign_customer_id
-		@uniqueId = generate_random_number
-
-		User.all.each do |u|
-			if u.customer_id == @uniqueId
-				puts "Found matching Customer ID! Generating new one."
-				@uniqueId = generate_random_number
-			end
-		end
-
-		c = User.find(self.id)
-		c.customer_id = "stripe_id_" + @uniqueId.to_s
-		c.save
-	end
-
-	def create_new_stripe_customer(uid)
-		u = User.find(uid)
-		# result = Braintree::Customer.create(
-		#   :id => u.customer_id,
-		#   :first_name => u.first_name,
-		#   :last_name => u.last_name,
-		#   :email => u.email
-		# )
 	end
 
 

@@ -90,8 +90,31 @@ class V1::Transactions::TransactionsController < V1::Base
 	# 	Make a donation (using Stripe)
 	# =======================================================================
 		desc "Make a donation using Stripe"
+		params do
+			optional :customer_id, 	type: Integer
+			requires :stripeToken
+			requires :from_user_id, type: Integer
+			requires :to_user_id, 	type: Integer
+			requires :amount
+		end
 		post '/donation' do
+			create_transaction_params = safe_params(params).permit(:customer_id, :stripeToken, :from_user_id, :to_user_id, :amount)
 			
+			token = params[:stripeToken]
+			fromUser = User.find(params[:from_user_id])
+			toUser = User.find(params[:to_user_id])
+
+			# Create the charge on Stripe's servers - this will charge the user's card
+			begin
+				charge = Stripe::Charge.create(
+					:amount => params[:amount], # amount in cents
+					:currency => currencyRegion(toUser.id),
+					:card => token,
+					:description => "Individual user donation to a cause."
+				)
+			rescue Stripe::CardError => e
+				# The card has been declined
+			end
 		end
 
 
