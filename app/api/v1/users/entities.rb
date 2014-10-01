@@ -24,6 +24,7 @@ module V1
 			expose :summary, :documentation => {:type => "text", :desc => "A tweet-length summary description of the business/cause"}
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
+			expose :customer_id, :documentation => {:type => "string", :desc => "The user's Stripe customer ID."}, if: {:type => 'authorized'}
 			expose :balance, :documentation => {:type => "decimal", :desc => "The user's current credit balance"}, if: {:type => 'authorized'}
 			expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}, if: {:type => 'authorized'}
 			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}

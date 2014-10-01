@@ -35,7 +35,7 @@ class V1::Users::UsersController < V1::Base
 	# =======================================================================
 	    desc "Return a single user"
 	    get ':id' do
-	    	# authenticate!
+	    	authenticate!
 			@user = User.find(params[:id])
 			if is_authenticated
 				present @user, with: V1::Users::Entities, type: 'authorized'
