@@ -37,19 +37,18 @@ ActiveRecord::Schema.define(version: 20140818042106) do
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "transactions", force: true do |t|
-    t.integer  "trans_id"
     t.string   "trans_type"
-    t.string   "from_customer_id"
-    t.string   "to_customer_id"
+    t.integer  "trans_id"
+    t.string   "stripe_transaction_id"
     t.integer  "from_user_id"
     t.integer  "to_user_id"
     t.string   "from_name"
     t.string   "to_name"
     t.string   "from_user_role"
     t.string   "to_user_role"
-    t.decimal  "amount",            precision: 8, scale: 2
-    t.decimal  "from_user_balance", precision: 8, scale: 2
-    t.decimal  "to_user_balance",   precision: 8, scale: 2
+    t.decimal  "amount",                precision: 8, scale: 2
+    t.decimal  "from_user_balance",     precision: 8, scale: 2
+    t.decimal  "to_user_balance",       precision: 8, scale: 2
     t.string   "status"
     t.datetime "cancelled_at"
     t.datetime "completed_at"

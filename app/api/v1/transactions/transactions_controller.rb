@@ -91,30 +91,61 @@ class V1::Transactions::TransactionsController < V1::Base
 	# =======================================================================
 		desc "Make a donation using Stripe"
 		params do
-			optional :customer_id, 	type: Integer
 			requires :stripeToken
 			requires :from_user_id, type: Integer
 			requires :to_user_id, 	type: Integer
 			requires :amount
 		end
 		post '/donation' do
-			create_transaction_params = safe_params(params).permit(:customer_id, :stripeToken, :from_user_id, :to_user_id, :amount)
+			# stripe_transaction_params = safe_params(params).permit(:stripeToken, :from_user_id, :to_user_id, :amount, :route_info)
+			create_transaction_params = safe_params(params).permit(:from_user_id, :to_user_id, :amount)
 			
 			token = params[:stripeToken]
 			fromUser = User.find(params[:from_user_id])
 			toUser = User.find(params[:to_user_id])
 
-			# Create the charge on Stripe's servers - this will charge the user's card
+			# =======================================================================
+			# 	Stripe Transaction
+			# =======================================================================
 			begin
+				if fromUser.customer_id == nil
+				# Create new Stripe customer
+					customer = Stripe::Customer.create(
+						:card => token,
+						:description => "New customer created from Donation."
+					)
+					# Save stripe customer ID
+					fromUser.update_attributes(:customer_id => customer.id)
+					fromUser.save					
+				end
+				# Charge customer's credit card
 				charge = Stripe::Charge.create(
-					:amount => params[:amount], # amount in cents
+					:amount   => params[:amount].to_i * 100, # convert amount to cents
 					:currency => currencyRegion(toUser.id),
-					:card => token,
-					:description => "Individual user donation to a cause."
+					:customer => fromUser.customer_id || customer.id
 				)
 			rescue Stripe::CardError => e
 				# The card has been declined
+				body = e.json_body
+				err  = body[:error]
+
+				puts "Status is: #{e.http_status}"
+				puts "Type is: #{err[:type]}"
+				puts "Code is: #{err[:code]}"
+				puts "Param is: #{err[:param]}"
+				puts "Message is: #{err[:message]}"
 			end
+
+			# =======================================================================
+			# 	Taliflo Database Transaction (Donation)
+			# =======================================================================
+			@transaction = Transaction.new(create_transaction_params)
+			@transaction.stripe_transaction_id = charge.id
+			@transaction.status = :complete
+			@transaction.save 
+
+			status 201
+			present @transaction, with: V1::Transactions::Entities
 		end
 
 
