@@ -2,9 +2,9 @@ module V1
 	module Transactions
 		class Entities < Grape::Entity
 			expose :id, :documentation => {:type => "integer", :desc => "The database ID of the transaction."}
+	    	expose :trans_type, :documentation => {:type => "string", :desc => "The type of transaction. Can be PLEDGE, DONATION, or REDEMPTION."}
 	    	expose :trans_id, :documentation => {:type => "integer", :desc => "The numeric ID of the transaction."}
-	    	expose :customer_id, :documentation => {:type => "string", :desc => "The numeric ID of the Braintree Payments transaction (if one exists)."}
-			expose :trans_type, :documentation => {:type => "string", :desc => "The type of transaction. Can be PLEDGE, DONATION, or REDEMPTION."}
+	    	expose :stripe_transaction_id, :documentation => {:type => "string", :desc => "The numeric ID of the Braintree Payments transaction (if one exists)."}
 			expose :amount, :documentation => {:type => "decimal", :desc => "The financial value of the transaction"}
 			expose :from_user_id, :documentation => {:type => "integer", :desc => "The ID of the user who started the transaction."}
 	    	expose :to_user_id, :documentation => {:type => "integer", :desc => "The ID of the user who accepted the transaction."}
