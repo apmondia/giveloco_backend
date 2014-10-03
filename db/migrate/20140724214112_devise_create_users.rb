@@ -29,8 +29,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string  :customer_id
 
       ## User Financials
-      t.decimal :balance,             precision: 15, scale: 2
-      t.decimal :total_funds_raised,  precision: 15, scale: 2
+      t.decimal :balance,             precision: 15, scale: 2, default: 0.00
+      t.decimal :total_funds_raised,  precision: 15, scale: 2, default: 0.00
 
       ## Account Variables
       t.boolean   :is_published, default: false

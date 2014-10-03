@@ -93,32 +93,6 @@ class Transaction < ActiveRecord::Base
 
 
 	# =======================================================================
-	# 	Update Business' list of supported_causes and Cause's list of supporters (businesses)
-	# =======================================================================
-	def update_supporters
-		# if self.trans_type == 'pledge' && self.status == 'complete' then
-		# 	# Update businesses with IDs of supported causes
-		# 	b = User.find(self.from_user_id)
-		# 	if b.supported_causes.include? (self.to_user_id)
-		# 		puts "Cause ID #{self.to_user_id} already found in Business' list of supported_causes"
-		# 	else
-		# 		b.supported_causes += Array(self.to_user_id)
-		# 	end
-		# 	b.save
-
-		# 	# Update Causes with IDs of supporting businesses 
-		# 	c = User.find(self.to_user_id)
-		# 	if c.supporters.include? (self.from_user_id)
-		# 		puts "Business ID #{self.from_user_id} already found in Cause's list of supporters"
-		# 	else
-		# 		c.supporters += Array(self.from_user_id)
-		# 	end
-		# 	c.save
-		# end
-	end
-
-
-	# =======================================================================
 	# 	Set Running Balances
 	# =======================================================================
 	def set_running_balance
@@ -211,17 +185,41 @@ class Transaction < ActiveRecord::Base
 	# =======================================================================
 	def create_user_connection
 		t = Transaction.find(self.id)
-		c = Connection.new(
-			:trans_id => t.id,
-			:trans_type => t.trans_type,
-			:from_connection_id => t.from_user_id,
-			:to_connection_id => t.to_user_id,
-			:connection_balance => t.amount
-		)
-		if c.trans_type == 'pledge' 
-			c.is_active = true
+		c = Connection.where({:from_connection_id => t.from_user_id, :to_connection_id => t.to_user_id})
+		# If a connection already exists, update it, otherwise create a new one.
+		if c.exists?
+			if t.trans_type == "pledge"
+				c.each do |p|
+					p.connection_balance = get_total_pledge_amount(t.id)
+					puts p.connection_balance
+					p.save
+				end
+			end
+		else
+			if t.status == "complete"
+				newC = Connection.new(
+					:trans_id => t.id,
+					:trans_type => t.trans_type,
+					:from_connection_id => t.from_user_id,
+					:to_connection_id => t.to_user_id,
+					:connection_balance => t.amount
+				)
+				newC.save
+			end
 		end
-		c.save
+
 	end
+
+	def get_total_pledge_amount(tid)
+		t = Transaction.find(tid)
+		# Find all completed pledges by this user
+		pledges = Transaction.where({:from_user_id => t.from_user_id, :to_user_id => t.to_user_id, :status => "complete"})
+		# Map the pledge amounts to an array
+		pledgeAmounts = pledges.map{|p| p.amount}
+		# Add all of the pledge amounts together to form a single value
+		pledgeSum = pledgeAmounts.inject(:+)
+		return pledgeSum
+	end
+
 	
 end

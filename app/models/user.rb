@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
 
 	# Callbacks
 	before_save :smart_add_url_protocol
-	after_create :set_default_user_values
 
 
 	# =======================================================================
@@ -166,16 +165,6 @@ class User < ActiveRecord::Base
 			token = Devise.friendly_token
 			break token unless User.where(authentication_token: token).first
 		end
-	end
-
-	# =======================================================================
-	# 	Set Default User Values on creation
-	# =======================================================================
-	def set_default_user_values
-		u = User.find(self.id)
-		u.total_funds_raised = 0.00
-		u.balance = 0.00
-		u.save
 	end
 
 
