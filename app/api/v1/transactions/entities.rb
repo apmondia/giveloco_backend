@@ -10,7 +10,7 @@ module V1
 	    	expose :to_user_id, :documentation => {:type => "integer", :desc => "The ID of the user who accepted the transaction."}
 	    	expose :from_name, :documentation => {:type => "string", :desc => "The NAME of the user who started the transaction."}
 	    	expose :to_name, :documentation => {:type => "string", :desc => "The NAME of the user who accepted the transaction."}
-	    	expose :from_user_role, :documentation => {:type => "string", :desc => "The ROLE of the user who accepted the transaction."}
+	    	expose :from_user_role, :documentation => {:type => "string", :desc => "The ROLE of the user who started the transaction."}
 	    	expose :to_user_role, :documentation => {:type => "string", :desc => "The ROLE of the user who accepted the transaction."}
 	    	expose :from_user_balance, :documentation => {:type => "decimal", :desc => "The running balance of the user who STARTED the transaction"}
 	    	expose :to_user_balance, :documentation => {:type => "decimal", :desc => "The running balance of the user who ACCEPTED the transaction"}
