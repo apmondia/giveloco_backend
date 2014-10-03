@@ -5,8 +5,11 @@ class User < ActiveRecord::Base
 	       :recoverable, :rememberable, :trackable, :validatable
 
 	# Associations
-	has_many :transactions_created, :class_name => "Transaction", :foreign_key => "from_user_id"
-	has_many :transactions_accepted, :class_name => "Transaction", :foreign_key => "to_user_id"
+	has_many :transactions_created, 	:class_name => "Transaction", :foreign_key => "from_user_id"
+	has_many :transactions_accepted, 	:class_name => "Transaction", :foreign_key => "to_user_id"
+	has_many :donors, -> { where trans_type: "donation" }, 			:through => :transactions_accepted, :source => :connection
+	has_many :supporters, -> { where trans_type: "pledge" }, 		:through => :transactions_accepted, :source => :connection
+	has_many :supported_causes, -> { where trans_type: "pledge" }, 	:through => :transactions_created, :source => :connection
 
 	# Taggable
 	acts_as_taggable
@@ -14,6 +17,18 @@ class User < ActiveRecord::Base
 	# Callbacks
 	before_save :smart_add_url_protocol
 	after_create :set_default_user_values
+
+
+	# =======================================================================
+	# 	Model Scopes
+	# =======================================================================
+	def transaction_type(type)
+		where("connection.trans_type = " + type, true)
+	end
+
+	def filter_by_transaction_type
+		where("connection.trans_type = 'donation'", true)
+	end
 
 
 	########################################################################
@@ -52,7 +67,9 @@ class User < ActiveRecord::Base
 	end
 	########################################################################
 
-	# User Roles
+	# =======================================================================
+	# 	User Roles (to be completed later)
+	# =======================================================================
 	class Roles < User
 		ROLES = [ :admin, :individual, :business, :cause ]
 	end
@@ -69,7 +86,10 @@ class User < ActiveRecord::Base
 	class Cause < User
 	end
 
-	# Profile picture styles for JSON rendering
+
+	# =======================================================================
+	# 	Profile picture styles for JSON rendering
+	# =======================================================================
 	def original
 		profile_picture.url(:original)
 	end
@@ -82,7 +102,10 @@ class User < ActiveRecord::Base
 		profile_picture.url(:thumb)
 	end
 
-	# Get user's full name (if individual) or company name (if business or cause)
+
+	# =======================================================================
+	# 	Get user's full name (if individual) or company name (if business or cause)
+	# =======================================================================
 	def self.get_user_name(uid)
 		@user = User.find(uid)
 		if @user.role == 'individual'
@@ -92,13 +115,19 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	# Get user type
+	# =======================================================================
+	# 	Get user type
+	# =======================================================================
 	def self.get_user_role(uid)
 		@user = self.find(uid)
 		@user.role
 	end
 
-	# Soft Delete user when "destroy" method is called instead of a deleting entire database field
+
+	# =======================================================================
+	# 	Soft Delete Users
+	# =======================================================================
+	# Soft Delete user when "destroy" method is called instead of deleting entire database field
 	def soft_delete
 		u = User.find(self.id)
 		result = Braintree::Customer.delete(u.customer_id)
@@ -116,7 +145,11 @@ class User < ActiveRecord::Base
 		super && !deleted_at
 	end
 
-	# Used for user authentication
+
+	# =======================================================================
+	# 	User Authentication
+	# =======================================================================
+	# Ensure the user has an auth token (used for user authentication)
 	def ensure_authentication_token
 		self.authentication_token = generate_authentication_token
 		self.save
@@ -125,7 +158,9 @@ class User < ActiveRecord::Base
 
 
 	private
-
+	# =======================================================================
+	# 	Generate Authentication Token
+	# =======================================================================
 	def generate_authentication_token
 		loop do
 			token = Devise.friendly_token
@@ -133,6 +168,9 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	# =======================================================================
+	# 	Set Default User Values on creation
+	# =======================================================================
 	def set_default_user_values
 		u = User.find(self.id)
 		u.total_funds_raised = 0.00
@@ -142,7 +180,9 @@ class User < ActiveRecord::Base
 
 
 	protected
-	# Add http:// protocol to website if it is absent
+	# =======================================================================
+	# 	Add http:// protocol to website if it is absent
+	# =======================================================================
 	def smart_add_url_protocol
 		if self.website && !url_protocol_present?
 			self.website = "http://#{self.website}"

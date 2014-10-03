@@ -2,13 +2,13 @@ class Transaction < ActiveRecord::Base
 	include ActiveModel::Validations
 	belongs_to :from_user, :class_name => "User", :foreign_key => "from_user_id"
 	belongs_to :to_user, :class_name => "User", :foreign_key => "to_user_id"
+	has_one :connection, :class_name => "Connection", :foreign_key => "trans_id"
 
 	# Callbacks 
 	before_validation :create_id, :if => 'self.new_record?'
 	validates :amount, :presence => true
 	before_save :set_running_balance, :set_user_names_and_roles, :set_trans_type, :update_status
-	after_save :update_supporters
-	after_create :set_trans_id
+	after_create :set_trans_id, :create_user_connection
 
 	# Transaction Types
 	class Type < Transaction
@@ -96,30 +96,30 @@ class Transaction < ActiveRecord::Base
 	# 	Update Business' list of supported_causes and Cause's list of supporters (businesses)
 	# =======================================================================
 	def update_supporters
-		if self.trans_type == 'pledge' && self.status == 'complete' then
-			# Update businesses with IDs of supported causes
-			b = User.find(self.from_user_id)
-			if b.supported_causes.include? (self.to_user_id)
-				puts "Cause ID #{self.to_user_id} already found in Business' list of supported_causes"
-			else
-				b.supported_causes += Array(self.to_user_id)
-			end
-			b.save
+		# if self.trans_type == 'pledge' && self.status == 'complete' then
+		# 	# Update businesses with IDs of supported causes
+		# 	b = User.find(self.from_user_id)
+		# 	if b.supported_causes.include? (self.to_user_id)
+		# 		puts "Cause ID #{self.to_user_id} already found in Business' list of supported_causes"
+		# 	else
+		# 		b.supported_causes += Array(self.to_user_id)
+		# 	end
+		# 	b.save
 
-			# Update Causes with IDs of supporting businesses 
-			c = User.find(self.to_user_id)
-			if c.supporters.include? (self.from_user_id)
-				puts "Business ID #{self.from_user_id} already found in Cause's list of supporters"
-			else
-				c.supporters += Array(self.from_user_id)
-			end
-			c.save
-		end
+		# 	# Update Causes with IDs of supporting businesses 
+		# 	c = User.find(self.to_user_id)
+		# 	if c.supporters.include? (self.from_user_id)
+		# 		puts "Business ID #{self.from_user_id} already found in Cause's list of supporters"
+		# 	else
+		# 		c.supporters += Array(self.from_user_id)
+		# 	end
+		# 	c.save
+		# end
 	end
 
 
 	# =======================================================================
-	# 	Set Running Balance 
+	# 	Set Running Balances
 	# =======================================================================
 	def set_running_balance
 		fromUser = User.find(self.from_user_id)
@@ -203,6 +203,25 @@ class Transaction < ActiveRecord::Base
 			# record.errors[:base] << "Insufficient inventory"
 			puts "Insufficient inventory"
 		end
+	end
+
+
+	# =======================================================================
+	# 	Create User Connections when Transaction is created
+	# =======================================================================
+	def create_user_connection
+		t = Transaction.find(self.id)
+		c = Connection.new(
+			:trans_id => t.id,
+			:trans_type => t.trans_type,
+			:from_connection_id => t.from_user_id,
+			:to_connection_id => t.to_user_id,
+			:connection_balance => t.amount
+		)
+		if c.trans_type == 'pledge' 
+			c.is_active = true
+		end
+		c.save
 	end
 	
 end

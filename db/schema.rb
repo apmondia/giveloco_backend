@@ -16,6 +16,19 @@ ActiveRecord::Schema.define(version: 20140818042106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "connections", force: true do |t|
+    t.string   "trans_type"
+    t.integer  "trans_id"
+    t.integer  "from_connection_id"
+    t.integer  "to_connection_id"
+    t.decimal  "connection_balance", precision: 8, scale: 2
+    t.boolean  "is_active",                                  default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "connections", ["id"], name: "index_connections_on_id", using: :btree
+
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -80,8 +93,6 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.string   "customer_id"
     t.decimal  "balance",                      precision: 15, scale: 2
     t.decimal  "total_funds_raised",           precision: 15, scale: 2
-    t.integer  "supporters",                                            default: [],                 array: true
-    t.integer  "supported_causes",                                      default: [],                 array: true
     t.boolean  "is_published",                                          default: false
     t.boolean  "is_featured",                                           default: false
     t.string   "reset_password_token"

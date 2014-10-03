@@ -1,6 +1,11 @@
 module V1
 	module Users
 		class Entities < Grape::Entity
+
+			format_with :timestamp do |date|
+				date.strftime('%B %d, %Y') unless date == nil
+			end
+
 			expose :id, :documentation => {:type => "integer", :desc => "The numeric id of the user"}
 			expose :role, :documentation => {:type => "string", :desc => "The user's type"}
 			expose :email, :documentation => {:type => "string", :desc => "The email address of the user"}, if: {:type => 'authorized'}
@@ -29,16 +34,19 @@ module V1
 			expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}, if: {:type => 'authorized'}
 			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
 			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
-			expose :supporters, :documentation => {:type => "integer", :desc => "A list of user IDs that have supported a cause"}
-			expose :supported_causes, :documentation => {:type => "integer", :desc => "A list of user IDs that a business has supported"}
-			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
-			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
-			expose :confirmed_at, :documentation => {:type => "datetime", :desc => "The date and time when the user's account registration was confirmed'"}
-			expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
+			with_options(format_with: :timestamp) do
+				expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
+				expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
+				expose :confirmed_at, :documentation => {:type => "datetime", :desc => "The date and time when the user's account registration was confirmed'"}
+				expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
+				expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
+			end
 			expose :authentication_token, as: :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}, if: {:type => 'authorized'}
-			expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
-			expose :transactions_created, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}, if: {:type => 'authorized'}
-			expose :transactions_accepted, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}, if: {:type => 'authorized'}
+			expose :donors, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of donor IDs that have supported a cause"}, if: lambda { |user, options| user.role == "cause" }
+			expose :supporters, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of business IDs that have supported a cause"}, if: lambda { |user, options| user.role == "cause" }
+			expose :supported_causes, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has supported"}, if: lambda { |user, options| user.role != "cause" }
+			expose :transactions_created, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."} # , if: {:type => 'authorized'}
+			expose :transactions_accepted, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."} # , if: {:type => 'authorized'}
 		end
 	end
 end

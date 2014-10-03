@@ -28,11 +28,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Payment Gateway (Stripe)
       t.string  :customer_id
 
-      ## User Financials and Supporters
+      ## User Financials
       t.decimal :balance,             precision: 15, scale: 2
       t.decimal :total_funds_raised,  precision: 15, scale: 2
-      t.integer :supporters,          array: true, default: []
-      t.integer :supported_causes,    array: true, default: []
 
       ## Account Variables
       t.boolean   :is_published, default: false
