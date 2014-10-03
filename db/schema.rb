@@ -21,8 +21,9 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.integer  "trans_id"
     t.integer  "from_connection_id"
     t.integer  "to_connection_id"
+    t.integer  "total_transactions",                         default: 1
     t.decimal  "connection_balance", precision: 8, scale: 2
-    t.boolean  "is_active",                                  default: false
+    t.boolean  "is_active",                                  default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -91,8 +92,8 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.text     "description"
     t.string   "website"
     t.string   "customer_id"
-    t.decimal  "balance",                      precision: 15, scale: 2
-    t.decimal  "total_funds_raised",           precision: 15, scale: 2
+    t.decimal  "balance",                      precision: 15, scale: 2, default: 0.0
+    t.decimal  "total_funds_raised",           precision: 15, scale: 2, default: 0.0
     t.boolean  "is_published",                                          default: false
     t.boolean  "is_featured",                                           default: false
     t.string   "reset_password_token"
