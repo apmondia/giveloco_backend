@@ -1,6 +1,10 @@
 module V1
 	module Transactions
 		class Entities < Grape::Entity
+			format_with :timestamp do |date|
+				date.strftime('%B %d, %Y') unless date == nil
+			end
+
 			expose :id, :documentation => {:type => "integer", :desc => "The database ID of the transaction."}
 	    	expose :trans_type, :documentation => {:type => "string", :desc => "The type of transaction. Can be PLEDGE, DONATION, or REDEMPTION."}
 	    	expose :trans_id, :documentation => {:type => "integer", :desc => "The numeric ID of the transaction."}
@@ -15,10 +19,18 @@ module V1
 	    	expose :from_user_balance, :documentation => {:type => "decimal", :desc => "The running balance of the user who STARTED the transaction"}
 	    	expose :to_user_balance, :documentation => {:type => "decimal", :desc => "The running balance of the user who ACCEPTED the transaction"}
 	    	expose :status, :documentation => {:type => "string", :desc => "The status of the transaction. Can be PENDING, CANCELLED, or COMPLETED"}
-	    	expose :cancelled_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was CANCELLED."}
-	    	expose :completed_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was COMPLETED."}
-	    	expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was started."}
-			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was last updated."}
+	    	with_options(format_with: :timestamp) do
+		    	expose :cancelled_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was CANCELLED."}
+		    	expose :completed_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was COMPLETED."}
+		    	expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was started."}
+				expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was last updated."}
+			end
+
+			class SnapShot < Grape::Entity
+				expose :id
+				expose :trans_type
+				expose :status
+			end
 		end
 	end
 end

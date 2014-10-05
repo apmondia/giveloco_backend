@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
 
 	########################################################################
-	# =>		Image uploads with Dropbox and the Paperclip gem		<= #
+	# =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
 	########################################################################
 	if Rails.env.local?
 		has_attached_file 	:profile_picture, 
