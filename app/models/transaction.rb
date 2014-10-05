@@ -8,8 +8,7 @@ class Transaction < ActiveRecord::Base
 	before_validation :create_id, :if => 'self.new_record?'
 	validates :amount, :presence => true
 	before_save :set_running_balance, :set_user_names_and_roles, :set_trans_type, :update_status
-	after_save :update_user_published_status
-	after_create :set_trans_id, :create_user_connection, :set_total_transactions_for_connection
+	after_create :set_trans_id, :create_user_connection, :set_total_transactions_for_connection, :update_user_published_status
 
 	# Transaction Types
 	class Type < Transaction
@@ -262,35 +261,27 @@ class Transaction < ActiveRecord::Base
 		fromUser = User.find(t.from_user_id)
 		toUser = User.find(t.to_user_id)
 
-		if t.trans_type == "donation"
+		if t.trans_type == "donation" || t.trans_type == "pledge"
 			# If cause's balance is greater than 0 after donation, publish the cause's profile
 			if toUser.balance > 0
-				if toUser.is_published = false
-					toUser.is_published = true
-					toUser.save
-				end
+				toUser.is_published = true
+				toUser.save
 			# Otherwise unpublish the cause's profile
 			else
-				if toUser.is_published = true
-					toUser.is_published = false
-					toUser.save
-				end
+				toUser.is_published = false
+				toUser.save
 			end
 		end
 
 		if t.trans_type == "redemption"
-			# If business's balance is less than 0 after donation, publish the business's profile
+			# If business's balance is still less than 0 after redemption, keep the business's profile published
 			if toUser.balance < 0
-				if toUser.is_published = false
-					toUser.is_published = true
-					toUser.save
-				end
+				toUser.is_published = true
+				toUser.save
 			# Otherwise unpublish the business' profile
 			else
-				if toUser.is_published = true
-					toUser.is_published = false
-					toUser.save
-				end
+				toUser.is_published = false
+				toUser.save
 			end
 		end
 	end
