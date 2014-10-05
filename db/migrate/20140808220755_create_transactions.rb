@@ -14,6 +14,7 @@ class CreateTransactions < ActiveRecord::Migration
         t.decimal       :from_user_balance, :precision => 8, :scale => 2
         t.decimal       :to_user_balance, :precision => 8, :scale => 2
     	t.string		:status
+        t.belongs_to    :connection, :class_name => "Connection", :foreign_key => "connection_id"
         t.datetime      :cancelled_at
         t.datetime      :completed_at
 
@@ -23,6 +24,7 @@ class CreateTransactions < ActiveRecord::Migration
     add_index :transactions, :trans_id, :name => "trans_id_index", unique: true
     add_index :transactions, :from_user_id, :name => "from_user_id_index"
     add_index :transactions, :to_user_id, :name => "to_user_id_index"
+    add_index :transactions, :connection_id, :name => "connection_id_index"
 
   end
 end

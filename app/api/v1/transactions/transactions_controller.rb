@@ -10,7 +10,7 @@ class V1::Transactions::TransactionsController < V1::Base
 	    desc "Return complete list of transactions"
 	    get do
 			@transactions = Transaction.all
-			present @transactions, with: V1::Transactions::Entities
+			present @transactions, with: V1::Transactions::Entities, type: 'list-view'
 	    end
 
 	# =======================================================================

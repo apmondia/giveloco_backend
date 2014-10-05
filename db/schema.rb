@@ -18,11 +18,12 @@ ActiveRecord::Schema.define(version: 20140818042106) do
 
   create_table "connections", force: true do |t|
     t.string   "trans_type"
-    t.integer  "trans_id"
-    t.integer  "from_connection_id"
-    t.integer  "to_connection_id"
-    t.integer  "total_transactions",                         default: 1
-    t.decimal  "connection_balance", precision: 8, scale: 2
+    t.integer  "from_user_id"
+    t.integer  "to_user_id"
+    t.string   "from_name"
+    t.string   "to_name"
+    t.integer  "total_transactions",                         default: 0
+    t.decimal  "connection_balance", precision: 8, scale: 2, default: 0.0
     t.boolean  "is_active",                                  default: true
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -64,12 +65,14 @@ ActiveRecord::Schema.define(version: 20140818042106) do
     t.decimal  "from_user_balance",     precision: 8, scale: 2
     t.decimal  "to_user_balance",       precision: 8, scale: 2
     t.string   "status"
+    t.integer  "connection_id"
     t.datetime "cancelled_at"
     t.datetime "completed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "transactions", ["connection_id"], name: "connection_id_index", using: :btree
   add_index "transactions", ["from_user_id"], name: "from_user_id_index", using: :btree
   add_index "transactions", ["to_user_id"], name: "to_user_id_index", using: :btree
   add_index "transactions", ["trans_id"], name: "trans_id_index", unique: true, using: :btree

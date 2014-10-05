@@ -6,7 +6,7 @@ class V1::Users::UsersController < V1::Base
 	    desc "Return complete list of users"
 	    get do
 			@users = User.all
-			present @users, with: V1::Users::Entities
+			present @users, with: V1::Users::Entities, type: 'list-view'
 	    end
 
 	# =======================================================================

@@ -7,10 +7,10 @@ class V1::Connections::ConnectionsController < V1::Base
 
 	resource :connections do
 
-	    desc "Return complete list of transactions"
+	    desc "Return complete list of connections"
 	    get do
 			@connections = Connection.all
-			present @connections, with: V1::Connections::Entities
+			present @connections, with: V1::Connections::Entities, type: 'list-view'
 	    end
 
 	# =======================================================================

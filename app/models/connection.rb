@@ -1,27 +1,22 @@
 class Connection < ActiveRecord::Base
-	belongs_to :trans, :class_name => "Transaction", :foreign_key => "trans_id"
-	belongs_to :user, :class_name => "User", :foreign_key => "from_connection_id"
-	belongs_to :user, :class_name => "User", :foreign_key => "to_connection_id"
+	has_many :trans, :class_name => "Transaction", :foreign_key => "connection_id"
+	belongs_to :from_user, :class_name => "User", :foreign_key => "from_user_id"
+	belongs_to :to_user, :class_name => "User", :foreign_key => "to_user_id"
 
 	# Callbacks 
-	after_save :check_connection_balance
+	after_save :check_if_active
 
 	private
 	# =======================================================================
-	# 	Update Business' Published state based on connection balance for pledges
+	# 	Update Connection's Active state based on connection_balance
 	# =======================================================================
-	def check_connection_balance
-		t = Transaction.find(self.trans_id)
-		fromUser = User.find(self.from_connection_id)
-
-		if (self.trans_type == 'pledge') && (self.connection_balance <= 0)
-			fromUser.is_published = false
-			fromUser.save
-		end
-
-		if (self.trans_type == 'pledge') && (self.connection_balance > 0)
-			fromUser.is_published = true
-			fromUser.save
+	def check_if_active
+		c = Connection.find(self.id)
+		if c.connection_balance > 0
+			update_column :is_active, true
+		else
+			update_column :is_active, false
 		end
 	end
+
 end
