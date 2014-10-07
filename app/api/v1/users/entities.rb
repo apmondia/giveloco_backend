@@ -2,10 +2,6 @@ module V1
 	module Users
 		class Entities < Grape::Entity
 
-			format_with :timestamp do |date|
-				date.strftime('%B %d, %Y') unless date == nil
-			end
-
 			expose :id, :documentation => {:type => "integer", :desc => "The numeric id of the user"}
 			expose :role, :documentation => {:type => "string", :desc => "The user's type"}
 
@@ -49,17 +45,12 @@ module V1
 				expose :authentication_token, :as => :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}
 			end
 			
-			with_options(format_with: :timestamp) do
-				expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
-				expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
-				expose :confirmed_at, :documentation => {:type => "datetime", :desc => "The date and time when the user's account registration was confirmed'"}
-				expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
-				expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
-			end
+			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
+			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
+			expose :confirmed_at, :documentation => {:type => "datetime", :desc => "The date and time when the user's account registration was confirmed'"}
+			expose :last_sign_in_at, :documentation => {:type => "datetime", :desc => "The date and time when the user last signed in"}
+			expose :deleted_at, :documentation => {:type => "datetime", :desc => "The date and time when the user deleted his/her account"}
 
-			class Restricted < Grape::Entity
-
-			end
 		end
 	end
 end
