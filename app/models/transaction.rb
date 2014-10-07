@@ -210,18 +210,20 @@ class Transaction < ActiveRecord::Base
 		end
 
 		if (t.trans_type == "donation") && (t.status == "complete")
-			# Reduce the connection balance between the individual and cause
+			# Increase the connection balance between the individual and cause
+			c.each do |p|
+				p.connection_balance += t.amount
+				p.save
+			end
 		end
 
 		if (t.trans_type == "redemption") && (t.status == "complete")
 			# Reduce the connection balance between the business and the cause
+			c.each do |p|
+				p.connection_balance -= t.amount
+				p.save
+			end
 		end
-
-		# Add Connection ID to the transaction (grabs first and only query array item)
-		puts "Connection exists"
-		puts "Transaction ID: #{t.id}"
-		puts "Connection ID: #{c.first.id}"
-		puts "Status: #{t.status}"
 	end
 
 	def get_total_transactions_amount(tid)
