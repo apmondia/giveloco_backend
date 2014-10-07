@@ -1,9 +1,6 @@
 module V1
 	module Connections
 		class Entities < Grape::Entity
-			format_with :timestamp do |date|
-				date.strftime('%B %d, %Y') unless date == nil
-			end
 
 			expose :id, :as => :connection_id, :documentation => {:type => "integer", :desc => "The database ID of the connection."}
 			expose :from_name, :documentation => {:type => "string", :desc => "The NAME of the user who started the transaction."}
@@ -16,10 +13,8 @@ module V1
 				expose :connection_balance, :documentation => {:type => "decimal", :desc => "The remaining balance of the current connection."}#, if: {:type => 'authorized'}
 		    	expose :total_transactions, :as => :total_completed_transactions, :documentation => {:type => "integer", :desc => "The total transactions associated with this connection."}
 	    	end
-	    	with_options(format_with: :timestamp) do
-		    	expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was started."}
-				expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was last updated."}
-			end
+	    	expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was started."}
+			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the transaction was last updated."}
 			expose :trans, as: :transactions, :using => Transactions::Entities::SnapShot, :documentation => {:type => "object", :desc => "The database ID of the transaction."}
 
 			class SnapShot < Grape::Entity
