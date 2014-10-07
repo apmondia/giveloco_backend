@@ -22,6 +22,8 @@ module V1
 
 			class SnapShot < Grape::Entity
 				expose :id, :as => :connection_id
+				expose :from_user_id
+				expose :to_user_id
 				expose :from_name
 				expose :to_name
 				expose :is_active
