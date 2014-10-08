@@ -13,4 +13,5 @@ namespace :app  do
 	# Rebuild database and schema for developement environment
 	desc "Rebuild"
 	task :rebuild => [:ensure_development_environment, "db:drop", "db:create", "db:migrate", "db:seed"]
+
 end
