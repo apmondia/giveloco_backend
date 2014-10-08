@@ -7,8 +7,9 @@ class Transaction < ActiveRecord::Base
 	# Callbacks 
 	before_validation :create_id, :if => 'self.new_record?'
 	validates :amount, :presence => true
-	before_save :set_running_balance, :set_user_names_and_roles, :set_trans_type, :update_status
+	before_save :set_user_names_and_roles, :set_trans_type, :update_status, :set_running_balance
 	after_create :set_trans_id, :create_user_connection, :set_total_transactions_for_connection, :update_user_published_status
+	after_commit :update_user_balances
 
 	# Transaction Types
 	class Type < Transaction
@@ -61,11 +62,11 @@ class Transaction < ActiveRecord::Base
 	# 	Update Transaction Status
 	# =======================================================================
 	def update_status
-		if self.status == 'cancelled'
+		if self.status == "cancelled"
 			self.cancelled_at = Time.now
 		end
 
-		if self.status == 'complete'
+		if self.status == "complete"
 			self.completed_at = Time.now
 		end
 	end
@@ -78,16 +79,16 @@ class Transaction < ActiveRecord::Base
 		from = User.find(self.from_user_id)
 		to = User.find(self.to_user_id)
 
-		if from.role == 'individual' && to.role == 'cause'
-			self.trans_type = 'donation'
+		if from.role == "individual" && to.role == "cause"
+			self.trans_type = "donation"
 		end
 
-		if from.role == 'individual' && to.role == 'business'
-			self.trans_type = 'redemption'
+		if from.role == "individual" && to.role == "business"
+			self.trans_type = "redemption"
 		end
 
-		if from.role == 'business' && to.role == 'cause'
-			self.trans_type = 'pledge'
+		if from.role == "business" && to.role == "cause"
+			self.trans_type = "pledge"
 		end
 	end
 
@@ -98,64 +99,68 @@ class Transaction < ActiveRecord::Base
 	def set_running_balance
 		fromUser = User.find(self.from_user_id)
 		toUser = User.find(self.to_user_id)
-		self.from_user_balance = fromUser.balance
-		self.to_user_balance = toUser.balance
-
 
 		#    Donations    #
 		###################
-		if self.trans_type == 'donation' && self.status == 'complete'
+		if self.trans_type == "donation" && self.status == "complete"
 			# Donor's balance
-			self.from_user_balance += self.amount
-			fromUser.balance = self.from_user_balance
-			fromUser.save
-
+			self.from_user_balance = fromUser.balance + self.amount
 			# Cause's balance
-			self.to_user_balance -= self.amount
-			toUser.balance = self.to_user_balance
+			self.to_user_balance = toUser.balance - self.amount
 			toUser.total_funds_raised += self.amount
-			toUser.save
+
+			# puts "Amount: #{self.amount}"
+			# puts "From User Balance: #{fromUser.balance + self.amount}"
+			# puts "To User Balance: #{toUser.balance - self.amount}"
 		end
 
 
-		#     Pledges     # Transaction status must be complete before any balances are updated
+		#     pledges     # Transaction status must be complete before any balances are updated
 		###################
-		if self.trans_type == 'pledge' && self.status == 'complete'
+		if self.trans_type == "pledge" && self.status == "complete"
 			# Business' balance
-			self.from_user_balance -= self.amount
-			fromUser.balance = self.from_user_balance
-			fromUser.save
-
+			self.from_user_balance = fromUser.balance - self.amount
 			# Cause's balance
-			self.to_user_balance += self.amount
-			toUser.balance = self.to_user_balance
-			toUser.save
+			self.to_user_balance = toUser.balance + self.amount
 		end
 
 		
 		#   Redemptions   #
 		###################
-		if self.trans_type == 'redemption' && self.status == 'pending'
+		if self.trans_type == "redemption" && self.status == "pending"
 			# Customer - Transaction value is removed from the customer's balance (debit)
-			self.from_user_balance -= self.amount
-			fromUser.balance = self.from_user_balance
-			fromUser.save
+			self.from_user_balance = fromUser.balance - self.amount
+			# Business balance is unchanged
+			self.to_user_balance = toUser.balance
 		end
 
-		if self.trans_type == 'redemption' && self.status == 'complete'
+		if self.trans_type == "redemption" && self.status == "complete"
+			# Customer balance is unchanged
+			self.from_user_balance = fromUser.balance
 			# Business - Transaction value is added to the business' balance (credit)
-			self.to_user_balance += self.amount
-			toUser.balance = self.to_user_balance
-			toUser.save
+			self.to_user_balance = toUser.balance + self.amount
 		end
 
-		if self.trans_type == 'redemption' && self.status == 'cancelled'
+		if self.trans_type == "redemption" && self.status == "cancelled"
 			# Customer - Transaction value is added back to the customer's balance (credit)
-			self.from_user_balance += self.amount
-			fromUser.balance = self.from_user_balance
-			fromUser.save
+			self.from_user_balance = fromUser.balance + self.amount
+			# Business balance is unchanged
+			self.to_user_balance = toUser.balance
 		end
 
+	end
+
+
+	# =======================================================================
+	# 	Update User Balances after transaction is complete
+	# =======================================================================
+	def update_user_balances
+		t = Transaction.find(self.id)
+		fromUser = User.find(t.from_user_id)
+		toUser = User.find(t.to_user_id)
+
+		fromUser.update_attributes({:balance => t.from_user_balance})
+		toUser.update_attributes({:balance => t.to_user_balance})
 	end
 
 
@@ -297,13 +302,13 @@ class Transaction < ActiveRecord::Base
 		toUser = User.find(self.to_user_id)
 
 		# Check if individual has credits to redeem
-		if self.trans_type == 'redemption' && fromUser.balance < 20
+		if self.trans_type == "redemption" && fromUser.balance < 20
 			# record.errors[:base] << "Insufficient credits"
 			puts "Insufficient credits"
 		end
 
 		# Check if cause has credits to sell
-		if self.trans_type == 'redemption' && toUser.balance < 20
+		if self.trans_type == "redemption" && toUser.balance < 20
 			# record.errors[:base] << "Insufficient inventory"
 			puts "Insufficient inventory"
 		end

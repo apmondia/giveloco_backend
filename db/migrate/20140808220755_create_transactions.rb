@@ -10,9 +10,9 @@ class CreateTransactions < ActiveRecord::Migration
         t.string        :to_name
         t.string        :from_user_role
         t.string        :to_user_role
-        t.decimal       :amount, :precision => 8, :scale => 2
-        t.decimal       :from_user_balance, :precision => 8, :scale => 2
-        t.decimal       :to_user_balance, :precision => 8, :scale => 2
+        t.decimal       :amount, :precision => 8, :scale => 2, default: 0.00
+        t.decimal       :from_user_balance, :precision => 8, :scale => 2, default: 0.00
+        t.decimal       :to_user_balance, :precision => 8, :scale => 2, default: 0.00
     	t.string		:status
         t.belongs_to    :connection, :class_name => "Connection", :foreign_key => "connection_id"
         t.datetime      :cancelled_at
