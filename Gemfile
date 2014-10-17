@@ -54,11 +54,17 @@ group :development, :test do
 	# debugger2 is a fork of debugger for Ruby 2.0
 	gem 'debugger2'
 	# Better, more useful error handling
-	gem "better_errors"
+	gem 'better_errors'
+	# Acceptance test framework
+	gem 'capybara'
+	# Tool for writing automated tests for websites
+	gem 'selenium-webdriver'
 	# A library for setting up Ruby objects as test data.
-#	gem 'factory_girl'
+	gem 'factory_girl_rails'
 	# Rails Unit Testing RSPEC
-#	gem 'rspec-rails'
+	gem 'rspec-rails'
+	# Strategies for cleaning databases in Ruby.
+	gem 'database_cleaner'
 end
 
 group :production do

@@ -33,7 +33,7 @@ class V1::Connections::ConnectionsController < V1::Base
 			@redemptions = Connection.where("trans_type = 'redemption'")
 			present @redemptions, with: V1::Connections::Entities
 	    end
-
+	    
 
 	# =======================================================================
 	# 	Return single connection

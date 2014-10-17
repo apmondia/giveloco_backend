@@ -9,6 +9,7 @@ class Transaction < ActiveRecord::Base
 	validates :amount, :presence => true
 	before_save :set_user_names_and_roles, :set_trans_type, :update_status, :set_running_balance
 	after_create :set_trans_id, :create_user_connection, :set_total_transactions_for_connection, :update_user_published_status
+	after_save :issue_refund_for_cancelled_redemption
 	after_commit :update_user_balances
 
 	# Transaction Types
@@ -108,10 +109,6 @@ class Transaction < ActiveRecord::Base
 			# Cause's balance
 			self.to_user_balance = toUser.balance - self.amount
 			toUser.total_funds_raised += self.amount
-
-			# puts "Amount: #{self.amount}"
-			# puts "From User Balance: #{fromUser.balance + self.amount}"
-			# puts "To User Balance: #{toUser.balance - self.amount}"
 		end
 
 
@@ -141,13 +138,37 @@ class Transaction < ActiveRecord::Base
 			self.to_user_balance = toUser.balance + self.amount
 		end
 
-		if self.trans_type == "redemption" && self.status == "cancelled"
+
+		#     Refunds	  #
+		###################
+		if self.trans_type == "refund" && self.status == "complete"
 			# Customer - Transaction value is added back to the customer's balance (credit)
 			self.from_user_balance = fromUser.balance + self.amount
 			# Business balance is unchanged
 			self.to_user_balance = toUser.balance
 		end
 
+	end
+
+
+	# =======================================================================
+	# 	Issue refund for cancelled Redemptions
+	# =======================================================================
+	def issue_refund_for_cancelled_redemption
+		t = Transaction.find(self.id)
+		if t.trans_type == "redemption" && t.status == "cancelled"
+			# Create a new "refund" transaction
+			refund = Transaction.new(
+				:trans_id => t.trans_id,
+				:from_user_id => t.from_user_id,
+				:to_user_id => t.to_user_id,
+				:amount => t.amount,
+				:status => "complete"
+			)
+			refund.save
+			refund.update_column(:trans_type, "refund")
+			puts "Refund completed"
+		end
 	end
 
 
@@ -180,7 +201,7 @@ class Transaction < ActiveRecord::Base
 			update_user_connection()
 		else
 			# If a connection does not already exist, create a new connection if the transaction is complete
-			if t.status == "complete"
+			if (t.status == "complete") || (t.trans_type == "redemption" && t.status == "pending")
 				newC = Connection.new(
 					:trans_type => t.trans_type,
 					:from_user_id => t.from_user_id,
