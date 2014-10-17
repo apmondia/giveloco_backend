@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 	has_many :transactions_accepted, 	:class_name => "Transaction", :foreign_key => "to_user_id"
 	has_many :donors, -> { where trans_type: "donation" }, 			:through => :transactions_accepted, :source => :connection
 	has_many :supporters, -> { where trans_type: "pledge" }, 		:through => :transactions_accepted, :source => :connection
-	has_many :supported_causes, -> { where trans_type: "pledge" }, 	:through => :transactions_created, :source => :connection
+	has_many :supported_causes, :through => :transactions_created, :source => :connection
 
 	# Taggable
 	acts_as_taggable
