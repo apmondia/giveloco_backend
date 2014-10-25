@@ -12,13 +12,14 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :authentication_token
 
       ## User Location Info
-      t.string :company_name
-      t.string :street_address
-      t.string :phone
-      t.string :city
-      t.string :state
-      t.string :country
-      t.string :zip
+      t.string  :company_name
+      t.string  :street_address
+      t.string  :phone
+      t.string  :city
+      t.string  :state
+      t.string  :country
+      t.string  :zip
+      t.boolean :global_redeem, default: false # Gift certificates can be redeemed at all of a business' locations
 
       ## User Details
       t.text   :summary
