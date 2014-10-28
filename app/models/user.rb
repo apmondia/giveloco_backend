@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
 	has_many :transactions_created, 	:class_name => "Transaction", :foreign_key => "from_user_id"
 	has_many :transactions_accepted, 	:class_name => "Transaction", :foreign_key => "to_user_id"
 	has_many :donors, -> { where trans_type: "donation" }, 			:through => :transactions_accepted, :source => :connection
-	has_many :supporters, -> { where trans_type: "pledge" }, 		:through => :transactions_accepted, :source => :connection
-	has_many :supported_causes, :through => :transactions_created, :source => :connection
+	has_many :sponsors, -> { where trans_type: "pledge" }, 		:through => :transactions_accepted, :source => :connection
+	has_many :sponsorships, :through => :transactions_created, :source => :connection
 
 	# Taggable
 	acts_as_taggable
@@ -129,12 +129,6 @@ class User < ActiveRecord::Base
 	# Soft Delete user when "destroy" method is called instead of deleting entire database field
 	def soft_delete
 		u = User.find(self.id)
-		result = Braintree::Customer.delete(u.customer_id)
-		if result.success?
-			puts "customer successfully deleted"
-		else
-			raise "this should never happen"
-		end
 		u.deleted_at = Time.current
 		u.save
 	end

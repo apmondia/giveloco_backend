@@ -33,8 +33,8 @@ module V1
 			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
 			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
 			expose :donors, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of donor IDs that have supported a cause"}, if: lambda { |user, options| user.role == "cause" }
-			expose :supporters, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of business IDs that have supported a cause"}, if: lambda { |user, options| user.role == "cause" }
-			expose :supported_causes, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has supported"}, if: lambda { |user, options| user.role != "cause" }
+			expose :sponsors, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of business IDs that have sponsored a cause"}, if: lambda { |user, options| user.role == "cause" }
+			expose :sponsorships, :using => Connections::Entities, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has sponsored"}, if: lambda { |user, options| user.role != "cause" }
 			expose :transactions_created, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}
 			expose :transactions_accepted, :using => Transactions::Entities, :documentation => {:type => "object", :desc => "This is a list of transactions involving this user."}
 			
