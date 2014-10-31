@@ -14,7 +14,8 @@ class User::SessionsController < Devise::SessionsController
 				success: true,
 				info: "Logged in",
 				uid: user.id,
-				cid: user.customer_id
+				cid: user.customer_id,
+				role: user.role
 			}
 		else
 			render nothing: true, status: :unauthorized
