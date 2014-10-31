@@ -4,9 +4,21 @@ module V1::Helpers::UsersHelper
 		env['warden'].user
 	end
 
-	# Authenticate user by auth_token and request header
+  def cannot? *args
+    current_ability.cannot? *args
+  end
+
+  def can? *args
+    current_ability.can? *args
+  end
+
+  def current_ability
+    @current_ability ||= ::Ability.new(current_user)
+  end
+
+  # Authenticate user by auth_token and request header
 	def authenticate!		
-		error!('Unauthorized', 401) unless :is_authenticated
+		error!('Unauthorized', 401) unless is_authenticated
 	end
 
 	def is_authenticated
@@ -18,8 +30,7 @@ module V1::Helpers::UsersHelper
 		else
 			@auth_token = @request_user.authentication_token
 		end
-
 		(@session_token == @auth_token && @auth_token != nil) ? true : false
-	end
+  end
 
 end
