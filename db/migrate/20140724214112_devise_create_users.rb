@@ -34,6 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.decimal :total_funds_raised,  precision: 15, scale: 2, default: 0.00
 
       ## Account Variables
+      t.boolean   :is_activated, default: false
       t.boolean   :is_published, default: false
       t.boolean   :is_featured, default: false
 
