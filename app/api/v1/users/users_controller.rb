@@ -6,7 +6,11 @@ class V1::Users::UsersController < V1::Base
 	    desc "Return complete list of users"
 	    get do
 			@users = User.all
-			present @users, with: V1::Users::Entities, type: 'list-view'
+			if is_admin
+				present @users, with: V1::Users::Entities, type: 'authorized'
+			else
+				present @users, with: V1::Users::Entities
+			end
 	    end
 
 	# =======================================================================
@@ -35,9 +39,9 @@ class V1::Users::UsersController < V1::Base
 	# =======================================================================
 	    desc "Return a single user"
 	    get ':id' do
-	    	authenticate!
+	    	# authenticate!
 			@user = User.find(params[:id])
-			if is_authenticated
+			if is_authenticated || is_admin
 				present @user, with: V1::Users::Entities, type: 'authorized'
 			else
 				present @user, with: V1::Users::Entities
