@@ -1,7 +1,15 @@
 module V1::Helpers::UsersHelper
+
+  SESSION_TOKEN_HEADER = 'X-Session-Token'
+
+  def user_from_session
+    @session_token = request.headers[SESSION_TOKEN_HEADER]
+    User.where(:authentication_token => @session_token).first
+  end
+
 	# Get current user
 	def current_user
-		env['warden'].user
+		@session_user = @session_user || env['warden'].user || user_from_session
 	end
 
 	def cannot? *args
@@ -10,10 +18,17 @@ module V1::Helpers::UsersHelper
 
 	def can? *args
 		current_ability.can? *args
-	end
+  end
+
+  def can_or_die *args
+    result = can? *args
+    if !result
+      error!('Forbidden', 403)
+    end
+  end
 
 	def current_ability
-		@current_ability ||= ::Ability.new(current_user)
+		@current_ability ||= Ability.new(current_user, params)
 	end
 
   # Authenticate user by auth_token and request header
@@ -22,21 +37,13 @@ module V1::Helpers::UsersHelper
 	end
 
 	def is_authenticated
-		@session_token = request.headers['X-Session-Token']
-		@request_user = User.find(params[:id])
+		@request_user = user_from_session
+    @auth_token = @request_user.try(:authentication_token) || nil
+		!@auth_token.nil?
+  end
 
-		if @request_user.authentication_token == nil
-			@auth_token = nil
-		else
-			@auth_token = @request_user.authentication_token
-		end
-		(@session_token == @auth_token && @auth_token != nil) ? true : false
-  	end
-
-  	def is_admin
-  		@session_token = request.headers['X-Session-Token']
-  		@request_user = User.find_by_authentication_token(@session_token)
-  		@request_user.role == 'admin' ? true : false
-  	end
+  def is_admin
+    user_from_session.try(:'admin?') == true
+  end
 
 end

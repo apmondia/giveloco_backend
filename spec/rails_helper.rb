@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'support/auth'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -36,13 +37,14 @@ RSpec.configure do |config|
 
   include FactoryGirl::Syntax::Methods
 
-  config.include Devise::TestHelpers, :type => :controller
-
-  config.before(:each) do
-    if defined? @request
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-    end
-  end
+  #
+  # config.include Devise::TestHelpers, :type => :controller
+  #
+  # config.before(:each) do
+  #   if defined? @request
+  #     @request.env["devise.mapping"] = Devise.mappings[:user]
+  #   end
+  # end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

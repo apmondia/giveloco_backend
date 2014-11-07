@@ -10,6 +10,10 @@ FactoryGirl.define do
     password 'password'
     password_confirmation 'password'
 
+    factory :admin do
+      role :admin
+    end
+
     factory :cause do
       role :cause
     end
@@ -17,6 +21,10 @@ FactoryGirl.define do
     factory :business do
       role :business
     end
+
+    sequence(:authentication_token) { |n|
+      "token#{n}"
+    }
 
     after(:create) do |user|
       user.skip_confirmation!

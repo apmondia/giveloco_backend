@@ -14,10 +14,9 @@ module V1::Defaults
 
     # global exception handler, used for error notifications
     rescue_from :all do |e|
-      if Rails.env.development? || Rails.env.local?
+      if Rails.env.development? || Rails.env.local? || Rails.env.test?
         raise e
       else
-        Raven.capture_exception(e)
         error_response(message: "Internal server error", status: 500)
       end
     end
