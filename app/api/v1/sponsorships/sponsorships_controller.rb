@@ -10,8 +10,11 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
     end
     post do
       authenticate!
-      can? :create, Sponsorship, params
-      Sponsorship.create!(params)
+      create_sponsorship_params = safe_params(params).permit(:from_user_id, :to_user_id)
+      sponsorship = Sponsorship.new(create_sponsorship_params)
+      can_or_die :create, sponsorship
+      sponsorship.save
+      sponsorship
     end
 
   end

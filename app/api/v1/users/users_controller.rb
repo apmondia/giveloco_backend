@@ -37,8 +37,8 @@ class V1::Users::UsersController < V1::Base
 	# =======================================================================
 	# 	Get single user (requires authentication)
 	# =======================================================================
-	    desc "Return a single user"
-	    get ':id' do
+    desc "Return a single user"
+    get ':id' do
 	    	# authenticate!
 			@user = User.find(params[:id])
 			if is_authenticated || is_admin

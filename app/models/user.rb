@@ -11,12 +11,15 @@ class User < ActiveRecord::Base
 	has_many :sponsors, -> { where trans_type: "pledge" }, 		:through => :transactions_accepted, :source => :connection
 	has_many :sponsorships, :through => :transactions_created, :source => :connection
 
+  def admin?
+    self.role == 'admin'
+  end
+
 	# Taggable
 	acts_as_taggable
 
 	# Callbacks
 	before_save :smart_add_url_protocol
-
 
 	# =======================================================================
 	# 	Model Scopes
