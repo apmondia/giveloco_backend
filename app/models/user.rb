@@ -1,15 +1,25 @@
 class User < ActiveRecord::Base
+
+	MAX_SPONSORED_CAUSES = 3
+
 	# Include default devise modules. Others available are:
 	# :lockable, :timeoutable and :omniauthable
 	devise :database_authenticatable, :registerable, :confirmable, 
 	       :recoverable, :rememberable, :trackable, :validatable
 
-	# Associations
-	has_many :transactions_created, 	:class_name => "Transaction", :foreign_key => "from_user_id"
-	has_many :transactions_accepted, 	:class_name => "Transaction", :foreign_key => "to_user_id"
-	has_many :donors, -> { where trans_type: "donation" }, 			:through => :transactions_accepted, :source => :connection
-	has_many :sponsors, -> { where trans_type: "pledge" }, 		:through => :transactions_accepted, :source => :connection
-	has_many :sponsorships, :through => :transactions_created, :source => :connection
+	has_many :sponsored_causes, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
+  has_many :causes, :through => :sponsored_causes, :source => :cause
+
+  has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
+  has_many :businesses, :through => :sponsors
+
+  validate :max_sponsored_causes
+
+  def max_sponsored_causes
+    if self.role == 'business' && self.causes.size >= MAX_SPONSORED_CAUSES
+      errors.add(:sponsored_causes, "You can sponsor at most #{MAX_SPONSORED_CAUSES} causes.")
+    end
+  end
 
   def admin?
     self.role == 'admin'

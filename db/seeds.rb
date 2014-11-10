@@ -23,7 +23,7 @@ admin = User.create do |u|
     u.description = nil
     u.summary = nil
     u.confirmed_at = DateTime.now
-	u.skip_confirmation!
+	  u.skip_confirmation!
     u.skip_confirmation_notification!
     u.save!
 end

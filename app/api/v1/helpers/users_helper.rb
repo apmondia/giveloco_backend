@@ -4,7 +4,7 @@ module V1::Helpers::UsersHelper
 
   def user_from_session
     @session_token = request.headers[SESSION_TOKEN_HEADER]
-    User.where(:authentication_token => @session_token).first
+    User.where(:authentication_token => @session_token).first if !@session_token.nil?
   end
 
 	# Get current user

@@ -32,16 +32,16 @@ ActiveRecord::Schema.define(version: 20141031034649) do
   add_index "connections", ["id"], name: "index_connections_on_id", using: :btree
 
   create_table "sponsorships", force: true do |t|
-    t.integer  "from_user_id"
-    t.integer  "to_user_id"
+    t.integer  "business_id"
+    t.integer  "cause_id"
     t.string   "status"
     t.decimal  "donation_percentage", precision: 8, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sponsorships", ["from_user_id"], name: "index_sponsorships_on_from_user_id", using: :btree
-  add_index "sponsorships", ["to_user_id"], name: "index_sponsorships_on_to_user_id", using: :btree
+  add_index "sponsorships", ["business_id"], name: "index_sponsorships_on_business_id", using: :btree
+  add_index "sponsorships", ["cause_id"], name: "index_sponsorships_on_cause_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -103,12 +103,14 @@ ActiveRecord::Schema.define(version: 20141031034649) do
     t.string   "state"
     t.string   "country"
     t.string   "zip"
+    t.boolean  "global_redeem",                                         default: false
     t.text     "summary"
     t.text     "description"
     t.string   "website"
     t.string   "customer_id"
     t.decimal  "balance",                      precision: 15, scale: 2, default: 0.0
     t.decimal  "total_funds_raised",           precision: 15, scale: 2, default: 0.0
+    t.boolean  "is_activated",                                          default: false
     t.boolean  "is_published",                                          default: false
     t.boolean  "is_featured",                                           default: false
     t.string   "reset_password_token"
