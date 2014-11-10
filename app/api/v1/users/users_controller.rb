@@ -54,32 +54,39 @@ class V1::Users::UsersController < V1::Base
 		desc "Update a single user"
 		params do
 			requires :id, type: Integer
-			requires :first_name
-			requires :last_name
-			requires :email
+      optional :first_name
+      optional :last_name
+      optional :email
 			optional :password
 			optional :password_confirmation
 			optional :current_password
-			requires :company_name
-			requires :phone
-			requires :street_address
-			requires :city
-			requires :state
-			requires :country
-			requires :zip
-			requires :summary
-			requires :description
-			requires :website
+      optional :company_name
+      optional :phone
+      optional :street_address
+      optional :city
+      optional :state
+      optional :country
+      optional :zip
+      optional :summary
+      optional :description
+      optional :website
 			optional :tag_list
 		end
 		put ':id' do
 			authenticate!
 			@user = User.find(params[:id])
+      can_or_die :update, @user
 			# safe_params function is in the helpers.rb file
-			update_user_params = safe_params(params).permit(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, tag_list: [])
-			@user.update_attributes(update_user_params)
-			@user.save
+			update_user_params = safe_params(params).permit([:email,
+                                                      :password, :password_confirmation, :current_password,
+                                                      :first_name, :last_name,
+                                                      :company_name, :phone,
+                                                      :street_address, :city, :state, :country, :zip,
+                                                      :summary, :description, :website,
+                                                      (:is_activated if current_user.admin?),
+                                                      tag_list: []].compact )
 
+			@user.update_attributes(update_user_params)
 			present @user, with: V1::Users::Entities
 		end
 

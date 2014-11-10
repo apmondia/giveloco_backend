@@ -2,14 +2,14 @@ require 'rails_helper'
 
 describe V1::Sponsorships::SponsorshipsController do
 
-  describe 'POST /v1/sponsorships' do
+  include Support::Auth
 
-    include Support::Auth
+  describe 'POST /v1/sponsorships' do
 
     let(:post_params) {
       {
-          :from_user_id => @business.id,
-          :to_user_id => @cause.id
+          :business_id => @business.id,
+          :cause_id => @cause.id
       }
     }
 
@@ -41,6 +41,19 @@ describe V1::Sponsorships::SponsorshipsController do
     it 'should prevent anybody from sponsoring' do
       post '/v1/sponsorships', post_params, auth_session( create(:business) )
       expect( response.status ).to eq(403)
+    end
+
+    describe 'Exception scenarios' do
+
+      it 'Should prevent the business from having more than 3 sponsorships' do
+
+        create_list(:sponsorship, User::MAX_SPONSORED_CAUSES, :business => @business)
+        post '/v1/sponsorships', post_params, auth_session(@admin)
+        expect( response.status ).to eq(422)
+        expect( User.find(@business.id).causes.size ).to eq(User::MAX_SPONSORED_CAUSES)
+
+      end
+
     end
 
   end

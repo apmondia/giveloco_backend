@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :sponsorship do
-    from_user nil
-    to_user nil
+    business
+    cause
     status 1
     donation_percentage "9.99"
   end

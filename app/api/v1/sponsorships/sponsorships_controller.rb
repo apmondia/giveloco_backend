@@ -5,15 +5,15 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
 
     desc 'Create a new sponsorship'
     params do
-      requires :from_user_id, :type => Integer, :desc => 'Business'
-      requires :to_user_id, :type => Integer, :desc => 'Cause'
+      requires :business_id, :type => Integer, :desc => 'Business'
+      requires :cause_id, :type => Integer, :desc => 'Cause'
     end
     post do
       authenticate!
-      create_sponsorship_params = safe_params(params).permit(:from_user_id, :to_user_id)
+      create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id)
       sponsorship = Sponsorship.new(create_sponsorship_params)
       can_or_die :create, sponsorship
-      sponsorship.save
+      sponsorship.save!
       sponsorship
     end
 
