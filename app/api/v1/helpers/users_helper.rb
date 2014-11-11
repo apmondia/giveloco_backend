@@ -1,11 +1,11 @@
 module V1::Helpers::UsersHelper
 
-  SESSION_TOKEN_HEADER = 'X-Session-Token'
+	SESSION_TOKEN_HEADER = 'X-Session-Token'
 
-  def user_from_session
-    @session_token = request.headers[SESSION_TOKEN_HEADER]
-    User.where(:authentication_token => @session_token).first if !@session_token.nil?
-  end
+	def user_from_session
+		@session_token = request.headers[SESSION_TOKEN_HEADER]
+		User.where(:authentication_token => @session_token).first if !@session_token.nil?
+	end
 
 	# Get current user
 	def current_user
@@ -18,14 +18,14 @@ module V1::Helpers::UsersHelper
 
 	def can? *args
 		current_ability.can? *args
-  end
+	end
 
-  def can_or_die *args
-    result = can? *args
-    if !result
-      error!('Forbidden', 403)
-    end
-  end
+	def can_or_die *args
+		result = can? *args
+		if !result
+			error!('Forbidden', 403)
+		end
+	end
 
 	def current_ability
 		@current_ability ||= Ability.new(current_user, params)
@@ -38,12 +38,12 @@ module V1::Helpers::UsersHelper
 
 	def is_authenticated
 		@request_user = user_from_session
-    @auth_token = @request_user.try(:authentication_token) || nil
+    	@auth_token = @request_user.try(:authentication_token) || nil
 		!@auth_token.nil?
-  end
+	end
 
-  def is_admin
-    user_from_session.try(:'admin?') == true
-  end
+	def is_admin
+		user_from_session.try(:'admin?') == true
+	end
 
 end

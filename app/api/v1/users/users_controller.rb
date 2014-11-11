@@ -54,28 +54,28 @@ class V1::Users::UsersController < V1::Base
 		desc "Update a single user"
 		params do
 			requires :id, type: Integer
-      optional :first_name
-      optional :last_name
-      optional :email
+			optional :first_name
+			optional :last_name
+			optional :email
 			optional :password
 			optional :password_confirmation
 			optional :current_password
-      optional :company_name
-      optional :phone
-      optional :street_address
-      optional :city
-      optional :state
-      optional :country
-      optional :zip
-      optional :summary
-      optional :description
-      optional :website
+			optional :company_name
+			optional :phone
+			optional :street_address
+			optional :city
+			optional :state
+			optional :country
+			optional :zip
+			optional :summary
+			optional :description
+			optional :website
 			optional :tag_list
 		end
 		put ':id' do
 			authenticate!
 			@user = User.find(params[:id])
-      can_or_die :update, @user
+      		can_or_die :update, @user
 			# safe_params function is in the helpers.rb file
 			update_user_params = safe_params(params).permit([:email,
                                                       :password, :password_confirmation, :current_password,
