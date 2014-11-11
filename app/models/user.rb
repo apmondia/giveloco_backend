@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 	       :recoverable, :rememberable, :trackable, :validatable
 
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
-	has_many :causes, :through => :sponsored_causes, :source => :cause
+	has_many :causes, :through => :sponsorships, :source => :cause
 
 	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :businesses, :through => :sponsors
@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 
 	def max_sponsored_causes
 		if self.role == 'business' && self.causes.size >= MAX_SPONSORED_CAUSES
-		  errors.add(:sponsored_causes, "You can sponsor at most #{MAX_SPONSORED_CAUSES} causes.")
+		  errors.add(:sponsorships, "You can sponsor at most #{MAX_SPONSORED_CAUSES} causes.")
 		end
 	end
 
