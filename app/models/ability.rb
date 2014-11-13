@@ -8,6 +8,9 @@ class Ability
       can :manage, :all
     end
 
+    can :resolve, Sponsorship do |s|
+      s.cause.try(:id) == user.id
+    end
     can :manage, Sponsorship, :business_id => user.id
     can :manage, User, :id => user.id
     # Define abilities for the passed in user here. For example:

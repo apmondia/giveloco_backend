@@ -1,5 +1,4 @@
 class V1::Users::UsersController < V1::Base
-	include V1::Defaults
 
 	resource :users do
 
@@ -7,9 +6,9 @@ class V1::Users::UsersController < V1::Base
 	    get do
 			@users = User.all
 			if is_admin
-				present @users, with: V1::Users::Entities, type: 'authorized'
+				present @users, with: V1::Users::Entity, type: 'authorized'
 			else
-				present @users, with: V1::Users::Entities
+				present @users, with: V1::Users::Entity
 			end
 	    end
 
@@ -19,19 +18,19 @@ class V1::Users::UsersController < V1::Base
 	    desc "Return list of causes"
 	    get 'role/cause' do
 			@causes = User.where("role = 'cause'")
-			present @causes, with: V1::Users::Entities
+			present @causes, with: V1::Users::Entity
 	    end
 
 	    desc "Return list of businesses"
 	    get 'role/business' do
 			@businesses = User.where("role = 'business'")
-			present @businesses, with: V1::Users::Entities
+			present @businesses, with: V1::Users::Entity
 	    end
 
 	    desc "Return list of individuals"
 	    get 'role/individual' do
 			@individuals = User.where("role = 'individual'")
-			present @individuals, with: V1::Users::Entities
+			present @individuals, with: V1::Users::Entity
 	    end
 
 	# =======================================================================
@@ -42,9 +41,9 @@ class V1::Users::UsersController < V1::Base
 	    	# authenticate!
 			@user = User.find(params[:id])
 			if is_authenticated || is_admin
-				present @user, with: V1::Users::Entities, type: 'authorized'
+				present @user, with: V1::Users::Entity, type: 'authorized'
 			else
-				present @user, with: V1::Users::Entities
+				present @user, with: V1::Users::Entity
 			end
 		end
 
@@ -87,7 +86,7 @@ class V1::Users::UsersController < V1::Base
                                                       tag_list: []].compact )
 
 			@user.update_attributes(update_user_params)
-			present @user, with: V1::Users::Entities
+			present @user, with: V1::Users::Entity
 		end
 
 	# =======================================================================
@@ -118,7 +117,7 @@ class V1::Users::UsersController < V1::Base
 				@user.save
 			end
 
-			present @user, with: V1::Users::Entities
+			present @user, with: V1::Users::Entity
 		end
 
 	# =======================================================================

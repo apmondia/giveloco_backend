@@ -11,25 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031034649) do
+ActiveRecord::Schema.define(version: 20141113061241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "connections", force: true do |t|
-    t.string   "trans_type"
-    t.integer  "from_user_id"
-    t.integer  "to_user_id"
-    t.string   "from_name"
-    t.string   "to_name"
-    t.integer  "total_transactions",                         default: 0
-    t.decimal  "connection_balance", precision: 8, scale: 2, default: 0.0
-    t.boolean  "is_active",                                  default: true
+  create_table "certificates", force: true do |t|
+    t.integer  "purchaser_id"
+    t.integer  "sponsorship_id"
+    t.decimal  "donation_percentage"
+    t.decimal  "amount"
+    t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "connections", ["id"], name: "index_connections_on_id", using: :btree
+  add_index "certificates", ["purchaser_id"], name: "index_certificates_on_purchaser_id", using: :btree
+  add_index "certificates", ["sponsorship_id"], name: "index_certificates_on_sponsorship_id", using: :btree
 
   create_table "sponsorships", force: true do |t|
     t.integer  "business_id"
@@ -63,32 +61,6 @@ ActiveRecord::Schema.define(version: 20141031034649) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "transactions", force: true do |t|
-    t.string   "trans_type"
-    t.decimal  "amount",                precision: 8, scale: 2, default: 0.0
-    t.decimal  "from_user_balance",     precision: 8, scale: 2, default: 0.0
-    t.decimal  "to_user_balance",       precision: 8, scale: 2, default: 0.0
-    t.integer  "connection_id"
-    t.string   "status"
-    t.integer  "from_user_id"
-    t.integer  "to_user_id"
-    t.string   "from_name"
-    t.string   "to_name"
-    t.string   "from_user_role"
-    t.string   "to_user_role"
-    t.integer  "trans_id"
-    t.string   "stripe_transaction_id"
-    t.datetime "cancelled_at"
-    t.datetime "completed_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "transactions", ["connection_id"], name: "connection_id_index", using: :btree
-  add_index "transactions", ["from_user_id"], name: "from_user_id_index", using: :btree
-  add_index "transactions", ["to_user_id"], name: "to_user_id_index", using: :btree
-  add_index "transactions", ["trans_id"], name: "trans_id_index", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "role"

@@ -1,5 +1,4 @@
 class V1::Sponsorships::SponsorshipsController < V1::Base
-  include V1::Defaults
 
   resource :sponsorships do
 
@@ -16,6 +15,32 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       sponsorship.save!
       sponsorship
     end
+
+    namespace '/:id' do
+
+      resource '/resolve' do
+        desc 'Accept a sponsorship'
+        params do
+          requires :status, :type => Integer, :desc => '1 == accepted or 2 == cancelled'
+        end
+        put do
+          sponsorship = Sponsorship.find(params[:id])
+          can_or_die :resolve, sponsorship
+          if sponsorship.status.to_sym == :pending
+            sponsorship.update_attributes(:status => params[:status])
+            sponsorship.resolved_at = DateTime.now
+            sponsorship.save
+          else
+            status 422
+          end
+          sponsorship
+        end
+      end
+
+    end
+
+
+
 
   end
 end
