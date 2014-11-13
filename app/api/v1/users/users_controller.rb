@@ -139,9 +139,13 @@ class V1::Users::UsersController < V1::Base
 	# 	Return single user's transactions and tags (requires authentication)
 	# =======================================================================
 		segment '/:id' do
-			before do
-		    	# authenticate!
-		    end
+
+      resource '/sponsors' do
+        get do
+          can_or_die :read, Sponsorship
+          @sponsors = User.find(params[:id]).sponsors
+        end
+      end
 
 			resource '/transactions' do
 				desc "Return COMPLETE list of user's Transactions"

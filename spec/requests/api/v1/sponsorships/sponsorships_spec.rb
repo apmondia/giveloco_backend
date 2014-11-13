@@ -28,6 +28,25 @@ describe V1::Sponsorships::SponsorshipsController do
       expect( response.status ).to eq(201)
     end
 
+    it 'should not allow a business to request a sponsorship while one is pending' do
+      s = create(:sponsorship, :business => @business, :cause => @cause)
+      post_with_user(@business)
+      expect( response.status ).to eq(422)
+    end
+
+    it 'should allow a business to re-request a sponsorship if the previous ones were cancelled' do
+      s = create(:sponsorship, :business => @business, :cause => @cause, :status => Sponsorship.statuses[:cancelled])
+      post_with_user(@business)
+      expect( response.status ).to eq(201)
+    end
+
+    it "should prevent a business from requesting sponsorship when it has been cancelled #{Sponsorship::MAX_FAILED_REQUESTS} times" do
+      s = create_list(:sponsorship, Sponsorship::MAX_FAILED_REQUESTS, :business => @business, :cause => @cause, :status => Sponsorship.statuses[:cancelled])
+      post_with_user(@business)
+      expect( response.status ).to eq(422)
+      expect( @business.sponsorships.count ).to eq(Sponsorship::MAX_FAILED_REQUESTS)
+    end
+
     it 'should allow an admin to request a sponsorship' do
       post_with_user(@admin)
       expect( response.status ).to eq(201)

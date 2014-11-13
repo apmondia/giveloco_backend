@@ -76,4 +76,26 @@ describe V1::Users::UsersController do
 
   end
 
+  describe 'GET /v1/users/:id/sponsors' do
+
+    before(:each) do
+      @c = create(:cause)
+      @businesses = create_list(:business, 3)
+      @businesses.each do |b|
+        create(:sponsorship, :cause => @c, :business => b)
+      end
+    end
+
+    it 'should allow anyone to view a causes sponsors' do
+
+      get "/v1/users/#{@c.id}/sponsors"
+
+      expect( response.status ).to eq(200)
+      json = JSON.parse(response.body)
+      expect( json.length ).to eq(3)
+
+    end
+
+  end
+
 end
