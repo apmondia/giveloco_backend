@@ -1,11 +1,12 @@
-@num = 30
+@num = 20
 
 @num.times do
-        user = User.create do |u|
+        email = Faker::Internet.email
+        user = User.where(:email => email ).first_or_create do |u|
                 u.role = User::Roles::ROLES[1]
                 u.first_name = Faker::Name.first_name
                 u.last_name = Faker::Name.last_name
-                u.email = Faker::Internet.email
+                u.email = email
                 u.password = "password"
                 u.confirmed_at = DateTime.now
                 u.skip_confirmation!

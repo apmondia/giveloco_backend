@@ -4,6 +4,12 @@ describe V1::Sponsorships::SponsorshipsController do
 
   include Support::Auth
 
+  before(:each) do
+    @admin = create(:admin)
+    @business = create(:business)
+    @cause = create(:cause)
+  end
+
   describe 'POST /v1/sponsorships' do
 
     let(:post_params) {
@@ -12,12 +18,6 @@ describe V1::Sponsorships::SponsorshipsController do
           :cause_id => @cause.id
       }
     }
-
-    before(:each) do
-      @admin = create(:admin)
-      @business = create(:business)
-      @cause = create(:cause)
-    end
 
     def post_with_user(user)
       post '/v1/sponsorships', post_params, auth_session(user)
@@ -70,6 +70,21 @@ describe V1::Sponsorships::SponsorshipsController do
         post '/v1/sponsorships', post_params, auth_session(@admin)
         expect( response.status ).to eq(422)
         expect( User.find(@business.id).causes.size ).to eq(User::MAX_SPONSORED_CAUSES)
+
+      end
+
+    end
+
+    describe 'PUT /v1/sponsorships/:id/resolve' do
+
+      before(:each) do
+        @s = create(:sponsorship, :business => @business, :cause => @cause)
+      end
+
+      it 'should allow causes to resolve sponsorships' do
+
+        put "/v1/sponsorships/#{@s.id}/resolve", { :status => Sponsorship.statuses[:accepted] }, auth_session(@cause)
+        expect(Sponsorship.find(@s.id).accepted?).to eq(true)
 
       end
 

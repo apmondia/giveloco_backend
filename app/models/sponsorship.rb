@@ -13,13 +13,13 @@ class Sponsorship < ActiveRecord::Base
   belongs_to :cause, :class_name => User
 
   def no_current_pending_sponsorship
-    if self.business.sponsorships.exists?(:status => Sponsorship.statuses[:pending], :cause_id => self.cause.id)
+    if self.business.sponsorships.where.not(:id => self.id).exists?(:status => Sponsorship.statuses[:pending], :cause_id => self.cause.id)
       errors.add(:business, "A sponsorship request has already been created for this cause.")
     end
   end
 
   def max_cancelled_requests
-    if self.business.sponsorships.where(:status => Sponsorship.statuses[:cancelled], :cause_id => self.cause.id).count >= MAX_FAILED_REQUESTS
+    if self.business.sponsorships.where.not(:id => self.id).where(:status => Sponsorship.statuses[:cancelled], :cause_id => self.cause.id).count >= MAX_FAILED_REQUESTS
       errors.add(:business, "You can request sponsorship at most #{MAX_FAILED_REQUESTS} times.")
     end
   end

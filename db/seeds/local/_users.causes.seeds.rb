@@ -1,12 +1,13 @@
-@num = 30
+@num = 6
 
 @num.times do
-        user = User.create do |u|
+        email = Faker::Internet.email
+        user = User.where(:email => email ).first_or_create do |u|
                 u.role = User::Roles::ROLES[3]
                 u.first_name = Faker::Name.first_name
                 u.last_name = Faker::Name.last_name
                 u.company_name = Faker::Company.name
-                u.email = Faker::Internet.email
+                u.email = email
                 u.password = "password"
                 u.phone = Faker::Base.numerify('(604)###-####')
                 u.street_address = Faker::Address.street_address
