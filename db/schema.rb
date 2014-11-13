@@ -34,7 +34,8 @@ ActiveRecord::Schema.define(version: 20141031034649) do
   create_table "sponsorships", force: true do |t|
     t.integer  "business_id"
     t.integer  "cause_id"
-    t.string   "status"
+    t.datetime "resolved_at"
+    t.integer  "status"
     t.decimal  "donation_percentage", precision: 8, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"

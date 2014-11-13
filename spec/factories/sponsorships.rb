@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :sponsorship do
     business
     cause
-    status 1
     donation_percentage "9.99"
+    status :pending
   end
 end

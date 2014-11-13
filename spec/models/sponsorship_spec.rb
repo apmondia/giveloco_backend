@@ -11,6 +11,7 @@ RSpec.describe Sponsorship, :type => :model do
     end
 
     it 'the association should create' do
+      expect(@s.status).to eq('pending')
       expect(User.find(@business.id).causes).to include(@cause)
       expect(User.find(@cause.id).businesses).to include(@business)
     end
