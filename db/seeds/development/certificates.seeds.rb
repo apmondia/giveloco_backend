@@ -1,4 +1,4 @@
-after 'development:sponsorship' do
+after 'development:sponsorship', 'development:_users.individuals' do
 
   Sponsorship.all.each do |sponsorship|
 
