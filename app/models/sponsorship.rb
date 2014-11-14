@@ -15,6 +15,8 @@ class Sponsorship < ActiveRecord::Base
   belongs_to :business, :class_name => User
   belongs_to :cause, :class_name => User
 
+  before_create :default_status
+
   def is_business
     errors.add(:business, "Must be a business") unless self.business.role == :business
   end
@@ -43,6 +45,12 @@ class Sponsorship < ActiveRecord::Base
 
   def cause_name
     self.cause.company_name
+  end
+
+  private
+
+  def default_status
+    self.status ||= 0
   end
 
 end
