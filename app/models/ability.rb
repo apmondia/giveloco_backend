@@ -8,6 +8,7 @@ class Ability
       can :manage, :all
     end
 
+    can [:read, :create], Certificate if params[:id].to_i == user.id
     can :resolve, Sponsorship do |s|
       s.cause.try(:id) == user.id
     end
