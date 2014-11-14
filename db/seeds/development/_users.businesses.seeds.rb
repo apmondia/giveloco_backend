@@ -7,7 +7,7 @@
                 u.role = User::Roles::ROLES[2]
                 u.first_name = Faker::Name.first_name
                 u.last_name = Faker::Name.last_name
-                u.company_name = "#{company}_#{u}"
+                u.company_name = company
                 u.email = email
                 u.password = "password"
                 u.phone = Faker::Base.numerify('(604)###-####')
@@ -21,6 +21,8 @@
                 u.description = Faker::Lorem.paragraphs(2).join(" ")
                 u.website = Faker::Internet.url('www.example.com')
                 u.is_featured = [true, false].sample
+                u.is_published = [true, false].sample
+                u.is_activated = [true, false].sample
                 u.confirmed_at = DateTime.now
                 u.skip_confirmation!
                 u.skip_confirmation_notification!

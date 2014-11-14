@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 	devise :database_authenticatable, :registerable, :confirmable, 
 	       :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :certificates, :foreign_key => 'purchaser_id'
+  	has_many :certificates, :foreign_key => 'purchaser_id'
 
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :causes, :through => :sponsorships, :source => :cause
@@ -19,14 +19,14 @@ class User < ActiveRecord::Base
 		self.role == :admin
 	end
 
-  def role
-    r = self.read_attribute(:role)
-    if r.nil?
-      nil
-    else
-      r.to_sym
-    end
-  end
+	def role
+		r = self.read_attribute(:role)
+		if r.nil?
+			nil
+		else
+			r.to_sym
+		end
+	end
 
 	# Taggable
 	acts_as_taggable
