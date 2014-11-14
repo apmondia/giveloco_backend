@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  validates_presence_of :role
+	validates_presence_of :role
 
 	# Include default devise modules. Others available are:
 	# :lockable, :timeoutable and :omniauthable
