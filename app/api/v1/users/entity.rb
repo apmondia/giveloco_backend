@@ -30,17 +30,17 @@ module V1
 			expose :summary, :documentation => {:type => "text", :desc => "A tweet-length summary description of the business/cause"}
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
+			expose :sponsors, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of business IDs that have sponsored a cause"}, if: lambda { |user, options| user.role == :cause }
+			expose :sponsorships, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has sponsored"}, if: lambda { |user, options| user.role == :business }
+			
 			expose :is_activated, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
 			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
 			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
 
-			expose :sponsors, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of business IDs that have sponsored a cause"}, if: lambda { |user, options| user.role == "cause" }
-			expose :sponsorships, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has sponsored"}, if: lambda { |user, options| user.role == "business" }
-
 			with_options(if: {:type => 'authorized'}) do
 				expose :customer_id, :documentation => {:type => "string", :desc => "The user's Stripe customer ID."}
 				expose :balance, :documentation => {:type => "decimal", :desc => "The user's current credit balance"}
-				expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}, if: lambda { |user, options| user.role == "cause" }
+				expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}, if: lambda { |user, options| user.role == :cause }
 				expose :authentication_token, :as => :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}
 			end
 			
