@@ -130,4 +130,38 @@ describe V1::Users::UsersController do
 
   end
 
+  describe 'GET /v1/users/:id/transactions' do
+
+    before(:each) do
+      @b = create(:business)
+      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+    end
+
+    it 'should allow a business or admin to access the businesses certificates' do
+
+      get "/v1/users/#{@b.id}/transactions", {}, auth_session(@b)
+      expect(response.status).to eq(200)
+      expect( JSON.parse(response.body).length ).to eq(1)
+
+    end
+
+  end
+
+  describe 'GET /v1/users/:id/donations' do
+
+    before(:each) do
+      @c = create(:cause)
+      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :cause => @c))
+    end
+
+    it 'should allow a cause to look up its certificates' do
+
+      get "/v1/users/#{@c.id}/donations", {}, auth_session(@c)
+      expect( response.status ).to eq(200)
+      expect( JSON.parse(response.body).length ).to eq(1)
+
+    end
+
+  end
+
 end
