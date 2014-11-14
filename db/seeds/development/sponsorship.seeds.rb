@@ -1,6 +1,7 @@
 after 'development:_users.businesses', 'development:_users.causes' do
 
   index = 0
+  counter = 0
 
   User.where(:role => 'business').each do |business|
     #puts "Business with id #{business.id} is valid: #{business.valid?}"
@@ -11,11 +12,13 @@ after 'development:_users.businesses', 'development:_users.causes' do
       sponsorship = Sponsorship.create({
                                            :business => business,
                                            :cause => cause,
+                                           :donation_percentage => rand(1..50)
                                        })
       if !sponsorship.valid?
         puts "Sponsorship is not valid: #{sponsorship.errors.full_messages}"
       end
       if cause.id % 2 == 0 #arbitrary pseudo randomness
+        counter += 1
         sponsorship.accepted!
         sponsorship.resolved_at = DateTime.now
       end
@@ -25,4 +28,7 @@ after 'development:_users.businesses', 'development:_users.causes' do
       end
     end
   end
+
+  puts "#{'*'*(`tput cols`.to_i)}\n#{counter} sponsorships accepted!\n"
+
 end

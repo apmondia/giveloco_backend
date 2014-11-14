@@ -2,11 +2,12 @@
 
 @num.times do
         email = Faker::Internet.email
+        company = Faker::Company.name
         user = User.where(:email => email ).first_or_create do |u|
                 u.role = User::Roles::ROLES[2]
                 u.first_name = Faker::Name.first_name
                 u.last_name = Faker::Name.last_name
-                u.company_name = Faker::Company.name
+                u.company_name = "#{company}_#{u}"
                 u.email = email
                 u.password = "password"
                 u.phone = Faker::Base.numerify('(604)###-####')
