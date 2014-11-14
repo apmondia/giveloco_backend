@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 	devise :database_authenticatable, :registerable, :confirmable, 
 	       :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :certificates, :foreign_key => 'purchaser_id'
+
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :causes, :through => :sponsorships, :source => :cause
 

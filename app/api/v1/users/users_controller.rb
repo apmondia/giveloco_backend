@@ -139,6 +139,15 @@ class V1::Users::UsersController < V1::Base
 	# =======================================================================
 		segment '/:id' do
 
+      resource '/certificates' do
+        get do
+          authenticate!
+          can_or_die :read, Certificate, { :user_id => params[:id].to_i }
+          @certificates = User.find(params[:id]).certificates
+          present @certificates, :with => V1::Certificates::Entity
+        end
+      end
+
       resource '/sponsors' do
         get do
           can_or_die :read, Sponsorship

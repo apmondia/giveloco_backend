@@ -76,6 +76,38 @@ describe V1::Users::UsersController do
 
   end
 
+  describe 'GET /v1/users/:id/certificates' do
+
+    before(:each) do
+      @u = create(:user)
+      @c = create(:certificate, :purchaser => @u)
+    end
+
+    def expect_certificate
+      json = JSON.parse(response.body)
+      expect( json.length ).to eq(1)
+      expect( json[0]['id'] ).to eq(@c.id)
+    end
+
+    it 'should allow a user to check their certificates' do
+      get "/v1/users/#{@u.id}/certificates", {}, auth_session(@u)
+      expect( response.status ).to eq(200)
+      expect_certificate
+    end
+
+    it 'should not allow anyone to check a users certificates' do
+      get "/v1/users/#{@u.id}/certificates", {}
+      expect( response.status ).to eq(401)
+    end
+
+    it 'should not allow another user to check a users certificates' do
+      get "/v1/users/#{@u.id}/certificates", {}, auth_session(create(:user))
+      expect( response.status ).to eq(403)
+    end
+
+
+  end
+
   describe 'GET /v1/users/:id/sponsors' do
 
     before(:each) do
