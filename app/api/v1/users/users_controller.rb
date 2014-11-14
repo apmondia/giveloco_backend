@@ -156,12 +156,22 @@ class V1::Users::UsersController < V1::Base
       end
 
 			resource '/transactions' do
-				desc "Return COMPLETE list of user's Transactions"
+				desc "A list of certificates that have been purchased for this business"
 				get do
-					@transactions_list = User.find(params[:id]).transactions_created + User.find(params[:id]).transactions_accepted
-					present @transactions_list, with: V1::Transactions::Entities
-				end
+          authenticate!
+					@certificates = Certificate.for_business( current_user )
+					present @certificates, with: V1::Certificates::Entity
+        end
 			end
+
+      resource '/donations' do
+        desc 'A list of certificates that donate to this cause'
+        get do
+          authenticate!
+          @certificates = Certificate.for_cause( current_user )
+          present @certificates, with: V1::Certificates::Entity
+        end
+      end
 
 			resource '/transactions_created' do
 
