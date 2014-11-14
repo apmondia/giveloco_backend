@@ -24,6 +24,7 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
           requires :status, :type => Integer, :desc => '1 == accepted or 2 == cancelled'
         end
         put do
+          authenticate!
           sponsorship = Sponsorship.find(params[:id])
           can_or_die :resolve, sponsorship
           if sponsorship.status.to_sym == :pending

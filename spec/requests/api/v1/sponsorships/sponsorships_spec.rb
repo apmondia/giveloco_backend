@@ -24,6 +24,7 @@ describe V1::Sponsorships::SponsorshipsController do
     end
 
     it 'should allow a business to request a sponsorship' do
+      create_list(:sponsorship, Sponsorship::MAX_FAILED_REQUESTS - 1, :business => @business)
       post_with_user(@business)
       expect( response.status ).to eq(201)
     end
@@ -66,10 +67,10 @@ describe V1::Sponsorships::SponsorshipsController do
 
       it 'Should prevent the business from having more than 3 sponsorships' do
 
-        create_list(:sponsorship, User::MAX_SPONSORED_CAUSES, :business => @business)
+        create_list(:sponsorship, Sponsorship::MAX_SPONSORED_CAUSES, :business => @business)
         post '/v1/sponsorships', post_params, auth_session(@admin)
         expect( response.status ).to eq(422)
-        expect( User.find(@business.id).causes.size ).to eq(User::MAX_SPONSORED_CAUSES)
+        expect( User.find(@business.id).causes.size ).to eq(Sponsorship::MAX_SPONSORED_CAUSES)
 
       end
 

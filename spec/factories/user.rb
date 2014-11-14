@@ -22,6 +22,8 @@ FactoryGirl.define do
       role :business
     end
 
+    role :individual
+
     sequence(:authentication_token) { |n|
       "token#{n}"
     }

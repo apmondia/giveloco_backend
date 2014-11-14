@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-	MAX_SPONSORED_CAUSES = 3
+  validates_presence_of :role
 
 	# Include default devise modules. Others available are:
 	# :lockable, :timeoutable and :omniauthable
@@ -13,17 +13,18 @@ class User < ActiveRecord::Base
 	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :businesses, :through => :sponsors
 
-	validate :max_sponsored_causes
-
-	def max_sponsored_causes
-		if self.role == 'business' && self.causes.size >= MAX_SPONSORED_CAUSES
-		  errors.add(:sponsorships, "You can sponsor at most #{MAX_SPONSORED_CAUSES} causes.")
-		end
-	end
-
 	def admin?
-		self.role == 'admin'
+		self.role == :admin
 	end
+
+  def role
+    r = self.read_attribute(:role)
+    if r.nil?
+      nil
+    else
+      r.to_sym
+    end
+  end
 
 	# Taggable
 	acts_as_taggable
