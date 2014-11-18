@@ -17,6 +17,18 @@ class Sponsorship < ActiveRecord::Base
 
   before_create :default_status
 
+  after_update :check_status
+
+  def check_status
+    if self.status_changed?
+      if self.cancelled?
+        TalifloMailer.sponsorship_cancelled_admin_notification(self).deliver
+      elsif self.accepted?
+        TalifloMailer.sponsorship_accepted_admin_notification(self).deliver
+      end
+    end
+  end
+
   def is_business
     errors.add(:business, "Must be a business") unless self.business.role == :business
   end
