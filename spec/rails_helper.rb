@@ -37,6 +37,10 @@ RSpec.configure do |config|
 
   include FactoryGirl::Syntax::Methods
 
+  config.before(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
+
   #
   # config.include Devise::TestHelpers, :type => :controller
   #
