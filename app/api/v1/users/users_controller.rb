@@ -140,6 +140,7 @@ class V1::Users::UsersController < V1::Base
 		segment '/:id' do
 
       resource '/certificates' do
+        desc 'Returns the list of certificates purchased by this user'
         get do
           authenticate!
           can_or_die :read, Certificate, { :user_id => params[:id].to_i }
@@ -149,6 +150,7 @@ class V1::Users::UsersController < V1::Base
       end
 
       resource '/sponsors' do
+        desc 'Returns the list of sponsorships for this cause'
         get do
           can_or_die :read, Sponsorship
           @sponsors = User.find(params[:id]).sponsors
