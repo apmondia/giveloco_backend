@@ -22,7 +22,7 @@
                 u.website = Faker::Internet.url('www.example.com')
                 u.is_featured = [true, false].sample
                 u.is_published = [true, false].sample
-                u.is_activated = [true, false].sample
+                u.is_activated = true
                 u.confirmed_at = DateTime.now
                 u.skip_confirmation!
                 u.skip_confirmation_notification!
