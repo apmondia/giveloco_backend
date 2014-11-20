@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'stripe_charge'
 
 describe V1::Users::UsersController do
 
@@ -25,7 +26,6 @@ describe V1::Users::UsersController do
       expect( resp[1]['id'] ).to eq(@causes[1].id)
       expect( resp[2]['id'] ).to eq(@causes[2].id)
       expect( resp[3]['id'] ).to eq(@causes[3].id)
-
 
     end
 
@@ -161,6 +161,40 @@ describe V1::Users::UsersController do
       expect( JSON.parse(response.body).length ).to eq(1)
 
     end
+
+  end
+
+  describe 'POST /users/certificates/purchase' do
+
+    before(:each) do
+      @s = create(:sponsorship)
+    end
+
+    it 'should allow an anonymous user to purchase a certificate' do
+
+      expect(StripeCharge).to receive(:call).with({
+          :amount => BigDecimal.new(20),
+          :card => 'stripeToken',
+          :currency => 'cdn'
+                                                  })
+
+      post '/v1/users/certificates', {
+          :newUser => {
+              :first_name => 'Bob',
+              :last_name => 'Odenkirk',
+              :certificates_attributes => [{
+                  :sponsorship_id => @s.id,
+                  :amount => "20",
+                  :stripeToken => 'stripeToken'
+              }]
+          }
+      }
+
+      expect(response.status).to eq(201)
+
+    end
+
+
 
   end
 
