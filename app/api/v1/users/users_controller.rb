@@ -132,7 +132,17 @@ class V1::Users::UsersController < V1::Base
 			@user = User.find(params[:id])
 			@user.profile_picture = nil
 			@user.save
-		end
+    end
+
+    resource '/certificates' do
+      desc 'Purchases a new gift certificate for an anonymous user'
+      post do
+        user = User.create(
+            safe_params(params).require(:newUser).permit(:email, :first_name, :last_name, :certificates_attributes => [:sponsorship_id, :amount, :stripeToken])
+        )
+        user
+      end
+    end
 
 	# =======================================================================
 	# 	Return single user's transactions and tags (requires authentication)
