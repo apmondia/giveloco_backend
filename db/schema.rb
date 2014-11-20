@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20141113061241) do
   create_table "certificates", force: true do |t|
     t.integer  "purchaser_id"
     t.integer  "sponsorship_id"
-    t.decimal  "donation_percentage"
-    t.decimal  "amount"
+    t.decimal  "donation_percentage", precision: 5,  scale: 2, default: 0.0
+    t.decimal  "amount",              precision: 15, scale: 2
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.integer  "business_id"
     t.integer  "cause_id"
     t.datetime "resolved_at"
-    t.integer  "status"
-    t.decimal  "donation_percentage", precision: 8, scale: 2, default: 0.0
+    t.integer  "status",                                      default: 0,   null: false
+    t.decimal  "donation_percentage", precision: 5, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
