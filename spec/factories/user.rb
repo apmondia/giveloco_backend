@@ -12,6 +12,7 @@ FactoryGirl.define do
 
     factory :admin do
       role :admin
+      disable_admin false
     end
 
     factory :cause do

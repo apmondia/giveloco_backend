@@ -63,11 +63,11 @@ ActiveRecord::Schema.define(version: 20141113061241) do
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "role"
+    t.string   "role",                                                  default: "individual"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "email",                                                 default: "",    null: false
-    t.string   "encrypted_password",                                    default: "",    null: false
+    t.string   "email",                                                 default: "",           null: false
+    t.string   "encrypted_password",                                    default: "",           null: false
     t.string   "authentication_token"
     t.string   "company_name"
     t.string   "street_address"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                         default: 0,     null: false
+    t.integer  "sign_in_count",                                         default: 0,            null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"

@@ -2,7 +2,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
   def change
     create_table(:users) do |t|
       ## Basic Info
-      t.string :role
+      t.string :role, :default => 'individual'
       t.string :first_name
       t.string :last_name
 

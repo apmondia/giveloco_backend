@@ -182,6 +182,7 @@ describe V1::Users::UsersController do
           :newUser => {
               :first_name => 'Bob',
               :last_name => 'Odenkirk',
+              :email => 'testman@fake.com',
               :certificates_attributes => [{
                   :sponsorship_id => @s.id,
                   :amount => "20",
@@ -191,6 +192,9 @@ describe V1::Users::UsersController do
       }
 
       expect(response.status).to eq(201)
+      last_mail = ActionMailer::Base.deliveries.last
+      expect(last_mail.to).to eq('testman@fake.com')
+      expect(last_mail.subject).to eq('Confirmation instructions')
 
     end
 
