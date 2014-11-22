@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-	validates_presence_of :role
+  validates_presence_of :role, :email
 
 	# Include default devise modules. Others available are:
 	# :lockable, :timeoutable and :omniauthable
@@ -16,6 +16,15 @@ class User < ActiveRecord::Base
 	has_many :businesses, :through => :sponsors
 
   accepts_nested_attributes_for :certificates
+
+  attr_accessor :disable_admin
+  validate :cannot_set_role_to_admin, :unless => :disable_admin
+
+  def cannot_set_role_to_admin
+    if self.role == :admin
+      errors.add(:role, "You cannot change your role to admin.")
+    end
+  end
 
 	def admin?
 		self.role == :admin

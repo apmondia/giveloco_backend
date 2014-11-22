@@ -4,6 +4,15 @@ require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'support/auth'
+require 'support/front_end'
+require 'capybara/rails'
+
+Capybara.default_driver = :selenium
+
+Capybara.server_port = 6999
+Capybara.app_host = 'http://localhost:4999'
+# Use Poltergeist for headless testing.  Gem not included.
+#Capybara.default_driver = :poltergeist
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -65,3 +74,13 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 end
+
+class ActiveRecord::Base
+  mattr_accessor :shared_connection
+  @@shared_connection = nil
+
+  def self.connection
+    @@shared_connection || retrieve_connection
+  end
+end
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection

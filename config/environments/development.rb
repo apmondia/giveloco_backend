@@ -29,16 +29,16 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # Email configuration settings
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              ENV["EMAIL_SERVER"],
-    port:                 587,
-    domain:               ENV["EMAIL_DOMAIN"],
-    user_name:            ENV["EMAIL_USERNAME"],
-    password:             ENV["EMAIL_PASSWORD"],
-    authentication:       'plain',
-    enable_starttls_auto: true
-  }
+  config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.smtp_settings = {
+  #   address:              ENV["EMAIL_SERVER"],
+  #   port:                 587,
+  #   domain:               ENV["EMAIL_DOMAIN"],
+  #   user_name:            ENV["EMAIL_USERNAME"],
+  #   password:             ENV["EMAIL_PASSWORD"],
+  #   authentication:       'plain',
+  #   enable_starttls_auto: true
+  # }
 
   # Paperclip Amazon S3 settings
   config.paperclip_defaults = {

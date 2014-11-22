@@ -8,6 +8,7 @@
 
 admin = User.create do |u|
 	u.role = User::Roles::ROLES[0]
+    u.disable_admin = true
     u.first_name = "Taliflo"
     u.last_name = "Admin"
     u.email = "admin@taliflo.com"
@@ -23,7 +24,7 @@ admin = User.create do |u|
     u.description = nil
     u.summary = nil
     u.confirmed_at = DateTime.now
-	u.skip_confirmation!
+	  u.skip_confirmation!
     u.skip_confirmation_notification!
     u.save!
 end

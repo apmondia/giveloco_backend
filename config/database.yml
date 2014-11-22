@@ -30,8 +30,11 @@ development:
   database: api_development
 
 test:
-  <<: *default
-  database: api_test
+  adapter: sqlite3
+  encoding: unicode
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
 
 production:
   <<: *default

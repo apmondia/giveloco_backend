@@ -68,6 +68,9 @@ group :development, :test do
   gem 'json_spec'
 	# Strategies for cleaning databases in Ruby.
 	gem 'database_cleaner'
+
+  gem 'sqlite3'
+
 end
 
 group :production do
