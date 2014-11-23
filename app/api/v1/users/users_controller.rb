@@ -159,6 +159,15 @@ class V1::Users::UsersController < V1::Base
         end
       end
 
+      resource '/sponsorships' do
+        desc 'Returns a list of sponsorships for this business'
+        get do
+          can_or_die :read, Sponsorship
+          @sponsorships = User.find(params[:id]).sponsorships
+          present @sponsorships, :with => V1::Sponsorships::Entity
+        end
+      end
+
       resource '/sponsors' do
         desc 'Returns the list of sponsorships for this cause'
         get do

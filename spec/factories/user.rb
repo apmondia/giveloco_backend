@@ -17,10 +17,20 @@ FactoryGirl.define do
 
     factory :cause do
       role :cause
+      sequence(:company_name) { |n|
+        "Cause#{n}"
+      }
+      is_activated true
+      is_published true
     end
 
     factory :business do
       role :business
+      sequence(:company_name) { |n|
+        "Business#{n}"
+      }
+      is_activated true
+      is_published true
     end
 
     role :individual

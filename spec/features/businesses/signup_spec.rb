@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Business signup' do
+describe 'As a business I want to sign up' do
 
   include Support::FrontEnd
 
