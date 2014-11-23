@@ -23,7 +23,8 @@ describe 'Business signup' do
     find('form button[type="submit"]').click
 
     expect(page).to_not have_content('went wrong')
-    expect(page).to have_content('Account Details')
+    expect(page).to have_content('You have success')
+    expect(page).to have_content("Account Details")
 
   end
 
