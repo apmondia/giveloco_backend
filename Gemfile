@@ -65,11 +65,11 @@ group :development, :test do
 	gem 'factory_girl_rails'
 	# Rails Unit Testing RSPEC
 	gem 'rspec-rails'
-  gem 'json_spec'
+  	gem 'json_spec'
 	# Strategies for cleaning databases in Ruby.
 	gem 'database_cleaner'
 
-  gem 'sqlite3'
+  	# gem 'sqlite3'
 
 end
 
