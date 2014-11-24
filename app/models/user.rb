@@ -20,15 +20,29 @@ class User < ActiveRecord::Base
   attr_accessor :disable_admin
   validate :cannot_set_role_to_admin, :unless => :disable_admin
 
+  before_save :generate_password
+
   def cannot_set_role_to_admin
     if self.role == :admin
       errors.add(:role, "You cannot change your role to admin.")
     end
   end
 
+  def generate_password
+    if self.individual? && self.new_record? && self.password.blank?
+      self.password = Devise.friendly_token.first(8)
+      self.password_confirmation = self.password
+      self.skip_confirmation!
+    end
+  end
+
 	def admin?
 		self.role == :admin
-	end
+  end
+
+  def individual?
+    self.role == :individual
+  end
 
 	def role
 		r = self.read_attribute(:role)
@@ -38,6 +52,17 @@ class User < ActiveRecord::Base
 			r.to_sym
 		end
 	end
+
+  def password_required?
+    super if confirmed?
+  end
+
+  def password_match?
+    self.errors[:password] << "can't be blank" if password.blank?
+    self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
+    self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
+    password == password_confirmation && !password.blank?
+  end
 
 	# Taggable
 	acts_as_taggable

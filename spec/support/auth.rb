@@ -8,7 +8,7 @@ module Support
 
     def login(user)
       visit '/'
-      click_link 'Log In'
+      find("nav a.login").click
       fill_in :email, :with => user.email
       fill_in :password, :with => user.password
       find('form button[type="submit"]').click

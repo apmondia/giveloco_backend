@@ -11,7 +11,7 @@ describe 'As a business I want to sign up' do
   it 'should allow the business to sign up ' do
 
     visit '/'
-    click_link 'Sign Up'
+    find("#footer-sign-up").click
     click_link 'Business'
 
     fill_in :company, :with => 'Apple Inc.'
