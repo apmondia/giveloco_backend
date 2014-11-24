@@ -193,8 +193,8 @@ describe V1::Users::UsersController do
 
       expect(response.status).to eq(201)
       last_mail = ActionMailer::Base.deliveries.last
-      expect(last_mail.to).to eq('testman@fake.com')
-      expect(last_mail.subject).to eq('Confirmation instructions')
+      # users don't have account anymore.
+      expect(last_mail.to).to_not eq(['testman@fake.com'])
 
     end
 

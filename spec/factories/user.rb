@@ -11,8 +11,8 @@ FactoryGirl.define do
     password_confirmation 'password'
 
     factory :admin do
+      disable_admin true
       role :admin
-      disable_admin false
     end
 
     factory :cause do
