@@ -166,6 +166,15 @@ class V1::Users::UsersController < V1::Base
           @sponsorships = User.find(params[:id]).sponsorships
           present @sponsorships, :with => V1::Sponsorships::Entity
         end
+
+        resource '/certificates' do
+          desc 'Returns all of the certificates for this business'
+          get do
+            @certificates = User.find(params[:id]).purchased_certificates
+            present @certificates, :with => V1::Certificates::Entity
+          end
+        end
+
       end
 
       resource '/sponsors' do
@@ -173,6 +182,14 @@ class V1::Users::UsersController < V1::Base
         get do
           can_or_die :read, Sponsorship
           @sponsors = User.find(params[:id]).sponsors
+        end
+
+        resource '/certificates' do
+          desc 'Returns all of the gift certificates purchased for this cause'
+          get do
+            @certificates = User.find(params[:id]).sponsor_certificates
+            present @certificates, :with => V1::Certificates::Entity
+          end
         end
       end
 

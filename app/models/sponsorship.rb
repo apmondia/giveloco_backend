@@ -19,6 +19,8 @@ class Sponsorship < ActiveRecord::Base
 
   after_update :check_status
 
+  has_many :certificates
+
   def check_status
     if self.status_changed?
       if self.cancelled?

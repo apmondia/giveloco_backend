@@ -6,6 +6,7 @@ class CreateCertificates < ActiveRecord::Migration
       t.decimal :donation_percentage, :precision => 5, :scale => 2, default: 0.00
       t.decimal :amount,              :precision => 15, :scale => 2
       t.string :recipient
+      t.boolean :redeemed, :default => false
 
       t.timestamps
     end
