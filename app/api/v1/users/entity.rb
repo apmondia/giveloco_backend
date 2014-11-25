@@ -33,10 +33,6 @@ module V1
 
 			expose :sponsors, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of business IDs that have sponsored a cause"}, if: lambda { |user, options| user.role == :cause }
 			expose :sponsorships, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has sponsored"}, if: lambda { |user, options| user.role == :business }
-			
-			expose :is_activated, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
-			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
-			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
 
 			with_options(if: {:type => 'authorized'}) do
 				expose :customer_id, :documentation => {:type => "string", :desc => "The user's Stripe customer ID."}
@@ -44,7 +40,11 @@ module V1
 				expose :total_funds_raised, :documentation => {:type => "decimal", :desc => "The total value of donations received by a cause"}, if: lambda { |user, options| user.role == :cause }
 				expose :authentication_token, :as => :auth_token, :documentation => {:type => "string", :desc => "The user's current authentication token"}
 			end
-			
+
+			expose :is_activated, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
+			expose :is_published, :documentation => {:type => "boolean", :desc => "Determines if the organization is visible to the public"}
+			expose :is_featured, :documentation => {:type => "boolean", :desc => "Determines if the organization is featured on the homepage"}
+
 			expose :created_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was created"}
 			expose :updated_at, :documentation => {:type => "datetime", :desc => "The date and time when the user was last updated"}
 			expose :confirmed_at, :documentation => {:type => "datetime", :desc => "The date and time when the user's account registration was confirmed'"}
