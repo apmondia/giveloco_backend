@@ -202,4 +202,42 @@ describe V1::Users::UsersController do
 
   end
 
+  describe '/v1/users/:id/sponsorships/certificates' do
+
+    before(:each) do
+      @b = create(:business)
+      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+      @c2 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+    end
+
+    it 'should show the business all of its certificates' do
+
+      get "/v1/users/#{@b.id}/sponsorships/certificates"
+      expect(response.status).to eq(200)
+      json = JSON.parse(response.body)
+      expect( json.length ).to eq(2)
+
+    end
+
+  end
+
+  describe '/v1/users/:id/sponsors/certificates' do
+
+    before(:each) do
+      @cause = create(:cause)
+      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :cause => @cause))
+      @c2 = create(:certificate, :sponsorship => create(:sponsorship, :cause => @cause))
+    end
+
+    it 'should show a cause all of the certificates purchased for it' do
+
+      get "/v1/users/#{@cause.id}/sponsors/certificates"
+      expect(response.status).to eq(200)
+      json = JSON.parse(response.body)
+      expect( json.length ).to eq(2)
+
+    end
+
+  end
+
 end

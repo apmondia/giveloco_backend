@@ -11,9 +11,11 @@ class User < ActiveRecord::Base
 
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :causes, :through => :sponsorships, :source => :cause
+  has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
 
 	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :businesses, :through => :sponsors
+  has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
   accepts_nested_attributes_for :certificates
 
