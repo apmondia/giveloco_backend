@@ -11,13 +11,13 @@ module V1
         expose :last_name, :documentation => {:type => "string", :desc => "The user's Last Name"}
       end
 
-      expose :images do
-        expose :profile_picture do
-          expose :original,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
-          expose :medium,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
-          expose :thumb,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
-        end
-      end
+      # expose :images do
+      #   expose :profile_picture do
+      #     expose :original,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+      #     expose :medium,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+      #     expose :thumb,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+      #   end
+      # end
     end
   end
 end
