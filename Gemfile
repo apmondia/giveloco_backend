@@ -10,6 +10,8 @@ gem 'pg'
 gem 'unicorn'
 # Devise user authentication
 gem 'devise'
+gem 'omniauth-stripe-connect'
+
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 

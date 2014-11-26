@@ -39,7 +39,7 @@ module V1::Helpers::UsersHelper
 
 	def is_authenticated
 		@request_user = user_from_session
-    	@auth_token = @request_user.try(:authentication_token) || nil
+    @auth_token = @request_user.try(:authentication_token) || nil
 		!@auth_token.nil?
 	end
 

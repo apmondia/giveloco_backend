@@ -81,6 +81,10 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.text     "description"
     t.string   "website"
     t.string   "customer_id"
+    t.string   "publishable_key"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "access_code"
     t.decimal  "balance",                      precision: 15, scale: 2, default: 0.0
     t.decimal  "total_funds_raised",           precision: 15, scale: 2, default: 0.0
     t.boolean  "is_activated",                                          default: false

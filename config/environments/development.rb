@@ -25,6 +25,10 @@ Rails.application.configure do
   # Required for Devise mailer
   # config.action_mailer.default_url_options = { host: ENV["API_BASE_URL"] }
 
+  config.action_mailer.default_url_options = {
+      :host => 'localhost'
+  }
+
   # Raise an exception if there is an error when sending an email
   config.action_mailer.raise_delivery_errors = true
 
@@ -49,4 +53,10 @@ Rails.application.configure do
       :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
+
+  Rails.application.routes.default_url_options[:host] = "localhost:3000"
+
+  config.stripe_client_id = ENV['STRIPE_APP_CLIENT_ID'] || 'ca_5CxcTXvWWjcC06sYJRP1mDNypRZHjaSM'
+  config.stripe_secret_key = ENV['STRIPE_SECRET_KEY'] || 'sk_test_Z0cbu6Jx5FeoPj217bEBLm5J'
+
 end

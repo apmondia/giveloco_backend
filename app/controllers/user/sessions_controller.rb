@@ -8,8 +8,9 @@ class User::SessionsController < Devise::SessionsController
 		user = User.find_for_database_authentication(email: params[:email])
 		if user && user.valid_password?(params[:password])
 			token = user.ensure_authentication_token
+      session[:session_token] = token
 			render 	status: 200,
-					json: { 
+					json: {
 				auth_token: token,
 				success: true,
 				info: "Logged in",
@@ -25,9 +26,10 @@ class User::SessionsController < Devise::SessionsController
 	def destroy
 		if current_user
 			current_user.authentication_token = nil
+      session[:session_token] = nil
 			current_user.save!
 		end
-		render 	status: 200, 
+		render 	status: 200,
 				json: {
 					success: true,
 					info: "Logged out"

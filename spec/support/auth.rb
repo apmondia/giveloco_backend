@@ -8,11 +8,13 @@ module Support
 
     def login(user)
       visit '/'
-      find("nav a.login").click
+      click_link 'Log In'
       fill_in :email, :with => user.email
       fill_in :password, :with => user.password
       find('form button[type="submit"]').click
-      expect(page).to have_content(@b.company_name)
+      #expect(page).to have_content(user.first_name)
+      expect(page).to have_content("You have successfully logged in")
     end
   end
+
 end

@@ -3,9 +3,10 @@ class User < ActiveRecord::Base
   validates_presence_of :role, :email
 
 	# Include default devise modules. Others available are:
-	# :lockable, :timeoutable and :omniauthable
+	# :lockable, :timeoutable and
 	devise :database_authenticatable, :registerable, :confirmable, 
 	       :recoverable, :rememberable, :trackable, :validatable
+  devise :omniauthable, :omniauth_providers => [:stripe_connect]
 
 	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
 
@@ -25,9 +26,17 @@ class User < ActiveRecord::Base
   before_save :generate_password
 
   def cannot_set_role_to_admin
-    if self.role == :admin
+    if self.role_changed? && self.role == :admin
       errors.add(:role, "You cannot change your role to admin.")
     end
+  end
+
+  def has_stripe_connect
+    !self.provider.blank? && self.provider.to_sym == :stripe_connect && !self.uid.blank?
+  end
+
+  def stripe_user_omniauth_authorize_path
+    Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect)
   end
 
   def generate_password
@@ -199,7 +208,7 @@ class User < ActiveRecord::Base
 	# Ensure the user has an auth token (used for user authentication)
 	def ensure_authentication_token
 		self.authentication_token = generate_authentication_token
-		self.save
+		self.save!
 		self.authentication_token
 	end
 

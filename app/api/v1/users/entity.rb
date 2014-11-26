@@ -31,6 +31,9 @@ module V1
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
 
+      expose :has_stripe_connect
+      expose :stripe_user_omniauth_authorize_path
+
 			expose :sponsors, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of business IDs that have sponsored a cause"}, if: lambda { |user, options| user.role == :cause }
 			expose :sponsorships, :using => V1::Sponsorships::Snapshot, :documentation => {:type => "object", :desc => "A list of cause IDs that a business has sponsored"}, if: lambda { |user, options| user.role == :business }
 

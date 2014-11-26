@@ -4,13 +4,13 @@ class V1::Users::UsersController < V1::Base
 
 	    desc "Return complete list of users"
 	    get do
-			@users = User.all
-			if is_admin
-				present @users, with: V1::Users::Entity, type: 'authorized'
-			else
-				present @users, with: V1::Users::Entity
-			end
-	    end
+        @users = User.all
+        if is_admin
+          present @users, with: V1::Users::Entity, type: 'authorized'
+        else
+          present @users, with: V1::Users::Entity
+        end
+      end
 
 	# =======================================================================
 	# 	Return lists of users by role
