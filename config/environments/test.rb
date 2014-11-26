@@ -40,4 +40,10 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  Rails.application.routes.default_url_options[:host] = "localhost:6999"
+
+  config.stripe_client_id = ENV['STRIPE_APP_CLIENT_ID'] || 'ca_5CxcTXvWWjcC06sYJRP1mDNypRZHjaSM'
+  config.stripe_secret_key = ENV['STRIPE_SECRET_KEY'] || 'sk_test_Z0cbu6Jx5FeoPj217bEBLm5J'
+
 end

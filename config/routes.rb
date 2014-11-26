@@ -6,7 +6,8 @@ Rails.application.routes.draw do
                 registrations:  'user/registrations', 
                 sessions:       'user/sessions',
                 passwords:      'user/passwords',
-                confirmations:  'user/confirmations'
+                confirmations:  'user/confirmations',
+                omniauth_callbacks: "user/omniauth_callbacks"
               }
   as :user do
     post '/user/login' => 'user/sessions#create'

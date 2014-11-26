@@ -29,6 +29,13 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Payment Gateway (Stripe)
       t.string  :customer_id
 
+      ## Omniauthable (Stripe)
+      t.string :publishable_key
+      t.string :provider
+      t.string :uid
+      t.string :access_code
+      t.string :refresh_token
+
       ## User Financials
       t.decimal :balance,             precision: 15, scale: 2, default: 0.00
       t.decimal :total_funds_raised,  precision: 15, scale: 2, default: 0.00

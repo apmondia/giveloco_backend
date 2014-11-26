@@ -14,7 +14,15 @@ class ApplicationController < ActionController::Base
 		if user
 			sign_in user, store: false
 		end
-	end
+  end
+  #
+  # def after_sign_in_path_for(user)
+  #   "#{Rails.application.config.client_options[:host]}/user/#{@user.id}/account/billing-info"
+  # end
+  #
+  # def failed_sign_in_path
+  #   "#{Rails.application.config.client_options[:host]}/user/#{@user.id}/account/billing-info"
+  # end
 
 	# CSRF protection when using AngularJS
 	def set_csrf_cookie_for_ng
