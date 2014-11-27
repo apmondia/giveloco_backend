@@ -14,14 +14,30 @@ class Certificate < ActiveRecord::Base
     joins(:sponsorship).where('sponsorships.cause_id = ?', cause.id)
   }
 
-  validate :charge_stripe_token, :unless => :disable_charge
+  validate :business_has_access_code
+  validate :validate_charge, :unless => :disable_charge
 
-  def charge_stripe_token
-    StripeCharge.call({
-                          :amount => self.amount,
-                          :card => self.stripeToken,
-                          :currency => 'cdn'
-                      })
+  def business_has_access_code
+    if !sponsorship.business.access_code
+      errors.add(:business, "Must have connected their banking details")
+    end
+  end
+
+  def validate_charge
+
+    self.donation_percentage = sponsorship.donation_percentage
+
+    cause_fee = amount * donation_percentage #total donation in cents
+    taliflo_fee = 100 # ?????
+    total_fee = cause_fee + taliflo_fee
+
+    StripeCharge.call(
+                      :amount => (amount * 100),
+                      :card => stripeToken,
+                      :application_fee => total_fee,
+                      :access_token => sponsorship.business.access_code
+                      )
+
   end
 
 end

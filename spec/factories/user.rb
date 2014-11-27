@@ -10,6 +10,8 @@ FactoryGirl.define do
     password 'password'
     password_confirmation 'password'
 
+    access_code '1234'
+
     factory :admin do
       disable_admin true
       role :admin

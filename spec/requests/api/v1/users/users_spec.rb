@@ -164,7 +164,7 @@ describe V1::Users::UsersController do
 
   end
 
-  describe 'POST /users/certificates/purchase' do
+  describe 'POST /users/certificates' do
 
     before(:each) do
       @s = create(:sponsorship)
@@ -173,9 +173,10 @@ describe V1::Users::UsersController do
     it 'should allow an anonymous user to purchase a certificate' do
 
       expect(StripeCharge).to receive(:call).with({
-          :amount => BigDecimal.new(20),
+          :amount => BigDecimal.new(20*100),
           :card => 'stripeToken',
-          :currency => 'cdn'
+          :application_fee => BigDecimal.new( 100 + (@s.donation_percentage * 20.0) ),
+          :access_token => @s.business.access_code
                                                   })
 
       post '/v1/users/certificates', {
