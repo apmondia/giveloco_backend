@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.decimal  "donation_percentage", precision: 5,  scale: 2, default: 0.0
     t.decimal  "amount",              precision: 15, scale: 2
     t.string   "recipient"
+    t.boolean  "redeemed",                                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -85,6 +86,7 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.string   "provider"
     t.string   "uid"
     t.string   "access_code"
+    t.string   "refresh_token"
     t.decimal  "balance",                      precision: 15, scale: 2, default: 0.0
     t.decimal  "total_funds_raised",           precision: 15, scale: 2, default: 0.0
     t.boolean  "is_activated",                                          default: false
