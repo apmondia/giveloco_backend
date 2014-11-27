@@ -6,6 +6,7 @@ require 'rspec/rails'
 require 'support/auth'
 require 'support/front_end'
 require 'support/capybara_helpers'
+require 'support/pages/main'
 require 'capybara/rails'
 
 Capybara.default_driver = :selenium
@@ -47,6 +48,8 @@ RSpec.configure do |config|
 
   include FactoryGirl::Syntax::Methods
   include Support::CapybaraHelpers
+  include Support::FrontEnd
+  include Support::Pages::Main
 
   config.before(:each) do
     ActionMailer::Base.deliveries.clear

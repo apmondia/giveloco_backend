@@ -5,6 +5,7 @@ describe 'As a business I want to enter my stripe banking information' do
   include Support::Auth
 
   before(:each) do
+    assert_front_end_up
     @b = create(:business)
   end
 
@@ -12,8 +13,7 @@ describe 'As a business I want to enter my stripe banking information' do
 
     login(@b)
     expect(page).to have_content(@b.company_name)
-    find('button.close').click
-    find('.nav .dropdown-toggle').click
+    click_profile_menu
     click_link 'My Account'
     click_link 'Banking Information'
     find('#stripe-connect').click

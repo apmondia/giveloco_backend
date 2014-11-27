@@ -5,6 +5,7 @@ describe 'As a business I want to view my list of sponsorships' do
   include Support::Auth
 
   before(:each) do
+    assert_front_end_up
     @b = create(:business)
     @c = create(:cause)
     @s = create(:sponsorship, :business => @b, :cause => @c, :status => Sponsorship.statuses[:accepted])

@@ -2,6 +2,14 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
 
   resource :sponsorships do
 
+    desc 'List all sponsorships'
+    get do
+      authenticate!
+      can_or_die :index, Sponsorship
+      @sponsorships = Sponsorship.all
+      present @sponsorships, :with => V1::Sponsorships::Entity
+    end
+
     desc 'Create a new sponsorship'
     params do
       requires :business_id, :type => Integer, :desc => 'Business'
@@ -11,12 +19,25 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       authenticate!
       create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id)
       sponsorship = Sponsorship.new(create_sponsorship_params)
-      can_or_die :create, sponsorship
+      can_or_die :read, sponsorship
       sponsorship.save!
       sponsorship
     end
 
     namespace '/:id' do
+
+      desc 'Destroy a sponsorship'
+      params do
+        requires :id
+      end
+      delete do
+        authenticate!
+        destroy_sponsorship_params = safe_params(params).permit(:id)
+        sponsorship = Sponsorship.find(destroy_sponsorship_params[:id])
+        can_or_die :destroy, sponsorship
+        sponsorship.destroy!
+        sponsorship
+      end
 
       resource '/resolve' do
         desc 'Accept a sponsorship'
