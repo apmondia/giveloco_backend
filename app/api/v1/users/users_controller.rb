@@ -180,8 +180,8 @@ class V1::Users::UsersController < V1::Base
       resource '/sponsors' do
         desc 'Returns the list of sponsorships for this cause'
         get do
-          can_or_die :read, Sponsorship
           @sponsors = User.find(params[:id]).sponsors
+          present @sponsors, :with => V1::Sponsorships::Entity
         end
 
         resource '/certificates' do

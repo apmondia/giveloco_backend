@@ -14,6 +14,7 @@ module Support
       find('form button[type="submit"]').click
       #expect(page).to have_content(user.first_name)
       expect(page).to have_content("You have successfully logged in")
+      find('button.close').click
     end
   end
 
