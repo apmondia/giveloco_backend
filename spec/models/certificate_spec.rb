@@ -11,9 +11,10 @@ describe Certificate do
     it 'should charge the Stripe api when created' do
 
       expect(StripeCharge).to receive(:call).with({
-          :amount => 20,
+          :amount => 20*100,
           :card => 'stripeToken',
-          :currency => 'cdn'
+          :application_fee => (100 + (@s.donation_percentage * 20)),
+          :access_token => '1234'
                                                   })
 
       c = Certificate.create( {
