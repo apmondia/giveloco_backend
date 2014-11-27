@@ -10,6 +10,14 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       present @sponsorships, :with => V1::Sponsorships::Entity
     end
 
+    desc 'Get a single sponsorship'
+    get '/:id' do
+      authenticate!
+      can_or_die :index, Sponsorship
+      @sponsorship = Sponsorship.find(params[:id])
+      present @sponsorship, :with => V1::Sponsorships::Entity
+    end
+
     desc 'Create a new sponsorship'
     params do
       requires :business_id, :type => Integer, :desc => 'Business'
