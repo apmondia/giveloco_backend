@@ -14,7 +14,9 @@ after 'development:sponsorship', 'development:_users.individuals' do
           :sponsorship => sponsorship,
           :amount => 20,
           :donation_percentage => 20,
-          :recipient => @purchaser.email
+          :recipient => @purchaser.email,
+          :disable_charge => true,
+          :stripeToken => '1234'
       })
 
     end
