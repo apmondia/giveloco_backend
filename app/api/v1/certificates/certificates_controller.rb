@@ -7,7 +7,7 @@ class V1::Certificates::CertificatesController < V1::Base
       params do
         requires :redemption_code
       end
-      patch do
+      put do
         authenticate!
         @certificate = Certificate.find_by_redemption_code( params[:redemption_code] )
         can_or_die :redeem, @certificate
