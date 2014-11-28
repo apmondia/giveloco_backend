@@ -1,7 +1,5 @@
 class User < ActiveRecord::Base
 
-  validates_presence_of :role, :email
-
 	# Include default devise modules. Others available are:
 	# :lockable, :timeoutable and
 	devise :database_authenticatable, :registerable, :confirmable, 
@@ -12,18 +10,23 @@ class User < ActiveRecord::Base
 
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :causes, :through => :sponsorships, :source => :cause
-  	has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
+  has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
 
 	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :businesses, :through => :sponsors
-  	has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
+  has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
-  	accepts_nested_attributes_for :certificates
+  accepts_nested_attributes_for :certificates
+
+  validates_presence_of :role, :email
 
 	attr_accessor :disable_admin
 	validate :cannot_set_role_to_admin, :unless => :disable_admin
 
 	before_save :generate_password
+
+  before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
+  before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
 
 	def cannot_set_role_to_admin
 		if self.role_changed? && self.role == :admin
@@ -44,8 +47,32 @@ class User < ActiveRecord::Base
 			self.password = Devise.friendly_token.first(8)
 			self.password_confirmation = self.password
 			self.skip_confirmation!
-		end
-	end
+    end
+    true
+  end
+
+  def automatically_publish_business_if_profile_complete
+    if  !self.access_code.blank? &&
+        !self.description.blank? &&
+        !self.summary.blank? &&
+        !self.is_published
+        self.is_published = true
+    else
+      self.is_published = false
+    end
+    true
+  end
+
+  def automatically_publish_cause_if_profile_complete
+    if !self.description.blank? &&
+        !self.summary.blank? &&
+        !self.is_published
+      self.is_published = true
+    else
+      self.is_published = false
+    end
+    true
+  end
 
 	def admin?
 		self.role == :admin
@@ -53,7 +80,15 @@ class User < ActiveRecord::Base
 
 	def individual?
 		self.role == :individual
-	end
+  end
+
+  def business?
+    self.role == :business
+  end
+
+  def cause?
+    self.role == :cause
+  end
 
 	def role
 		r = self.read_attribute(:role)

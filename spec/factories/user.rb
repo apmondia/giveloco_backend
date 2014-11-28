@@ -22,8 +22,8 @@ FactoryGirl.define do
       sequence(:company_name) { |n|
         "Cause#{n}"
       }
-      is_activated true
-      is_published true
+      description "I am a cause"
+      summary "I"
     end
 
     factory :business do
@@ -31,8 +31,8 @@ FactoryGirl.define do
       sequence(:company_name) { |n|
         "Business#{n}"
       }
-      is_activated true
-      is_published true
+      description "I make money as a business"
+      summary "Make money"
     end
 
     role :individual

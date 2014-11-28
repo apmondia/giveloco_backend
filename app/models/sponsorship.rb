@@ -21,6 +21,19 @@ class Sponsorship < ActiveRecord::Base
 
   has_many :certificates
 
+  before_create :set_is_activated_true
+  after_destroy :check_is_activated
+
+  def set_is_activated_true
+    cause.update_attributes!({ :is_activated => true })
+    business.update_attributes!({ :is_activated => true })
+  end
+
+  def check_is_activated
+    cause.update_attributes!({:is_activated => false}) if cause.sponsorships.empty?
+    business.update_attributes!({:is_activated => false}) if business.sponsorships.empty?
+  end
+
   def check_status
     if self.status_changed?
       if self.cancelled?
