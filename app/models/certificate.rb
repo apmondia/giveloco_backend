@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Certificate < ActiveRecord::Base
   attr_accessor :disable_charge
 
@@ -43,7 +45,7 @@ class Certificate < ActiveRecord::Base
   end
 
   def generate_redemption_code
-    self.redemption_code = Devise.friendly_token.first(6)
+    self.redemption_code = SecureRandom.hex.first(6)
   end
 
 end
