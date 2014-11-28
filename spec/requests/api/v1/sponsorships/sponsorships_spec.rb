@@ -44,7 +44,8 @@ describe V1::Sponsorships::SponsorshipsController do
     let(:post_params) {
       {
           :business_id => @business.id,
-          :cause_id => @cause.id
+          :cause_id => @cause.id,
+          :donation_percentage => 99.9
       }
     }
 
@@ -84,6 +85,10 @@ describe V1::Sponsorships::SponsorshipsController do
     it 'should allow an admin to request a sponsorship' do
       post_with_user(@admin)
       expect( response.status ).to eq(201)
+      s = Sponsorship.last
+      json = JSON.parse(response.body)
+      expect( json['id'] ).to eq(s.id)
+      expect( json['donation_percentage']).to eq('99.9')
     end
 
     it 'should prevent anonymous sponsorship request' do
