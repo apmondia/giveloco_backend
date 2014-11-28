@@ -4,18 +4,22 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
 
     desc 'List all sponsorships'
     get do
-      authenticate!
-      can_or_die :index, Sponsorship
       @sponsorships = Sponsorship.all
-      present @sponsorships, :with => V1::Sponsorships::Entity
+      if is_authenticated
+        present @sponsorships, :with => V1::Sponsorships::Entity
+      else
+        present @sponsorships, :with => V1::Sponsorships::Snapshot
+      end
     end
 
     desc 'Get a single sponsorship'
     get '/:id' do
-      authenticate!
-      can_or_die :index, Sponsorship
-      @sponsorship = Sponsorship.find(params[:id])
-      present @sponsorship, :with => V1::Sponsorships::Entity
+      @sponsorship = Sponsorship.find(params[:id])      
+      if is_authenticated
+        present @sponsorship, :with => V1::Sponsorships::Entity
+      else
+        present @sponsorship, :with => V1::Sponsorships::Snapshot
+      end
     end
 
     desc 'Create a new sponsorship'
