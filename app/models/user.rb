@@ -6,54 +6,54 @@ class User < ActiveRecord::Base
 	# :lockable, :timeoutable and
 	devise :database_authenticatable, :registerable, :confirmable, 
 	       :recoverable, :rememberable, :trackable, :validatable
-  devise :omniauthable, :omniauth_providers => [:stripe_connect]
+  	devise :omniauthable, :omniauth_providers => [:stripe_connect]
 
 	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
 
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :causes, :through => :sponsorships, :source => :cause
-  has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
+  	has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
 
 	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
 	has_many :businesses, :through => :sponsors
-  has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
+  	has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
-  accepts_nested_attributes_for :certificates
+  	accepts_nested_attributes_for :certificates
 
-  attr_accessor :disable_admin
-  validate :cannot_set_role_to_admin, :unless => :disable_admin
+	attr_accessor :disable_admin
+	validate :cannot_set_role_to_admin, :unless => :disable_admin
 
-  before_save :generate_password
+	before_save :generate_password
 
-  def cannot_set_role_to_admin
-    if self.role_changed? && self.role == :admin
-      errors.add(:role, "You cannot change your role to admin.")
-    end
-  end
+	def cannot_set_role_to_admin
+		if self.role_changed? && self.role == :admin
+			errors.add(:role, "You cannot change your role to admin.")
+		end
+	end
 
-  def has_stripe_connect
-    !self.provider.blank? && self.provider.to_sym == :stripe_connect && !self.uid.blank?
-  end
+	def has_stripe_connect
+		!self.provider.blank? && self.provider.to_sym == :stripe_connect && !self.uid.blank?
+	end
 
-  def stripe_user_omniauth_authorize_path
-    Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect)
-  end
+	def stripe_user_omniauth_authorize_path
+		Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect)
+	end
 
-  def generate_password
-    if self.individual? && self.new_record? && self.password.blank?
-      self.password = Devise.friendly_token.first(8)
-      self.password_confirmation = self.password
-      self.skip_confirmation!
-    end
-  end
+	def generate_password
+		if self.individual? && self.new_record? && self.password.blank?
+			self.password = Devise.friendly_token.first(8)
+			self.password_confirmation = self.password
+			self.skip_confirmation!
+		end
+	end
 
 	def admin?
 		self.role == :admin
-  end
+	end
 
-  def individual?
-    self.role == :individual
-  end
+	def individual?
+		self.role == :individual
+	end
 
 	def role
 		r = self.read_attribute(:role)
@@ -64,16 +64,16 @@ class User < ActiveRecord::Base
 		end
 	end
 
-  def password_required?
-    super if confirmed?
-  end
+	def password_required?
+		super if confirmed?
+	end
 
-  def password_match?
-    self.errors[:password] << "can't be blank" if password.blank?
-    self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
-    self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
-    password == password_confirmation && !password.blank?
-  end
+	def password_match?
+		self.errors[:password] << "can't be blank" if password.blank?
+		self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
+		self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
+		password == password_confirmation && !password.blank?
+	end
 
 	# Taggable
 	acts_as_taggable
