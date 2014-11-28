@@ -2,8 +2,6 @@ require 'rails_helper'
 
 describe V1::Sponsorships::SponsorshipsController do
 
-  include Support::Auth
-
   before(:each) do
     @admin = create(:admin)
     @business = create(:business)
