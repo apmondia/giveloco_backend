@@ -3,8 +3,6 @@ require 'stripe_charge'
 
 describe V1::Users::UsersController do
 
-  include Support::Auth
-
   describe 'GET /v1/users/role/cause' do
 
     it 'should not return anything' do

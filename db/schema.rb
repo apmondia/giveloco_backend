@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.decimal  "donation_percentage", precision: 5,  scale: 2, default: 0.0
     t.decimal  "amount",              precision: 15, scale: 2
     t.string   "recipient"
+    t.string   "redemption_code"
     t.boolean  "redeemed",                                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"

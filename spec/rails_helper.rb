@@ -50,6 +50,8 @@ RSpec.configure do |config|
   include Support::CapybaraHelpers
   include Support::FrontEnd
   include Support::Pages::Main
+  include Support::Auth
+
 
   config.before(:each) do
     ActionMailer::Base.deliveries.clear

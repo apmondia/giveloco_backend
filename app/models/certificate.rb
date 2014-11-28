@@ -15,7 +15,10 @@ class Certificate < ActiveRecord::Base
   }
 
   validate :business_has_access_code
-  validate :validate_charge, :unless => :disable_charge
+
+  before_create :copy_donation_percentage
+  before_create :execute_charge, :unless => :disable_charge
+  before_create :generate_redemption_code
 
   def business_has_access_code
     if !sponsorship.business.access_code
@@ -23,21 +26,24 @@ class Certificate < ActiveRecord::Base
     end
   end
 
-  def validate_charge
-
+  def copy_donation_percentage
     self.donation_percentage = sponsorship.donation_percentage
+  end
 
+  def execute_charge
     cause_fee = amount * donation_percentage #total donation in cents
     taliflo_fee = 100 # ?????
     total_fee = cause_fee + taliflo_fee
-
     StripeCharge.call(
                       :amount => (amount * 100),
                       :card => stripeToken,
                       :application_fee => total_fee,
                       :access_token => sponsorship.business.access_code
                       )
+  end
 
+  def generate_redemption_code
+    self.redemption_code = Devise.friendly_token.first(6)
   end
 
 end
