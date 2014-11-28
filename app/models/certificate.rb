@@ -45,7 +45,7 @@ class Certificate < ActiveRecord::Base
   end
 
   def generate_redemption_code
-    self.redemption_code = SecureRandom.hex.first(6)
+    self.redemption_code = SecureRandom.hex.first(6).upcase
   end
 
 end

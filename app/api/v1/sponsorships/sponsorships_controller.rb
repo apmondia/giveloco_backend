@@ -22,10 +22,11 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
     params do
       requires :business_id, :type => Integer, :desc => 'Business'
       requires :cause_id, :type => Integer, :desc => 'Cause'
+      requires :donation_percentage, :type => BigDecimal, :desc => "Investment Rate"
     end
     post do
       authenticate!
-      create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id)
+      create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id, :donation_percentage)
       sponsorship = Sponsorship.new(create_sponsorship_params)
       can_or_die :read, sponsorship
       sponsorship.save!

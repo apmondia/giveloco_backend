@@ -7,6 +7,7 @@ require 'support/auth'
 require 'support/front_end'
 require 'support/capybara_helpers'
 require 'support/pages/main'
+require 'support/pages/create_sponsorship_modal'
 require 'capybara/rails'
 
 Capybara.default_driver = :selenium
@@ -50,6 +51,7 @@ RSpec.configure do |config|
   include Support::CapybaraHelpers
   include Support::FrontEnd
   include Support::Pages::Main
+  include Support::Pages::CreateSponsorshipModal
   include Support::Auth
 
 
