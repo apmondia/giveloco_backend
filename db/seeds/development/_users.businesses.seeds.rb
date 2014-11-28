@@ -23,6 +23,7 @@
                 u.is_featured = [true, false].sample
                 u.is_published = [true, false].sample
                 u.is_activated = true
+                u.access_code = 1234
                 u.confirmed_at = DateTime.now
                 u.skip_confirmation!
                 u.skip_confirmation_notification!
