@@ -1,6 +1,6 @@
 source 'https://code.stripe.com'
 source 'https://rubygems.org'
-ruby '2.1.4'
+#ruby '2.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
@@ -15,7 +15,9 @@ gem 'omniauth-stripe-connect'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'premailer-rails'
+#gem 'roadie-rails'
+gem 'premailer'
+#gem 'actionmailer_inline_css'
 
 gem 'cancan'
 
@@ -63,7 +65,7 @@ group :development, :test do
 	gem 'better_errors'
 	# Acceptance test framework
 	gem 'capybara', '~> 2.4.4'
-  	gem 'capybara-angular'
+	gem 'capybara-angular'
 
 	gem 'poltergeist'
 	# Tool for writing automated tests for websites
