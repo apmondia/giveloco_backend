@@ -65,7 +65,7 @@ group :development, :test do
 	gem 'better_errors'
 	# Acceptance test framework
 	gem 'capybara', '~> 2.4.4'
-	gem 'capybara-angular'
+#	gem 'capybara-angular'
 
 	gem 'poltergeist'
 	# Tool for writing automated tests for websites
@@ -78,9 +78,9 @@ group :development, :test do
 	# Strategies for cleaning databases in Ruby.
 	gem 'database_cleaner'
 
-  	# gem 'sqlite3'
-
 end
+
+gem 'sqlite3'
 
 group :production do
 	# Makes running your Rails app easier. https://github.com/heroku/rails_12factor

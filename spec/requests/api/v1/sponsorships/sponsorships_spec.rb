@@ -111,12 +111,14 @@ describe V1::Sponsorships::SponsorshipsController do
       end
 
       it 'should allow causes to accept sponsorships' do
+        pending 'Sponsorship automation'
         put "/v1/sponsorships/#{@s.id}/resolve", { :status => Sponsorship.statuses[:accepted] }, auth_session(@cause)
         expect(Sponsorship.find(@s.id).accepted?).to eq(true)
         expect_admin_email_with_subject("Sponsorship Accepted")
       end
 
       it 'should allow causes to cancel sponsorships' do
+        pending 'Sponsorship automation'
         put "/v1/sponsorships/#{@s.id}/resolve", { :status => Sponsorship.statuses[:cancelled] }, auth_session(@cause)
         expect(Sponsorship.find(@s.id).cancelled?).to eq(true)
         expect_admin_email_with_subject("Sponsorship Cancelled")

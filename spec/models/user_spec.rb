@@ -2,6 +2,13 @@ require 'rails_helper'
 
 describe User do
 
+  it 'should create an authentication token' do
+
+    b = create(:business)
+    expect(b.authentication_token).to_not eq(true)
+
+  end
+
   it 'should automatically publish a business if the profile is complete' do
 
     b = create(:business)

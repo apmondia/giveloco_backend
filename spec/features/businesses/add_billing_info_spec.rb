@@ -20,10 +20,7 @@ describe 'As a business I want to enter my stripe banking information' do
     expect(page).to have_content('Development Mode')
     click_link 'Skip this account form'
     expect(page).to have_content('Connecting your Stripe account...')
-    old_wait_time = set_wait_time_to(10)
     expect(page).to have_content('Your Stripe account has been connected')
-    set_wait_time_to old_wait_time
-
   end
 
 end

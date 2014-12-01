@@ -16,11 +16,11 @@ describe 'As a cause I want to sign up' do
     fill_in :last_name, :with => 'Bob'
     fill_in :email, :with => 'bob_fake_email@fakefake.com'
     fill_in :password, :with => 'password'
+    find('label[for="cause-registration-terms"]').click
+
     find('form button[type="submit"]').click
-    old_wait_time = set_wait_time_to 10
     expect(page).to have_content('You have successfully registered')
     expect(page).to have_content('Freedom Org')
-    set_wait_time_to old_wait_time
 
   end
 

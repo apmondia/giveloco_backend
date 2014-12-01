@@ -1,19 +1,19 @@
 class User::RegistrationsController < Devise::RegistrationsController
-	before_filter :configure_permitted_parameters
+	#before_filter :configure_permitted_parameters
 	respond_to :json
 
 	def create
-		@user = User.new(create_user_params)
+		@user = User.create(create_user_params)
 
-		if @user.save
-			token = @user.ensure_authentication_token
+		if @user.errors.empty?
+      data = {
+          auth_token: @user.authentication_token,
+          success: true,
+          info: "Account Created",
+          uid: @user.id
+      }
 			render 	status: 201,
-					json: { 
-				auth_token: token,
-				success: true,
-				info: "Account Created",
-				uid: @user.id
-			}
+					json: data
 			return
 		else
 			render nothing: true, status: 422
@@ -57,7 +57,10 @@ class User::RegistrationsController < Devise::RegistrationsController
 	protected
 
 	def create_user_params
-		params.require(:user).permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
+		params.require(:user).permit(:role, :email, :password, :first_name, :last_name,
+                                 :company_name, :phone,
+                                 :street_address, :city, :state, :country, :zip,
+                                 :summary, :description, :website, :profile_picture, :mailing_list_opt_in, :agree_to_tc, :tag_list)
 	end
 
 	def change_password_params

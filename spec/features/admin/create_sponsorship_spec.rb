@@ -21,10 +21,7 @@ describe 'As an admin I want to create a sponsorship' do
     click_typeahead_cause
     fill_in :'donation-percentage', :with => 24
     find('form button[type="submit"]').click
-
-    old_timeout = set_wait_time_to 10
     expect(page).to have_content('A new Sponsorship was successfully created!')
-    set_wait_time_to old_timeout
 
   end
 

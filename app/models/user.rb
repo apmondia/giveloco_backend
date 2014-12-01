@@ -23,17 +23,18 @@ class User < ActiveRecord::Base
 	attr_accessor :disable_admin
 	validate :cannot_set_role_to_admin, :unless => :disable_admin
 
-  validate :agreed_to_tc
+  validate :agree_to_tc, :acceptance => true
 
+  before_create :set_authentication_token
 	before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
 
-  def agreed_to_tc
-    if self.individual? && !self.agree_to_tc
-      errors.add(:agree_to_tc, "You must agree to the Terms and Conditions")
-    end
-  end
+  # def agreed_to_tc
+  #   if self.individual? && !self.agree_to_tc
+  #     errors.add(:agree_to_tc, "You must agree to the Terms and Conditions")
+  #   end
+  # end
 
 	def cannot_set_role_to_admin
 		if self.role_changed? && self.role == :admin
@@ -58,6 +59,8 @@ class User < ActiveRecord::Base
     end
     true
   end
+
+
 
   def automatically_publish_business_if_profile_complete
     if  !self.access_code.blank? &&
@@ -249,12 +252,15 @@ class User < ActiveRecord::Base
 	# 	User Authentication
 	# =======================================================================
 	# Ensure the user has an auth token (used for user authentication)
-	def ensure_authentication_token
+	def set_authentication_token
 		self.authentication_token = generate_authentication_token
-		self.save!
-		self.authentication_token
-	end
+  end
 
+  def ensure_authentication_token
+    set_authentication_token
+    save!
+    self.authentication_token
+  end
 
 	private
 	# =======================================================================

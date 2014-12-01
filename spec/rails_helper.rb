@@ -53,7 +53,6 @@ RSpec.configure do |config|
   include Support::Pages::Main
   include Support::Pages::CreateSponsorshipModal
   include Support::Auth
-  #include Capybara::Angular::DSL
 
   config.before(:each) do
     ActionMailer::Base.deliveries.clear
