@@ -22,10 +22,9 @@ describe 'As an admin I want to create a sponsorship' do
     fill_in :'donation-percentage', :with => 24
     find('form button[type="submit"]').click
 
-    expect(page).to_not have_content('Create a Sponsorship')
+    old_timeout = set_wait_time_to 10
     expect(page).to have_content('A new Sponsorship was successfully created!')
-    # expect(page).to have_content(@business.company_name)
-    # expect(page).to have_content(24)
+    set_wait_time_to old_timeout
 
   end
 

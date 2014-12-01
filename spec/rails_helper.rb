@@ -9,13 +9,13 @@ require 'support/capybara_helpers'
 require 'support/pages/main'
 require 'support/pages/create_sponsorship_modal'
 require 'capybara/rails'
+require 'capybara/poltergeist'
 
 Capybara.default_driver = :selenium
+#Capybara.default_driver = :poltergeist
 
 Capybara.server_port = 6999
 Capybara.app_host = 'http://localhost:4999'
-# Use Poltergeist for headless testing.  Gem not included.
-#Capybara.default_driver = :poltergeist
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -53,7 +53,7 @@ RSpec.configure do |config|
   include Support::Pages::Main
   include Support::Pages::CreateSponsorshipModal
   include Support::Auth
-
+  #include Capybara::Angular::DSL
 
   config.before(:each) do
     ActionMailer::Base.deliveries.clear

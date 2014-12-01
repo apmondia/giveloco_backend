@@ -22,9 +22,11 @@ describe 'As a business I want to sign up' do
 
     find('form button[type="submit"]').click
 
+    old_timeout = set_wait_time_to 10
     expect(page).to_not have_content('went wrong')
     expect(page).to have_content('You have success')
     expect(page).to have_content("Account Details")
+    set_wait_time_to old_timeout
 
   end
 

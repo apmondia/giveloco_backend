@@ -12,6 +12,8 @@ FactoryGirl.define do
 
     access_code '1234'
 
+    agree_to_tc true
+
     factory :admin do
       disable_admin true
       role :admin

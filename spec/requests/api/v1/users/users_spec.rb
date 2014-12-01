@@ -182,6 +182,8 @@ describe V1::Users::UsersController do
               :first_name => 'Bob',
               :last_name => 'Odenkirk',
               :email => 'testman@fake.com',
+              :mailing_list_opt_in => true,
+              :agree_to_tc => true,
               :certificates_attributes => [{
                   :sponsorship_id => @s.id,
                   :amount => "20",
@@ -191,8 +193,11 @@ describe V1::Users::UsersController do
       }
 
       expect(response.status).to eq(201)
+      last_user = User.last
       last_mail = ActionMailer::Base.deliveries.last
       # users don't have account anymore.
+      expect(last_user.email).to eq('testman@fake.com')
+      expect(last_user.mailing_list_opt_in).to eq(true)
       expect(last_mail.to).to_not eq(['testman@fake.com'])
 
     end

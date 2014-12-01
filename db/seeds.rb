@@ -13,6 +13,7 @@ admin = User.create do |u|
     u.last_name = "Admin"
     u.email = "admin@taliflo.com"
     u.password = "password"
+    u.agree_to_tc = true
     u.company_name = "Taliflo Inc."
     u.website = "http://www.taliflo.com"
     u.street_address = nil

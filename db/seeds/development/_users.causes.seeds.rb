@@ -12,6 +12,7 @@
                 u.password = "password"
                 u.phone = Faker::Base.numerify('(604)###-####')
                 u.street_address = Faker::Address.street_address
+                u.agree_to_tc = true
                 u.city = Faker::Address.city
                 u.state = Faker::Address.state_abbr
                 u.country = ["Canada", "United States"].shuffle[0]

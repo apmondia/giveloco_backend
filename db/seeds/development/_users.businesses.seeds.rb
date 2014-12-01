@@ -10,6 +10,7 @@
                 u.company_name = company
                 u.email = email
                 u.password = "password"
+                u.agree_to_tc = true
                 u.phone = Faker::Base.numerify('(604)###-####')
                 u.street_address = Faker::Address.street_address
                 u.city = Faker::Address.city

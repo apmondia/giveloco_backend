@@ -29,3 +29,8 @@ config/secrets.yml
 # Ignore application configuration
 /config/application.yml
 app_(old_version)
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

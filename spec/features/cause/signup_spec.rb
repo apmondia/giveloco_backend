@@ -9,7 +9,7 @@ describe 'As a cause I want to sign up' do
   it 'should allow a cause to sign up' do
 
     visit '/'
-    click_link 'Sign Up'
+    find('#footer-sign-up').click
     click_link 'Cause'
     fill_in :company, :with => 'Freedom Org'
     fill_in :first_name, :with => 'Bill'

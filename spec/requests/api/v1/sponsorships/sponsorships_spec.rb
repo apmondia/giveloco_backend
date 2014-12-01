@@ -27,16 +27,6 @@ describe V1::Sponsorships::SponsorshipsController do
       expect(json.length).to eq(1)
     end
 
-    it 'should not allow a random user to access the sponsorships' do
-      get '/v1/sponsorships', {}, {}
-      expect(response.status).to eq(401)
-    end
-
-    it 'should not allow a logged in user (yet) from accessing the sponsorships' do
-      get '/v1/sponsorships', {}, auth_session(@business)
-      expect(response.status).to eq(403)
-    end
-
   end
 
   describe 'POST /v1/sponsorships' do

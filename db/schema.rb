@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.string   "phone"
     t.string   "city"
     t.string   "state"
-    t.string   "country"
+    t.string   "country",                                               default: "Canada"
     t.string   "zip"
     t.boolean  "global_redeem",                                         default: false
     t.text     "summary"
@@ -105,6 +105,8 @@ ActiveRecord::Schema.define(version: 20141113061241) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.boolean  "mailing_list_opt_in",                                   default: false
+    t.boolean  "agree_to_tc",                                           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"

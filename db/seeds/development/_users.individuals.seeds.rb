@@ -7,6 +7,7 @@
                 u.first_name = Faker::Name.first_name
                 u.last_name = Faker::Name.last_name
                 u.email = email
+                u.agree_to_tc = true
                 u.password = "password"
                 u.confirmed_at = DateTime.now
                 u.skip_confirmation!

@@ -23,15 +23,23 @@ class User < ActiveRecord::Base
 	attr_accessor :disable_admin
 	validate :cannot_set_role_to_admin, :unless => :disable_admin
 
-	before_save :generate_password
+  validate :agreed_to_tc
 
+	before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
+
+  def agreed_to_tc
+    if self.individual? && !self.agree_to_tc
+      errors.add(:agree_to_tc, "You must agree to the Terms and Conditions")
+    end
+  end
 
 	def cannot_set_role_to_admin
 		if self.role_changed? && self.role == :admin
 			errors.add(:role, "You cannot change your role to admin.")
-		end
+    end
+    true
 	end
 
 	def has_stripe_connect

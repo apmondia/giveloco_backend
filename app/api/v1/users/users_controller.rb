@@ -138,7 +138,9 @@ class V1::Users::UsersController < V1::Base
       desc 'Purchases a new gift certificate for an anonymous user'
       post do
         user = User.create!(
-            safe_params(params).require(:newUser).permit(:email, :first_name, :last_name, :certificates_attributes => [:sponsorship_id, :amount, :stripeToken])
+            safe_params(params).require(:newUser)
+            .permit(:email, :first_name, :last_name, :mailing_list_opt_in, :agree_to_tc,
+                    :certificates_attributes => [:sponsorship_id, :amount, :stripeToken])
         )
         user
       end

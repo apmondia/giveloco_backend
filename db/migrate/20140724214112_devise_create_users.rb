@@ -17,7 +17,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string  :phone
       t.string  :city
       t.string  :state
-      t.string  :country
+      t.string  :country, :default => 'Canada'
       t.string  :zip
       t.boolean :global_redeem, default: false # Gift certificates can be redeemed at all of a business' locations
 
@@ -64,6 +64,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.datetime :confirmed_at
       t.datetime :confirmation_sent_at
       t.string   :unconfirmed_email # Only if using reconfirmable
+
+      t.boolean :mailing_list_opt_in, :default => false
+      t.boolean :agree_to_tc, :default => false
 
       ## Lockable
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts

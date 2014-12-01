@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     put '/user/:id/change_password' => 'user/registrations#change_password'
   end
 
+  if Rails.env.development?
+    get '/mail/certificate' => 'mail_test#certificate'
+  end
+
   root 'welcome#index'
   mount API::Root => '/'
 
