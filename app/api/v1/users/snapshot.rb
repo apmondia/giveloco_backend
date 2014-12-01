@@ -4,6 +4,7 @@ module V1
       expose :id, :documentation => {:type => "integer", :desc => "The numeric id of the user"}
       expose :role, :documentation => {:type => "string", :desc => "The user's type"}
       expose :company_name
+      expose :summary
 
       with_options(if: {:type => 'authorized'}) do
         expose :email, :documentation => {:type => "string", :desc => "The email address of the user"}
