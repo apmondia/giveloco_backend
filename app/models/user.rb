@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
 								:medium => ["260x192#", :jpeg], 
 								:thumb => ["100x100#", :jpeg] 
 							},
-              :default_url => "/images/default.png"
+              :default_url => "/images/users/default.png"
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	# end
