@@ -1,15 +1,124 @@
 <html>
     <head>
       <style>
-        p {
-            color: grey;
-        }
+            .card {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem;
+                box-sizing: border-box;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .left {
+                float: left;
+            }
+            .right {
+                float: right;
+            }
+
+              .left.logo {
+                  text-align: center;
+
+              }
+
+              .lucida {
+                  font-family: 'Lucida Grande', 'lucida console', 'sans-serif';
+                  font-weight: bold;
+              }
+
+              .address {
+                  text-transform: uppercase;
+                  font-size: 12px;
+              }
+
+              .left.logo img {
+                  max-width: 300px;
+                  max-height: 140px;
+              }
+              h1 {
+                  font-family: 'Lucida Grande', 'lucida console', 'sans-serif';
+                  font-size: 64px;
+                  font-weight: 100;
+                  margin-bottom: 0;
+                  margin-top: 0;
+              }
+            h2 {
+                clear: both;
+                font-family: 'Monaco', 'sans-serif';
+                font-size: 48px;
+                text-align: center;
+                font-weight: 100;
+            }
+              .card {
+                  background-color: rgba(255, 174, 66, 0.23);
+              }
+            .cause {
+                color: #19A89D;
+                font-size: 14px;
+                font-family: 'Lucida Grande', 'lucida console', 'sans-serif';
+                font-weight: bold;
+            }
+            .cause img {
+                display: block;
+                float: left;
+            }
+            .cause p {
+                display: block;
+                float: left;
+                margin: 0;
+            }
+              .clearfix {
+                  clear: both;
+              }
+            .taliflo img {
+                width: 122px;
+            }
+              .fineprint {
+                  width: 70%;
+                  font-size: 12px;
+              }
+              .fineprint p {
+                  margin: 0;
+              }
       </style>
     </head>
     <body>
-        <h1>Sponsorship Accepted</h1>
-        <p>
-            This is the body of the email
-        </p>
+        <div class="card">
+            <div class="left logo">
+              <% biz = @certificate.sponsorship.business %>
+              <div>
+                <%= image_tag biz.profile_picture.url %>
+              </div>
+              <p class="address lucida">
+                <%= biz.street_address %> <br />
+                <%= biz.city %>, <%= biz.state %><br />
+                <%= biz.zip %>, <%= biz.country %><br />
+              </p>
+            </div>
+            <div class="right">
+              <h1>$<%= @certificate.amount.to_i %> Value</h1>
+              <div class="cause">
+                <%= image_tag 'money_icon.png' %>
+                <p>
+                    $<%= @certificate.donated_amount %> was donated to: <br />
+                    <%= @certificate.sponsorship.cause.company_name %>
+                </p>
+              </div>
+            </div>
+          <div class="clearfix"></div>
+            <h2><%= @certificate.redemption_code %></h2>
+            <div class="left fineprint lucida">
+              <p>
+                Redeeming this certificate is the sole responsibility of <%= @certificate.sponsorship.business.company_name %>.
+                Visit <a href="http://taliflo.com">Taliflo.com</a> for Terms and Conditions.
+              </p>
+            </div>
+            <div class="right taliflo">
+              <%= image_tag 'small_teal_trademarked_logo.png' %>
+            </div>
+          <div class="clearfix"></div>
+        </div>
+
     </body>
 </html>

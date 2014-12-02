@@ -171,9 +171,10 @@ describe V1::Users::UsersController do
     it 'should allow an anonymous user to purchase a certificate' do
 
       expect(StripeCharge).to receive(:call).with({
-          :amount => BigDecimal.new(20*100),
+          :amount => 2000,
           :card => 'stripeToken',
-          :application_fee => BigDecimal.new( 100 + (@s.donation_percentage * 20.0) ),
+          :application_fee => (@s.donation_percentage * 20.0).to_i,
+          :description => "Gift Certificate for #{@s.business.company_name}",
           :access_token => @s.business.access_code
                                                   })
 
@@ -194,6 +195,7 @@ describe V1::Users::UsersController do
 
       expect(response.status).to eq(201)
       last_user = User.last
+      expect(last_user.certificates).to_not be_empty
       last_mail = ActionMailer::Base.deliveries.last
       # users don't have account anymore.
       expect(last_user.email).to eq('testman@fake.com')

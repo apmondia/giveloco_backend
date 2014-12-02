@@ -16,6 +16,10 @@ module Support
       expect(page).to have_content("You have successfully logged in")
       find('button.close').click
     end
+    def logout(user)
+      click_link "Hi, #{user.first_name}"
+      click_link 'Log Out'
+    end
   end
 
 end

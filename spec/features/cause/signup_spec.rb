@@ -18,7 +18,8 @@ describe 'As a cause I want to sign up' do
     fill_in :password, :with => 'password'
     find('label[for="cause-registration-terms"]').click
 
-    find('form button[type="submit"]').click
+    expect(page).to_not have_css('#cause-sign-up[disabled="disabled"]')
+    find_button('Sign Up').click
     expect(page).to have_content('You have successfully registered')
     expect(page).to have_content('Freedom Org')
 

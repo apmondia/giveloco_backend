@@ -32,14 +32,20 @@ class Certificate < ActiveRecord::Base
     self.donation_percentage = sponsorship.donation_percentage
   end
 
+  def donated_amount
+    "#{format("%.2f", (amount * donation_percentage / 100.0) )}"
+  end
+
+  def donated_amount_in_cents
+    (amount * donation_percentage).to_i
+  end
+
   def execute_charge
-    cause_fee = amount * donation_percentage #total donation in cents
-    taliflo_fee = 100 # ?????
-    total_fee = cause_fee + taliflo_fee
     StripeCharge.call(
-                      :amount => (amount * 100),
+                      :amount => (amount * 100).to_i,
                       :card => stripeToken,
-                      :application_fee => total_fee,
+                      :application_fee => donated_amount_in_cents,
+                      :description => "Gift Certificate for #{sponsorship.business.company_name}",
                       :access_token => sponsorship.business.access_code
                       )
   end

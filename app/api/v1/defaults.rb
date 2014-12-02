@@ -40,6 +40,6 @@ end
 # Custom formatting to display "pretty" JSON data
 module PrettyJSON
   def self.call(object, env)
-    JSON.pretty_generate(JSON.parse(object.to_json))
+    JSON.pretty_generate(JSON.parse(object.to_json)) if object
   end
 end

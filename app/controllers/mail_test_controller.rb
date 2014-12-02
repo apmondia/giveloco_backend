@@ -1,7 +1,8 @@
 class MailTestController < ApplicationController
 
+  #GET params id
   def certificate
-    email = TalifloMailer.certificate_purchase()
+    email = TalifloMailer.certificate_purchase( Certificate.find(params[:id]))
     render_email email
   end
 

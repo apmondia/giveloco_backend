@@ -13,7 +13,8 @@ describe Certificate do
       expect(StripeCharge).to receive(:call).with({
           :amount => 20*100,
           :card => 'stripeToken',
-          :application_fee => (100 + (@s.donation_percentage * 20)),
+          :description => "Gift Certificate for #{@s.business.company_name}",
+          :application_fee => (@s.donation_percentage * 20).to_i,
           :access_token => '1234'
                                                   })
 

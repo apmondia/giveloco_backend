@@ -8,17 +8,22 @@ class TalifloMailer < ActionMailer::Base
   def sponsorship_accepted_admin_notification(sponsorship)
     @sponsorship = sponsorship
     @admin = admin
-    premailer mail(:to => @admin.email, :subject => "Sponsorship Accepted")
+    mail(:to => @admin.email, :subject => "Sponsorship Accepted") do |format|
+      prerender(format, 'sponsorship_accepted_admin_notification')
+    end
   end
 
   def sponsorship_cancelled_admin_notification(sponsorship)
     @sponsorship = sponsorship
     @admin = admin
-    premailer mail(:to => @admin.email, :subject => 'Sponsorship Cancelled')
+    mail(:to => @admin.email, :subject => 'Sponsorship Cancelled') do |format|
+      prerender(format, 'sponsorship_cancelled_admin_notification')
+    end
   end
 
-  def certificate_purchase
-    mail(:to => 'testalsdkfjasd@alsdfkjasd.com', :subject => 'Your Gift Certificate') do |format|
+  def certificate_purchase(certificate)
+    @certificate = certificate
+    mail(:to => certificate.purchaser.email, :subject => 'Gift Certificate') do |format|
       prerender(format, 'certificate_purchase')
     end
   end

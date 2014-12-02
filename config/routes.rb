@@ -16,8 +16,8 @@ Rails.application.routes.draw do
     put '/user/:id/change_password' => 'user/registrations#change_password'
   end
 
-  if Rails.env.development?
-    get '/mail/certificate' => 'mail_test#certificate'
+  if Rails.env.development? || Rails.env.test?
+    get '/mail/certificate/:id' => 'mail_test#certificate', :as => :mail_certificate
   end
 
   root 'welcome#index'

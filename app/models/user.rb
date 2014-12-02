@@ -30,12 +30,6 @@ class User < ActiveRecord::Base
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
 
-  # def agreed_to_tc
-  #   if self.individual? && !self.agree_to_tc
-  #     errors.add(:agree_to_tc, "You must agree to the Terms and Conditions")
-  #   end
-  # end
-
 	def cannot_set_role_to_admin
 		if self.role_changed? && self.role == :admin
 			errors.add(:role, "You cannot change your role to admin.")
@@ -142,37 +136,28 @@ class User < ActiveRecord::Base
 	########################################################################
 	# =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
 	########################################################################
-	if Rails.env.local?
+	# if Rails.env.local?
+	# 	has_attached_file 	:profile_picture,
+	# 						:styles => {
+	# 							:medium => ["260x192#", :jpeg],
+	# 							:thumb => ["100x100#", :jpeg]
+	# 						},
+	# 						:use_timestamp => false,
+	# 						:default_url => "/images/default.png",
+	# 						:path => "/public/system/:attachment/:class/:id/:style/:filename",
+	# 						:url => "/system/:attachment/:class/:id/:style/:filename"
+	#     validates_attachment :profile_picture,
+	# 		:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
+	# else
 		has_attached_file 	:profile_picture, 
 							:styles => {
 								:medium => ["260x192#", :jpeg], 
 								:thumb => ["100x100#", :jpeg] 
 							},
-							:use_timestamp => false,
-							:default_url => "",
-							:path => "/public/system/:attachment/:class/:id/:style/:filename",
-							:url => "/system/:attachment/:class/:id/:style/:filename"
+              :default_url => "/images/default.png"
 	    validates_attachment :profile_picture,
 			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	elsif Rails.env.development?
-		has_attached_file 	:profile_picture, 
-							:styles => {
-								:medium => ["260x192#", :jpeg], 
-								:thumb => ["100x100#", :jpeg] 
-							},
-							:default_url => ""
-	    validates_attachment :profile_picture,
-			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	else
-		has_attached_file 	:profile_picture,
-							:styles => {
-								:medium => ["260x192#", :jpeg], 
-								:thumb => ["100x100#", :jpeg] 
-							},
-							:default_url => ""
-	    validates_attachment :profile_picture,
-			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	end
+	# end
 	########################################################################
 
 	# =======================================================================

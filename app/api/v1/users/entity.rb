@@ -19,6 +19,7 @@ module V1
 				end
 			end
 
+      expose :publishable_key
 			expose :phone, :documentation => {:type => "string", :desc => "The phone number for the business or cause"}
 			expose :company_name, :documentation => {:type => "string", :desc => "The user's Business or Cause Name"}
 			expose :street_address, :documentation => {:type => "string", :desc => "The user's Address"}

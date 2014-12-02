@@ -14,7 +14,6 @@ class User::RegistrationsController < Devise::RegistrationsController
       }
 			render 	status: 201,
 					json: data
-			return
 		else
 			render nothing: true, status: 422
 		end
