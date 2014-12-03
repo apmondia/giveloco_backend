@@ -21,8 +21,14 @@ describe 'As a business I want to sign up' do
     find('label[for="business-registration-terms"]').click
 
     find('form button[type="submit"]').click
-    expect(page).to have_css('.alert-success')
+    expect(page).to have_css('.alert-success', :wait => 4)
     expect(page).to have_content('Apple Inc.')
+
+    confirmation_link = expect_confirmation_email('test@afseijf.com')
+
+    visit confirmation_link
+    expect(page).to have_content('Apple Inc.')
+
   end
 
 end

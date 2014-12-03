@@ -102,4 +102,6 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = "api.taliflo.com"
 
+  config.front_end_base_url = ENV['FRONT_END_BASE_URL']
+
 end

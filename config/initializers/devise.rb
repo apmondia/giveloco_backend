@@ -232,8 +232,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :stripe_connect,
-                  ENV['STRIPE_APP_CLIENT_ID'] || 'ca_5CxcTXvWWjcC06sYJRP1mDNypRZHjaSM',
-                  ENV['STRIPE_SECRET_KEY'] || 'sk_test_Z0cbu6Jx5FeoPj217bEBLm5J',
+                  Rails.application.config.stripe_client_id,  # ENV['STRIPE_APP_CLIENT_ID'] || 'ca_5CxcTXvWWjcC06sYJRP1mDNypRZHjaSM',
+                  Rails.application.config.stripe_secret_key, # ENV['STRIPE_SECRET_KEY'] || 'sk_test_Z0cbu6Jx5FeoPj217bEBLm5J',
                   :scope => 'read_write',
                   :stripe_landing => 'register'
 

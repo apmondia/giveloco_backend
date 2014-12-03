@@ -17,11 +17,11 @@ class User::ConfirmationsController < Devise::ConfirmationsController
 	protected
 	# Redirect to FRONT_END_BASE_URL on confirmation
 	def after_confirmation_path_for(resource_name, resource)
-      if signed_in?(resource_name)
-		ENV["FRONT_END_BASE_URL"]
-      else
-      	ENV["FRONT_END_BASE_URL"] + 'user/login'
-      end
+    if signed_in?(resource_name)
+      Rails.application.config.front_end_base_url
+    else
+      Rails.application.config.front_end_base_url + '/user/login'
     end
+  end
 
 end

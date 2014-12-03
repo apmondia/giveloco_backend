@@ -68,5 +68,8 @@ module ApiBase
       end
     end
 
+    config.stripe_client_id = ENV['STRIPE_APP_CLIENT_ID'] || 'ca_5CxcTXvWWjcC06sYJRP1mDNypRZHjaSM'
+    config.stripe_secret_key = ENV['STRIPE_SECRET_KEY'] || 'sk_test_Z0cbu6Jx5FeoPj217bEBLm5J'
+
   end
 end
