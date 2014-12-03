@@ -200,7 +200,7 @@ describe V1::Users::UsersController do
       # users don't have account anymore.
       expect(last_user.email).to eq('testman@fake.com')
       expect(last_user.mailing_list_opt_in).to eq(true)
-      expect(last_mail.to).to_not eq(['testman@fake.com'])
+      expect(last_mail.to).to eq(['testman@fake.com'])
 
     end
 

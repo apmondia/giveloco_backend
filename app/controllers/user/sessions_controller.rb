@@ -14,8 +14,7 @@ class User::SessionsController < Devise::SessionsController
 				auth_token: token,
 				success: true,
 				info: "Logged in",
-				uid: user.id,
-				cid: user.customer_id,
+				id: user.id,
 				role: user.role
 			}
 		else

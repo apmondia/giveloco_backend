@@ -8,9 +8,10 @@ class User::RegistrationsController < Devise::RegistrationsController
 		if @user.errors.empty?
       data = {
           auth_token: @user.authentication_token,
+          id: @user.id,
+          role: @user.role,
           success: true,
-          info: "Account Created",
-          uid: @user.id
+          info: "Account Created"
       }
 			render 	status: 201,
 					json: data

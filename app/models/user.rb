@@ -132,32 +132,18 @@ class User < ActiveRecord::Base
 		where("connection.trans_type = 'donation'", true)
 	end
 
-
 	########################################################################
 	# =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
 	########################################################################
-	# if Rails.env.local?
-	# 	has_attached_file 	:profile_picture,
-	# 						:styles => {
-	# 							:medium => ["260x192#", :jpeg],
-	# 							:thumb => ["100x100#", :jpeg]
-	# 						},
-	# 						:use_timestamp => false,
-	# 						:default_url => "/images/default.png",
-	# 						:path => "/public/system/:attachment/:class/:id/:style/:filename",
-	# 						:url => "/system/:attachment/:class/:id/:style/:filename"
-	#     validates_attachment :profile_picture,
-	# 		:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	# else
-		has_attached_file 	:profile_picture, 
-							:styles => {
-								:medium => ["260x192#", :jpeg], 
-								:thumb => ["100x100#", :jpeg] 
-							},
-              :default_url => "/images/users/default.png"
-	    validates_attachment :profile_picture,
-			:content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
-	# end
+  has_attached_file 	:profile_picture,
+            :styles => {
+              :medium => ["260x192#", :jpeg],
+              :thumb => ["100x100#", :jpeg]
+            },
+            #:convert_options => { :all => '-quality 99' },
+            :default_url => "/images/users/default.png"
+    validates_attachment :profile_picture,
+    :content_type => { :content_type => ["image/jpeg", "image/gif", "image/png"] }
 	########################################################################
 
 	# =======================================================================

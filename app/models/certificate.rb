@@ -20,6 +20,7 @@ class Certificate < ActiveRecord::Base
 
   before_create :copy_donation_percentage
   before_create :execute_charge, :unless => :disable_charge
+  before_create :send_certificate, :unless => :disable_charge
   before_create :generate_redemption_code
 
   def business_has_access_code
@@ -48,6 +49,10 @@ class Certificate < ActiveRecord::Base
                       :description => "Gift Certificate for #{sponsorship.business.company_name}",
                       :access_token => sponsorship.business.access_code
                       )
+  end
+
+  def send_certificate
+    TalifloMailer.certificate_purchase(self).deliver
   end
 
   def generate_redemption_code

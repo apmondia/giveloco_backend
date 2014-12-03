@@ -36,7 +36,7 @@ describe 'As a user I want to purchase a gift certificate' do
 
     mail = ActionMailer::Base.deliveries.last
     expect(mail).to be
-    expect(mail.to).to eq('bobdole@superfake.com')
+    expect(mail.to).to eq(['bobdole@superfake.com'])
 
   end
 
