@@ -20,12 +20,13 @@ describe 'As a cause I want to sign up' do
 
     expect(page).to_not have_css('#cause-sign-up[disabled="disabled"]')
     find_button('Sign Up').click
-    expect(page).to have_content('You have successfully registered', :wait => 4)
+    expect(page).to have_content("We've sent you a confirmation email.  Activate your account with the embedded link.", :wait => 5)
     expect(page).to have_content('Freedom Org')
 
     confirmation_link = expect_confirmation_email('bob_fake_email@fakefake.com')
 
     visit confirmation_link
+    expect(page).to have_content('Your account was successfully confirmed.')
     expect(page).to have_content('Freedom Org')
 
   end

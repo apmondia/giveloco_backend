@@ -20,13 +20,14 @@ describe 'As a business I want to sign up' do
     fill_in :password, :with => 'password'
     find('label[for="business-registration-terms"]').click
 
-    find('form button[type="submit"]').click
-    expect(page).to have_css('.alert-success', :wait => 4)
+    find_button('Sign Up').click
+    expect(page).to have_content("We've sent you a confirmation email.  Activate your account with the embedded link.", :wait => 5)
     expect(page).to have_content('Apple Inc.')
 
     confirmation_link = expect_confirmation_email('test@afseijf.com')
 
     visit confirmation_link
+    expect(page).to have_content('Your account was successfully confirmed.')
     expect(page).to have_content('Apple Inc.')
 
   end
