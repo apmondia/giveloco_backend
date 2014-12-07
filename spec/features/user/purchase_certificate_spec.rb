@@ -14,7 +14,7 @@ describe 'As a user I want to purchase a gift certificate' do
     stripe_connect(@b)
 
     visit '/'
-    click_link 'View Gift Certificates'
+    click_link 'Explore'
     expect(page).to_not have_content(@b2.company_name)
     click_link @b.company_name
     click_link 'Buy a Gift Certificate'
@@ -32,7 +32,7 @@ describe 'As a user I want to purchase a gift certificate' do
     expect(page).to have_content('Customer Details')
     find('label[for="agree_to_tc"]').click
     click_link_or_button 'Confirm Purchase'
-    expect(page).to have_content('Your transaction was completed successfully!')
+    expect(page).to have_content('Your transaction was completed successfully!', :wait => 4)
 
     mail = ActionMailer::Base.deliveries.last
     expect(mail).to be

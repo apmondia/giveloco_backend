@@ -84,6 +84,29 @@
       </style>
     </head>
     <body>
+        <div>
+          <p>
+            Success! <%= @certificate.sponsorship.cause.company_name %> just received a donation of $<%= @certificate.donated_amount %> as a result of your purchase.
+            Way to support your community.
+          </p>
+          <p>
+            You now have a gift certificate to <%= @certificate.sponsorship.business.company_name %> worth $<%= @certificate.purchase_amount %>.
+            Just show this gift certificate next time you shop at this business.
+          </p>
+          <p>
+          Know of some businesses you’d like to see on our platform? Send us an email with your
+          suggestions to community@taliflo.com . Together, we can make this community of giving grow.
+          </p>
+          <p>
+            All the best from the team here at Taliflo!
+          </p>
+          <p>
+            Taliflo Team
+          </p>
+          <p>
+            Because investing in community is good business
+          </p>
+        </div>
         <div class="card">
             <div class="left logo">
               <% biz = @certificate.sponsorship.business %>
