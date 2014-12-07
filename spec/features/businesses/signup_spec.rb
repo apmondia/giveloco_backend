@@ -28,7 +28,7 @@ describe 'As a business I want to sign up' do
 
     visit confirmation_link
     expect(page).to have_content('Your account was successfully confirmed.')
-    expect(page).to have_content('Apple Inc.')
+    expect(page).to have_content("Hi, Bob")
 
   end
 

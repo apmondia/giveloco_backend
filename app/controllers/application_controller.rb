@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
 			sign_in user, store: false
 		end
   end
+
+  def after_sign_in_path_for(resource_or_scope)
+    if request.env['omniauth.origin']
+      request.env['omniauth.origin']
+    end
+  end
   #
   # def after_sign_in_path_for(user)
   #   "#{Rails.application.config.client_options[:host]}/user/#{@user.id}/account/billing-info"

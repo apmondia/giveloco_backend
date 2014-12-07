@@ -16,8 +16,7 @@ module Support
         find('#stripe-connect').click
         expect(page).to have_content('Development Mode')
         click_link 'Skip this account form'
-        expect(page).to have_content('Connecting your Stripe account...')
-        expect(page).to have_content('Your Stripe account has been connected', :wait => 4)
+        expect(page).to have_content('Your account has been connected to Stripe', :wait => 4)
         logout(business)
       end
     end

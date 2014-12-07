@@ -42,7 +42,8 @@ class User < ActiveRecord::Base
 	end
 
 	def stripe_user_omniauth_authorize_path
-		Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect)
+    Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect,
+                                                                      :redirect_uri => Rails.application.routes.url_helpers.user_omniauth_callback_url(:stripe_connect))
 	end
 
 	def generate_password
