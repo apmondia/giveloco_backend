@@ -1,5 +1,7 @@
 class V1::Users::UsersController < V1::Base
 
+  logger = Rails.logger
+
 	resource :users do
 
 	    desc "Return complete list of users"
@@ -141,7 +143,15 @@ class V1::Users::UsersController < V1::Base
           .require(:newUser)
           .permit(:email, :first_name, :last_name, :mailing_list_opt_in, :agree_to_tc,
                 { :certificates_attributes => [:sponsorship_id, :amount, :stripeToken] })
-        user = User.create!(_params)
+        logger.info("Creating a new gift certificate: #{_params.to_json}")
+        begin
+          user = User.create!(_params)
+        rescue Exception => e
+          logger.error("There was an error: #{e}")
+          logger.error(e)
+          raise e
+        end
+        logger.info("Successfully created a new certificate with id #{user.certificates.first.id}")
         user
       end
     end
