@@ -72,6 +72,7 @@ class V1::Users::UsersController < V1::Base
 			optional :description
 			optional :website
 			optional :tag_list
+      optional :twitter
 		end
 		put ':id' do
 			authenticate!
@@ -83,7 +84,7 @@ class V1::Users::UsersController < V1::Base
                                                       :first_name, :last_name,
                                                       :company_name, :phone,
                                                       :street_address, :city, :state, :country, :zip,
-                                                      :summary, :description, :website,
+                                                      :summary, :description, :website, :twitter,
                                                       (:is_activated if current_user.admin?),
                                                       tag_list: []].compact )
 

@@ -31,6 +31,7 @@ module V1
 			expose :summary, :documentation => {:type => "text", :desc => "A tweet-length summary description of the business/cause"}
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}
+      expose :twitter
 
 			expose :has_stripe_connect
 			expose :stripe_user_omniauth_authorize_path
