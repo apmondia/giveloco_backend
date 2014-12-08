@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
 
 	def stripe_user_omniauth_authorize_path
     Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect,
+                                                                      :'stripe_user[email]' => self.email,
                                                                       :redirect_uri => Rails.application.routes.url_helpers.user_omniauth_callback_url(:stripe_connect))
 	end
 

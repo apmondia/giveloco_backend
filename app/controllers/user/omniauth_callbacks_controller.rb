@@ -5,7 +5,8 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   include UserAuth
 
   def stripe_connect
-    @user = get_current_user
+    account = Stripe::Account.retrieve(request.env["omniauth.auth"].credentials.token)
+    @user = User.find_by_email(account['email'])
     if @user.update_attributes({
                                    provider: request.env["omniauth.auth"].provider,
                                    uid: request.env["omniauth.auth"].uid,
