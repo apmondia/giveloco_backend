@@ -80,10 +80,10 @@ class User < ActiveRecord::Base
   end
 
   def automatically_publish_business_if_profile_complete
-    if  !self.access_code.blank? &&
-        !self.description.blank? &&
+    if  !self.description.blank? &&
         !self.summary.blank? &&
         !self.causes.empty?
+        # && !self.access_code.blank?
         self.is_published = true
     else
       self.is_published = false

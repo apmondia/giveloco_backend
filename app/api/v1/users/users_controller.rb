@@ -4,8 +4,8 @@ class V1::Users::UsersController < V1::Base
 
 	resource :users do
 
-	    desc "Return complete list of users"
-	    get do
+    desc "Return complete list of users"
+    get do
 			@users = User.all
 			if is_admin
 				present @users, with: V1::Users::Entity, type: 'authorized'
@@ -17,29 +17,29 @@ class V1::Users::UsersController < V1::Base
 	# =======================================================================
 	# 	Return lists of users by role
 	# =======================================================================
-	    desc "Return list of causes"
-	    get 'role/cause' do
-			@causes = User.where("role = 'cause'")
-			present @causes, with: V1::Users::Entity
-	    end
+    desc "Return list of causes"
+    get 'role/cause' do
+      @causes = User.where("role = 'cause'")
+      present @causes, with: V1::Users::Entity
+    end
 
-	    desc "Return list of businesses"
-	    get 'role/business' do
-			@businesses = User.where(:role => 'business', :is_published => true)
-			present @businesses, with: V1::Users::Entity
-	    end
+    desc "Return list of businesses"
+    get 'role/business' do
+      @businesses = User.where(:role => 'business', :is_published => true)
+      present @businesses, with: V1::Users::Entity
+    end
 
-	    desc "Return list of individuals"
-	    get 'role/individual' do
-			@individuals = User.where("role = 'individual'")
-			present @individuals, with: V1::Users::Entity
-	    end
+    desc "Return list of individuals"
+    get 'role/individual' do
+      @individuals = User.where("role = 'individual'")
+      present @individuals, with: V1::Users::Entity
+    end
 
 	# =======================================================================
 	# 	Get single user (requires authentication)
 	# =======================================================================
-	    desc "Return a single user"
-	    get ':id' do
+    desc "Return a single user"
+    get ':id' do
 	    	# authenticate!
 			@user = User.find(params[:id])
 			if (is_authenticated && can?(:read, @user)) || is_admin

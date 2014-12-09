@@ -24,9 +24,9 @@ describe User do
     expect(User.find(@b.id).is_published).to eq(false)
   end
 
-  it 'should unpublish businesses that have no banking info' do
+  it 'should ignore banking info' do
     @b.update_attributes({:access_code => nil})
-    expect(@b.is_published).to eq(false)
+    expect(@b.is_published).to eq(true)
     @b.update_attributes({:access_code => '1234'})
     expect(@b.is_published).to eq(true)
   end
