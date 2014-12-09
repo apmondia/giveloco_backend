@@ -8,12 +8,12 @@ class User < ActiveRecord::Base
 
 	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
 
-	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy
-	has_many :causes, :through => :sponsorships, :source => :cause
+	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :business
+	has_many :causes, -> { where :is_published => true }, :through => :sponsorships, :source => :cause
   has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
 
-	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy
-	has_many :businesses, :through => :sponsors
+	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :cause
+	has_many :businesses,  -> { where :is_published => true }, :through => :sponsors
   has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
   accepts_nested_attributes_for :certificates
@@ -25,10 +25,23 @@ class User < ActiveRecord::Base
 
   validate :agree_to_tc, :acceptance => true
 
+
   before_create :set_authentication_token
-	before_save :generate_password
+  before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
+ # after_touch :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
+  after_save :update_sponsors_if_unpublished, :if => 'cause?'
+
+  def update_sponsors_if_unpublished
+    if self.is_published_changed? && !self.is_published
+      self.businesses.each do |b|
+        b.automatically_publish_business_if_profile_complete
+        b.save
+      end
+    end
+    true
+  end
 
 	def cannot_set_role_to_admin
 		if self.role_changed? && self.role == :admin
@@ -56,13 +69,21 @@ class User < ActiveRecord::Base
     true
   end
 
-
+  def has_sponsorship_for_published_cause
+    result = false
+    self.causes.each do |c|
+      if c.is_published
+        result = true
+      end
+    end
+    result
+  end
 
   def automatically_publish_business_if_profile_complete
     if  !self.access_code.blank? &&
         !self.description.blank? &&
         !self.summary.blank? &&
-        !self.is_published
+        !self.causes.empty?
         self.is_published = true
     else
       self.is_published = false
@@ -72,8 +93,7 @@ class User < ActiveRecord::Base
 
   def automatically_publish_cause_if_profile_complete
     if !self.description.blank? &&
-        !self.summary.blank? &&
-        !self.is_published
+        !self.summary.blank?
       self.is_published = true
     else
       self.is_published = false

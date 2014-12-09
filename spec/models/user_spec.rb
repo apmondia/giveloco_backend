@@ -2,22 +2,33 @@ require 'rails_helper'
 
 describe User do
 
-  it 'should create an authentication token' do
-
-    b = create(:business)
-    expect(b.authentication_token).to_not eq(true)
-
+  before(:each) do
+    @b = create(:business)
+    @c = create(:cause)
+    @s = create(:sponsorship, :business => @b, :cause => @c)
   end
 
-  it 'should automatically publish a business if the profile is complete' do
-
+  it 'should create an authentication token' do
     b = create(:business)
-    expect(b.is_published).to eq(true)
+    expect(b.authentication_token).to be
+  end
 
-    b.access_code = nil
-    b.save!
-    expect(b.is_published).to eq(false)
+  it 'should publish businesses and causes if their profile is complete' do
+    expect(@b.is_published).to eq(true)
+    expect(@c.is_published).to eq(true)
+  end
 
+  it 'should unpublish businesses that have no sponsorships' do
+    @c.update_attributes(:description => nil)
+    expect(@c.is_published).to eq(false)
+    expect(User.find(@b.id).is_published).to eq(false)
+  end
+
+  it 'should unpublish businesses that have no banking info' do
+    @b.update_attributes({:access_code => nil})
+    expect(@b.is_published).to eq(false)
+    @b.update_attributes({:access_code => '1234'})
+    expect(@b.is_published).to eq(true)
   end
 
   it 'should automatically publish a cause if the profile is complete' do
@@ -28,6 +39,14 @@ describe User do
     c.description = ""
     c.save!
     expect(c.is_published).to eq(false)
+
+    c2 = create(:cause)
+    c2.description = ""
+    c2.save!
+    expect(c2.is_published).to eq(false)
+
+    c2.update_attributes({:description => 'Foobar'})
+    expect(c2.is_published).to eq(true)
 
   end
 

@@ -25,7 +25,7 @@ class V1::Users::UsersController < V1::Base
 
 	    desc "Return list of businesses"
 	    get 'role/business' do
-			@businesses = User.where("role = 'business'")
+			@businesses = User.where(:role => 'business', :is_published => true)
 			present @businesses, with: V1::Users::Entity
 	    end
 

@@ -10,8 +10,6 @@ FactoryGirl.define do
     password 'password'
     password_confirmation 'password'
 
-    access_code '1234'
-
     agree_to_tc true
 
     factory :admin do
@@ -30,6 +28,7 @@ FactoryGirl.define do
 
     factory :business do
       role :business
+      access_code '1234'
       sequence(:company_name) { |n|
         "Business#{n}"
       }

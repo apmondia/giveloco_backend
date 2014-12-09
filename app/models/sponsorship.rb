@@ -22,7 +22,7 @@ class Sponsorship < ActiveRecord::Base
   has_many :certificates
 
   before_create :force_accept
-  before_create :set_is_activated_true
+  after_create :set_is_activated_true
   after_destroy :check_is_activated
 
   def set_is_activated_true
