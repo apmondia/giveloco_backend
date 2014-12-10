@@ -12,6 +12,8 @@ describe 'As an admin I want to create a sponsorship' do
 
     login(@admin)
     expect(page).to have_content(@admin.first_name)
+    click_profile_menu
+    click_link 'Dashboard'
     click_link 'Sponsorships'
     expect(page).to have_content('Total Sponsorships')
     find("#create-sponsorship-button").click
