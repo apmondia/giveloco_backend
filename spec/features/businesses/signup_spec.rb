@@ -13,7 +13,7 @@ describe 'As a business I want to sign up' do
     visit '/'
     find("#footer-sign-up").click
 
-    fill_in :company, :with => 'Apple Inc.'
+    fill_in :company, :with => "Apple's Inc."
     fill_in :first_name, :with => 'Bob'
     fill_in :last_name, :with => 'Sapphire'
     fill_in :email, :with => 'test@afseijf.com'
@@ -22,7 +22,7 @@ describe 'As a business I want to sign up' do
 
     find_button('Sign Up').click
     expect(page).to have_content("We've sent you a confirmation email.  Activate your account with the embedded link.", :wait => 5)
-    expect(page).to have_content('Apple Inc.')
+    expect(page).to have_content("Apple's Inc.")
 
     confirmation_link = expect_confirmation_email('test@afseijf.com')
 
