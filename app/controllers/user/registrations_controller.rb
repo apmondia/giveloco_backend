@@ -16,7 +16,9 @@ class User::RegistrationsController < Devise::RegistrationsController
 			render 	status: 201,
 					json: data
 		else
-			render nothing: true, status: 422
+			render json: {
+          :errors => @user.errors.full_messages
+      }, status: 422
 		end
 	end
 

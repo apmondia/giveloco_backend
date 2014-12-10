@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 
   validate :agree_to_tc, :acceptance => true
 
+  validates :company_name, :uniqueness => true
+  validates :email, :uniqueness => true
 
   before_create :set_authentication_token
   before_save :generate_password
