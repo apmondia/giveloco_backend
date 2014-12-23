@@ -17,11 +17,12 @@ FactoryGirl.define do
       role :admin
     end
 
+    sequence(:company_name) { |n|
+      "CompanyName#{n}"
+    }
+
     factory :cause do
       role :cause
-      sequence(:company_name) { |n|
-        "Cause#{n}"
-      }
       description "I am a cause"
       summary "I"
     end
@@ -29,9 +30,6 @@ FactoryGirl.define do
     factory :business do
       role :business
       access_code '1234'
-      sequence(:company_name) { |n|
-        "Business#{n}"
-      }
       description "I make money as a business"
       summary "Make money"
     end

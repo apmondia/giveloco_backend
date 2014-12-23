@@ -99,7 +99,7 @@ describe V1::Users::UsersController do
     end
 
     it 'should not allow another user to check a users certificates' do
-      get "/v1/users/#{@u.id}/certificates", {}, auth_session(create(:user))
+      get "/v1/users/#{@u.id}/certificates", {}, auth_session(create(:business))
       expect( response.status ).to eq(403)
     end
 
