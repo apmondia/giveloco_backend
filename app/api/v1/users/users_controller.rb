@@ -117,10 +117,16 @@ class V1::Users::UsersController < V1::Base
 
 				@user.update_attributes(upload_picture_params)
 				@user.profile_picture = ActionDispatch::Http::UploadedFile.new(attachment)
-				@user.save!
+				@user.save
 			end
 
-			present @user, with: V1::Users::Entity
+      if @user.errors.empty?
+			  present @user, with: V1::Users::Entity
+      else
+        status 422
+        present @user.errors, with: V1::Errors
+      end
+
 		end
 
 	# =======================================================================
