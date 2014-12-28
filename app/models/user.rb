@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
 
   validate :agree_to_tc, :acceptance => true
 
-  validates :company_name, :uniqueness => true
+  validates_presence_of :company_name, :if => 'cause? || business?'
+  validates_uniqueness_of :company_name, :if => 'cause? || business?'
   validates :email, :uniqueness => true
 
   before_create :set_authentication_token

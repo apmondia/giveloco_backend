@@ -10,6 +10,7 @@
                 u.agree_to_tc = true
                 u.password = "password"
                 u.confirmed_at = DateTime.now
+                #u.company_name = "#{Faker::Name.name} Inc."
                 u.skip_confirmation!
                 u.skip_confirmation_notification!
                 u.save!

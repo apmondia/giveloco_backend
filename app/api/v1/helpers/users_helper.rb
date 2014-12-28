@@ -32,9 +32,9 @@ module V1::Helpers::UsersHelper
 	end
 
   # Authenticate user by auth_token and request header
-  # can pass :user_id to ensure the user is either admin or that user.
 	def authenticate!
 		error!('Unauthorized', 401) if !is_authenticated
+    @request_user
 	end
 
 	def is_authenticated

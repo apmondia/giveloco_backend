@@ -3,7 +3,6 @@ require 'premailer'
 class TalifloMailer < ActionMailer::Base
 
   self.asset_host = nil
-  default from: 'admin@taliflo.com'
 
   def sponsorship_accepted_admin_notification(sponsorship)
     @sponsorship = sponsorship

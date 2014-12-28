@@ -4,6 +4,15 @@ class V1::Users::UsersController < V1::Base
 
 	resource :users do
 
+    resource :confirmations do
+      desc "Resend the confirmation email"
+      post do
+        user = authenticate!
+        user.send_confirmation_instructions
+        present user, :with => V1::Users::Entity
+      end
+    end
+
     desc "Return complete list of users"
     get do
 			@users = User.all

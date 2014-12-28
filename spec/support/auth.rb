@@ -23,7 +23,7 @@ module Support
       fill_in :email, :with => user.email
       fill_in :password, :with => user.password
       find('form button[type="submit"]').click
-      #expect(page).to have_content(user.first_name)
+      expect(page).to have_content(user.first_name)
       expect(page).to have_content("You have successfully logged in")
       find('button.close').click
     end
