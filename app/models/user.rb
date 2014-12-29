@@ -162,8 +162,8 @@ class User < ActiveRecord::Base
 	########################################################################
   has_attached_file 	:profile_picture,
             :styles => {
-              :medium => ["260x192#", :png],
-              :thumb => ["100x100#", :png]
+              :medium => ["260x192#", :jpeg],
+              :thumb => ["100x100#", :jpeg]
             },
             #:convert_options => { :all => '-quality 99' },
             :default_url => "/images/users/default.png"
