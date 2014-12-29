@@ -227,6 +227,27 @@ describe V1::Users::UsersController do
 
   end
 
+  describe 'PUT /v1/users/:id' do
+
+    before(:each) do
+      @b = create(:business)
+    end
+
+    it 'should allow the business to change passwords' do
+
+      put "/v1/users/#{@b.id}", {
+          :id => @b.id,
+          :user => {
+              :current_password => 'password',
+              :password => 'testtest',
+              :password_confirmation => 'testtest'
+          }
+      }, auth_session(@b)
+
+    end
+
+  end
+
   describe '/v1/users/:id/sponsors/certificates' do
 
     before(:each) do

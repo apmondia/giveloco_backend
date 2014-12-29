@@ -8,6 +8,10 @@ module Support
         click_profile_menu
         click_link 'My Profile'
       end
+      def open_my_account
+        click_profile_menu
+        click_link 'My Account'
+      end
       def stripe_connect(business)
         login(business)
         click_profile_menu
