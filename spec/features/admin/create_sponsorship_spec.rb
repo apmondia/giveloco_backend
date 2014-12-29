@@ -24,6 +24,7 @@ describe 'As an admin I want to create a sponsorship' do
     fill_in :'donation-percentage', :with => 24
     find('form button[type="submit"]').click
     expect(page).to have_content('A new Sponsorship was successfully created!')
+    expect(page).to have_content(@cause.company_name)
 
   end
 
