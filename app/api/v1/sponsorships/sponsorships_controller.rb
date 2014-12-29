@@ -32,7 +32,7 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       authenticate!
       create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id, :donation_percentage)
       sponsorship = Sponsorship.new(create_sponsorship_params)
-      can_or_die :read, sponsorship
+      can_or_die :create, sponsorship
       sponsorship.save!
       sponsorship
     end

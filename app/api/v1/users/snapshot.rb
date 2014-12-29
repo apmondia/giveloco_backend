@@ -4,6 +4,14 @@ module V1
       expose :id, :documentation => {:type => "integer", :desc => "The numeric id of the user"}
       expose :role, :documentation => {:type => "string", :desc => "The user's type"}
       expose :company_name
+      expose :images do
+        expose :profile_picture do
+          expose :original,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+          expose :medium,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+          expose :thumb,  :documentation => {:type => "attachment", :desc => "The URL for the user's profile picture"}
+        end
+      end
+      expose :summary
 
       with_options(if: {:type => 'authorized'}) do
         expose :email, :documentation => {:type => "string", :desc => "The email address of the user"}

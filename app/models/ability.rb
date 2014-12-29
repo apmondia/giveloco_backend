@@ -6,7 +6,10 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      cannot :manage, Sponsorship
+      can :read, Sponsorship
+      cannot :create, Sponsorship
+      cannot :destroy, Sponsorship
+      cannot :update, Sponsorship
     end
 
     if params[:id].to_i == user.id
