@@ -20,6 +20,14 @@ class TalifloMailer < ActionMailer::Base
     end
   end
 
+  def sponsorship_request(business, cause)
+    @business = business
+    @cause = cause
+    mail(:to => Rails.application.config.community_email, :subject => "#{business.company_name} sponsoring #{cause.company_name}") do |format|
+      prerender(format, 'sponsorship_request')
+    end
+  end
+
   def certificate_purchase(certificate)
     @certificate = certificate
     mail(:to => certificate.purchaser.email, :subject => 'Gift Certificate') do |format|

@@ -45,4 +45,6 @@ Rails.application.configure do
 
   config.front_end_base_url = 'http://localhost:4999'
 
+  config.community_email = 'test_community@taliflo.com'
+
 end

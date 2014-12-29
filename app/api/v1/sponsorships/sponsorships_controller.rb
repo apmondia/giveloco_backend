@@ -22,6 +22,20 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       end
     end
 
+    desc 'Request a sponsorship'
+    post '/requests' do
+      @cause = User.find(params[:cause_id])
+      if is_authenticated && @request_user.business?
+        TalifloMailer.sponsorship_request(@request_user, @cause).deliver
+        status 200
+        {
+            message: "Ok"
+        }
+      else
+        status 422
+      end
+    end
+
     desc 'Create a new sponsorship'
     params do
       requires :business_id, :type => Integer, :desc => 'Business'

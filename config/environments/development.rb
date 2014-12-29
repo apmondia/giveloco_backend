@@ -61,5 +61,6 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = "localhost:3000"
 
   config.front_end_base_url = 'http://localhost:5000'
+  config.community_email = 'community@taliflo.com'
 
 end
