@@ -29,6 +29,19 @@ describe V1::Sponsorships::SponsorshipsController do
 
   end
 
+  describe 'DELETE /v1/sponsorships' do
+
+    before(:each) do
+      @s = create(:sponsorship)
+    end
+
+    it 'should work' do
+      delete "/v1/sponsorships/#{@s.id}", {}, auth_session(@admin)
+      expect(response.status).to eq(200)
+    end
+
+  end
+
   describe 'POST /v1/sponsorships' do
 
     let(:post_params) {
