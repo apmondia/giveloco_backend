@@ -10,13 +10,13 @@ describe 'Change Password' do
   it 'should work' do
 
     open_my_account
-    click_link 'Change Password'
+    click_link 'Account Settings'
     fill_in :currentPassword, :with => 'password'
     fill_in :newPassword, :with => 'testtest'
     fill_in :confirmPassword, :with => 'testtest'
-    click_link_or_button 'Update Password'
+    click_link_or_button 'Update'
 
-    expect(page).to have_content("Your password")
+    expect(page).to have_content("Your account has been updated")
 
     click_profile_menu
     click_link 'Log Out'
@@ -24,7 +24,6 @@ describe 'Change Password' do
     fill_in :email, :with => @b.email
     fill_in :password, :with => 'testtest'
     click_button "Log In"
-
 
     expect(page).to_not have_content("Unable to log")
 

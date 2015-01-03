@@ -1,5 +1,5 @@
 class User::RegistrationsController < Devise::RegistrationsController
-	#before_filter :configure_permitted_parameters
+	before_filter :configure_permitted_parameters
 	respond_to :json
 
 	def create
@@ -35,7 +35,18 @@ class User::RegistrationsController < Devise::RegistrationsController
 			render nothing: true, status: 422
 		end
 	end
-	 
+
+  # PUT /resource
+  # We need to use a copy of the resource because we don't want to change
+  # the current user in place.
+  def update
+    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+    super
+  end
+
 	# Signs in a user on sign up.
 	def sign_up(resource_name, resource)
 		sign_in(resource_name, resource)
@@ -70,11 +81,8 @@ class User::RegistrationsController < Devise::RegistrationsController
 	end
 	
 	def configure_permitted_parameters
-		devise_parameter_sanitizer.for(:sign_up) do |u|
-		  u.permit(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
-		end
-		devise_parameter_sanitizer.for(:account_update) do |u|
-		  u.permit(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
-		end
-	end
+		devise_parameter_sanitizer.for(:sign_up).push(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
+		devise_parameter_sanitizer.for(:account_update).push(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
+  end
+
 end

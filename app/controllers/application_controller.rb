@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  	protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format.json? }
+  protect_from_forgery with: :null_session, if: Proc.new {
+      |c| c.request.format.json?
+  }
 	respond_to :json
 
 	before_filter :make_action_mailer_use_request_host_and_protocol
@@ -19,8 +21,11 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource_or_scope)
     if request.env['omniauth.origin']
       request.env['omniauth.origin']
+    else
+      "#{Rails.application.config.front_end_base_url}/dashboard"
     end
   end
+
   #
   # def after_sign_in_path_for(user)
   #   "#{Rails.application.config.client_options[:host]}/user/#{@user.id}/account/billing-info"

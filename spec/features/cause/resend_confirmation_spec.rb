@@ -14,6 +14,7 @@ describe 'As a cause I want resend my confirmation instructions' do
 
   it 'should work' do
     goto_my_account
+    click_link 'Account Settings'
     click_link 'Resend Instructions'
     expect(ActionMailer::Base.deliveries).to_not be_empty
     message = ActionMailer::Base.deliveries.last
