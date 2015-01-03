@@ -21,6 +21,9 @@ describe 'As a cause I want to edit my profile' do
     fill_in :userStreetAddress, :with => '1234 Evergreen Terrace'
     fill_in :userCity, :with => 'Moncton'
     fill_in :userDescription, :with => 'This is a large company'
+    click_link 'Causes'
+    expect(page).to have_content('You have unsaved changes')
+    click_link_or_button 'Cancel'
     click_link_or_button 'Save Changes'
     expect(page).to have_content('Your account information was successfully updated')
     expect(page).to have_content('Edit Profile')
