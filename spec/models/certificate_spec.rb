@@ -14,7 +14,7 @@ describe Certificate do
           :amount => 20*100,
           :card => 'stripeToken',
           :description => "Gift Certificate for #{@s.business.company_name}",
-          :application_fee => (@s.donation_percentage * 20).to_i,
+          :application_fee => (@s.business.sponsorship_rate * 20).to_i,
           :access_token => '1234'
                                                   })
 

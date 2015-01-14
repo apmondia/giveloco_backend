@@ -1,9 +1,13 @@
 module Support
   module Auth
     def auth_session(user)
-      {
-          V1::Helpers::UsersHelper::SESSION_TOKEN_HEADER => user.authentication_token
-      }
+      if user
+        {
+            V1::Helpers::UsersHelper::SESSION_TOKEN_HEADER => user.authentication_token
+        }
+      else
+        {}
+      end
     end
 
     def expect_confirmation_email(recipient)

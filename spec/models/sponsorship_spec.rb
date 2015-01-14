@@ -11,7 +11,6 @@ RSpec.describe Sponsorship, :type => :model do
     end
 
     it 'the association should create' do
-      expect(@s.status).to eq('accepted') #we are always accepting while Tony can create
       expect(User.find(@business.id).causes).to include(@cause)
       expect(User.find(@cause.id).businesses).to include(@business)
     end
@@ -21,7 +20,7 @@ RSpec.describe Sponsorship, :type => :model do
       expect(@business.causes.size).to eq(4)
     end
 
-    it 'should allow the user to destroy a business' do
+    it 'destroying a business will destroy the sponsorships' do
       @business.destroy
       expect( User.find(@cause.id).businesses).to be_empty
     end

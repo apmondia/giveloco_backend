@@ -22,31 +22,19 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       end
     end
 
-    desc 'Request a sponsorship'
-    post '/requests' do
-      @cause = User.find(params[:cause_id])
-      if is_authenticated && @request_user.business?
-        TalifloMailer.sponsorship_request(@request_user, @cause).deliver
-        status 200
-        {
-            message: "Ok"
-        }
-      else
-        status 422
-      end
-    end
-
     desc 'Create a new sponsorship'
     params do
       requires :business_id, :type => Integer, :desc => 'Business'
       requires :cause_id, :type => Integer, :desc => 'Cause'
-      requires :donation_percentage, :type => BigDecimal, :desc => "Investment Rate"
     end
     post do
       authenticate!
-      create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id, :donation_percentage)
+      create_sponsorship_params = safe_params(params).permit(:business_id, :cause_id)
       sponsorship = Sponsorship.new(create_sponsorship_params)
       can_or_die :create, sponsorship
+      if @request_user.business?
+        TalifloMailer.sponsorship_request(sponsorship.business, sponsorship.cause).deliver
+      end
       sponsorship.save!
       sponsorship
     end
@@ -69,7 +57,7 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
       resource '/resolve' do
         desc 'Accept a sponsorship'
         params do
-          requires :status, :type => Integer, :desc => '1 == accepted or 2 == cancelled'
+          requires :status, :desc => '1 == accepted or 2 == cancelled'
         end
         put do
           authenticate!

@@ -7,18 +7,18 @@ describe 'As the admin I want to view all sponsorships' do
   before(:each) do
     assert_front_end_up
     @admin = create(:admin)
-    @s = create(:sponsorship)
+    @s = create(:sponsorship, :status => :accepted)
+    @s2 = create(:sponsorship, :status => :pending)
   end
 
   it 'should display all sponsorships' do
 
     login(@admin)
-    click_profile_menu
-    click_link 'Dashboard'
-    expect(page).to have_content('Sponsorships')
-    click_link 'Sponsorships'
+    open_sponsorships
     expect(page).to have_content(@s.id)
-    expect(page).to have_content(@s.donation_percentage)
+    expect(page).to have_content('accepted')
+    expect(page).to have_content('pending')
+    expect(page).to have_content(@s2.id)
 
   end
 

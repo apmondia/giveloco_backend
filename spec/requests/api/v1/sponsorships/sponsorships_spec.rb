@@ -47,8 +47,7 @@ describe V1::Sponsorships::SponsorshipsController do
     let(:post_params) {
       {
           :business_id => @business.id,
-          :cause_id => @cause.id,
-          :donation_percentage => 99.9
+          :cause_id => @cause.id
       }
     }
 
@@ -57,28 +56,24 @@ describe V1::Sponsorships::SponsorshipsController do
     end
 
     it 'should not allow a business to request a sponsorship' do
-      pending 'sponsorship automation'
       create_list(:sponsorship, Sponsorship::MAX_FAILED_REQUESTS - 1, :business => @business)
       post_with_user(@business)
       expect( response.status ).to eq(201)
     end
 
     it 'should not allow a business to request a sponsorship while one is pending' do
-      pending 'sponsorship automation'
       s = create(:sponsorship, :business => @business, :cause => @cause)
       post_with_user(@business)
       expect( response.status ).to eq(422)
     end
 
     it 'should allow a business to re-request a sponsorship if the previous ones were cancelled' do
-      pending 'sponsorship automation'
       s = create(:sponsorship, :business => @business, :cause => @cause, :status => Sponsorship.statuses[:cancelled])
       post_with_user(@business)
       expect( response.status ).to eq(201)
     end
 
     it "should prevent a business from requesting sponsorship when it has been cancelled #{Sponsorship::MAX_FAILED_REQUESTS} times" do
-      pending 'sponsorship automation'
       s = create_list(:sponsorship, Sponsorship::MAX_FAILED_REQUESTS, :business => @business, :cause => @cause, :status => Sponsorship.statuses[:cancelled])
       post_with_user(@business)
       expect( response.status ).to eq(422)
@@ -91,7 +86,6 @@ describe V1::Sponsorships::SponsorshipsController do
       s = Sponsorship.last
       json = JSON.parse(response.body)
       expect( json['id'] ).to eq(s.id)
-      expect( json['donation_percentage']).to eq('99.9')
     end
 
     it 'should prevent anonymous sponsorship request' do
@@ -120,23 +114,45 @@ describe V1::Sponsorships::SponsorshipsController do
     describe 'PUT /v1/sponsorships/:id/resolve' do
 
       before(:each) do
-        @s = create(:sponsorship, :business => @business, :cause => @cause)
+        @s = create(:sponsorship, :business => @business, :cause => @cause, :status => :pending)
       end
 
-      it 'should allow causes to accept sponsorships' do
-        pending 'Sponsorship automation'
-        put "/v1/sponsorships/#{@s.id}/resolve", { :status => Sponsorship.statuses[:accepted] }, auth_session(@cause)
+      def resolve(sponsorship, status, user)
+        put "/v1/sponsorships/#{sponsorship.id}/resolve", { :status => status }, auth_session(user)
+      end
+
+      def cancel(sponsorship, user)
+        resolve(sponsorship, 'cancelled', user)
+      end
+
+      def accept(sponsorship, user)
+        resolve(sponsorship, 'accepted', user)
+      end
+
+      it 'should allow admins to accept sponsorships' do
+        accept(@s, @admin)
         expect(Sponsorship.find(@s.id).accepted?).to eq(true)
-        expect_admin_email_with_subject("Sponsorship Accepted")
       end
 
-      it 'should allow causes to cancel sponsorships' do
-        pending 'Sponsorship automation'
-        put "/v1/sponsorships/#{@s.id}/resolve", { :status => Sponsorship.statuses[:cancelled] }, auth_session(@cause)
+      it 'should allow admins to cancel sponsorships' do
+        cancel(@s, @admin)
         expect(Sponsorship.find(@s.id).cancelled?).to eq(true)
-        expect_admin_email_with_subject("Sponsorship Cancelled")
       end
 
+      it 'should not allow anyone to accept' do
+        accept(@s, nil)
+        expect(Sponsorship.find(@s.id).pending?).to eq(true)
+      end
+
+      it 'should not allow the business to accept' do
+        accept(@s, @s.business)
+        expect(Sponsorship.find(@s.id).pending?).to eq(true)
+      end
+
+      it 'should not allow the cause to accept' do
+        accept(@s, @s.cause)
+        expect(Sponsorship.find(@s.id).pending?).to eq(true)
+      end
 
 
     end

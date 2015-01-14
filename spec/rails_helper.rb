@@ -7,15 +7,18 @@ require 'support/auth'
 require 'support/front_end'
 require 'support/capybara_helpers'
 require 'support/pages/main'
+require 'support/pages/admin'
 require 'support/pages/create_sponsorship_modal'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 
-Capybara.default_driver = :selenium
-#Capybara.default_driver = :poltergeist
-
-Capybara.server_port = 6999
-Capybara.app_host = 'http://localhost:4999'
+Capybara.configure do |config|
+  config.run_server = true
+  config.default_driver = :selenium
+  #config.default_driver = :poltergeist
+  config.server_port = 6999
+  config.app_host = 'http://localhost:4999'
+end
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -51,6 +54,7 @@ RSpec.configure do |config|
   include Support::CapybaraHelpers
   include Support::FrontEnd
   include Support::Pages::Main
+  include Support::Pages::Admin
   include Support::Pages::CreateSponsorshipModal
   include Support::Auth
 

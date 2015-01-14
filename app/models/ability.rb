@@ -16,9 +16,7 @@ class Ability
       can [:read, :create], Certificate
     end
 
-    can :resolve, Sponsorship do |s|
-      s.cause.try(:id) == user.id
-    end
+    can :create, Sponsorship, :business_id => user.id
 
     can :redeem, Certificate if user.admin?
     can :redeem, Certificate do |certificate|

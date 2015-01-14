@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208172156) do
+ActiveRecord::Schema.define(version: 20150114020203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,8 +35,7 @@ ActiveRecord::Schema.define(version: 20141208172156) do
     t.integer  "business_id"
     t.integer  "cause_id"
     t.datetime "resolved_at"
-    t.integer  "status",                                      default: 0,   null: false
-    t.decimal  "donation_percentage", precision: 5, scale: 2, default: 0.0
+    t.integer  "status",      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,6 +114,7 @@ ActiveRecord::Schema.define(version: 20141208172156) do
     t.integer  "profile_picture_file_size"
     t.datetime "profile_picture_updated_at"
     t.string   "twitter"
+    t.decimal  "sponsorship_rate",             precision: 15, scale: 2, default: 10.0
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

@@ -14,9 +14,15 @@ describe 'As a business I want to request to sponsor a cause' do
     login(@b)
     click_link 'Causes'
     find(".grid-item a").click
-    click_link 'Sponsor This Cause'
+    click_link 'Request Sponsorship'
     click_button 'Send Request'
     expect(page).to have_content('Your request has been sent')
+
+    last = Sponsorship.last
+    expect(last).to be
+    expect(last.business).to eq(@b)
+    expect(last.cause).to eq(@c)
+    expect(last.pending?).to eq(true)
 
     expect(ActionMailer::Base.deliveries).to_not be_empty
     mail = ActionMailer::Base.deliveries.last

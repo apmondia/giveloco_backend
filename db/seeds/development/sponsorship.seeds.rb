@@ -11,8 +11,7 @@ after 'development:_users.businesses', 'development:_users.causes' do
     causes.each do |cause|
       sponsorship = Sponsorship.create({
                                            :business => business,
-                                           :cause => cause,
-                                           :donation_percentage => rand(1..50)
+                                           :cause => cause
                                        })
       if !sponsorship.valid?
         puts "Sponsorship is not valid: #{sponsorship.errors.full_messages}"

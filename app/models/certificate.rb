@@ -30,7 +30,7 @@ class Certificate < ActiveRecord::Base
   end
 
   def copy_donation_percentage
-    self.donation_percentage = sponsorship.donation_percentage
+    self.donation_percentage = sponsorship.business.sponsorship_rate
   end
 
   def donated_amount

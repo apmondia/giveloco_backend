@@ -173,7 +173,7 @@ describe V1::Users::UsersController do
       expect(StripeCharge).to receive(:call).with({
           :amount => 2000,
           :card => 'stripeToken',
-          :application_fee => (@s.donation_percentage * 20.0).to_i,
+          :application_fee => (@s.business.sponsorship_rate * 20.0).to_i,
           :description => "Gift Certificate for #{@s.business.company_name}",
           :access_token => @s.business.access_code
                                                   })
