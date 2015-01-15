@@ -101,7 +101,7 @@ describe V1::Sponsorships::SponsorshipsController do
     describe 'Exception scenarios' do
 
       it 'Should prevent the business from having more than 3 sponsorships' do
-
+        pending "limit on the number of sponsorships a business can have"
         create_list(:sponsorship, Sponsorship::MAX_SPONSORED_CAUSES, :business => @business)
         post '/v1/sponsorships', post_params, auth_session(@admin)
         expect( response.status ).to eq(422)

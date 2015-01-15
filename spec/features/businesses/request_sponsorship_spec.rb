@@ -17,6 +17,8 @@ describe 'As a business I want to request to sponsor a cause' do
     click_link 'Request Sponsorship'
     click_button 'Send Request'
     expect(page).to have_content('Your request has been sent')
+    expect(page).not_to have_content('Request Sponsorship')
+    expect(page).to have_content('Sponsorship Requested')
 
     last = Sponsorship.last
     expect(last).to be

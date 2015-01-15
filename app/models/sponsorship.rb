@@ -10,7 +10,7 @@ class Sponsorship < ActiveRecord::Base
   validate :is_business
   validate :no_current_pending_sponsorship
   validate :max_cancelled_requests
-  validate :max_sponsored_causes
+  # validate :max_sponsored_causes
 
   belongs_to :business, :class_name => User
   belongs_to :cause, :class_name => User
