@@ -82,7 +82,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 	
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.for(:sign_up).push(:role, :email, :password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
-		devise_parameter_sanitizer.for(:account_update).push(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, tag_list: [])
+		devise_parameter_sanitizer.for(:account_update).push(:email, :password, :password_confirmation, :current_password, :first_name, :last_name, :company_name, :phone, :street_address, :city, :state, :country, :zip, :summary, :description, :website, :profile_picture, :sponsorship_rate, tag_list: [])
   end
 
 end
