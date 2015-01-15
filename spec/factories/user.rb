@@ -44,6 +44,8 @@ FactoryGirl.define do
       user.skip_confirmation!
     end
 
+    sponsorship_rate '20'
+
   end
 
 end

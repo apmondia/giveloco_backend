@@ -21,7 +21,7 @@ describe 'As a user I want to purchase a gift certificate' do
     expect(page).to have_content(@s1.cause.company_name)
     find("label[data-sponsorship-id='#{@s1.id}']").click
     click_link 'Donate'
-    expect(page).to have_content('Customer Details')
+    expect(page).to have_content(Certificate.format_donated_amount(50, @b.sponsorship_rate) )
     fill_in :email, :with => email
     find('label[for="agree_to_tc"]').click
     click_link_or_button 'Confirm'

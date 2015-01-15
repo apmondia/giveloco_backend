@@ -41,7 +41,11 @@ class Certificate < ActiveRecord::Base
   end
 
   def donated_amount
-    "#{format("%.2f", (amount * donation_percentage / 100.0) )}"
+    format_donated_amount(amount, donation_percentage)
+  end
+
+  def self.format_donated_amount(amount, percentage)
+    "#{format("%.2f", (amount * percentage / 100.0) )}"
   end
 
   def purchase_amount
