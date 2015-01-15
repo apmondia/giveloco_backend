@@ -158,7 +158,7 @@ class V1::Users::UsersController < V1::Base
         _params = safe_params(params)
           .require(:newUser)
           .permit(:email, :first_name, :last_name, :mailing_list_opt_in, :agree_to_tc,
-                { :certificates_attributes => [:sponsorship_id, :amount, :stripeToken] })
+                { :certificates_attributes => [:sponsorship_id, :amount, :serial_number] })
         logger.info("Creating a new gift certificate: #{_params.to_json}")
         begin
           user = User.create!(_params)

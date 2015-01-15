@@ -7,7 +7,8 @@ FactoryGirl.define do
     donation_percentage "9.99"
     amount 9.99
     recipient "happyuser@fake.com"
-    stripeToken 'fakeStripeToken'
-    disable_charge true
+    sequence(:serial_number) do |n|
+      "#{n}-1234"
+    end
   end
 end

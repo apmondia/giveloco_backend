@@ -2,6 +2,14 @@ class V1::Certificates::CertificatesController < V1::Base
 
   resources :certificates do
 
+    desc 'Creates a new certificate'
+    post do
+      _params = safe_params(params)
+        .require(:certificate)
+          .permit(:serial_number, :recipient, :amount, :sponsorship_id)
+      @certificate = Certificate.create!(_params)
+    end
+
     resource '/redeem' do
       desc 'Allows the user to redeem the certificate if they are the business'
       params do

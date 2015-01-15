@@ -5,7 +5,7 @@ after 'development:sponsorship', 'development:_users.individuals' do
 
   Sponsorship.all.each do |sponsorship|
 
-    @num.times do
+    @num.times do |i|
 
       @purchaser = User.where(:role => 'individual').to_a.sample
 
@@ -15,8 +15,7 @@ after 'development:sponsorship', 'development:_users.individuals' do
           :amount => 20,
           :donation_percentage => 20,
           :recipient => @purchaser.email,
-          :disable_charge => true,
-          :stripeToken => '1234'
+          :serial_number => "#{i}-#{1000 + rand(1234)}"
       })
 
     end

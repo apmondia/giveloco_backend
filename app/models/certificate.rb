@@ -3,12 +3,14 @@ require 'securerandom'
 class Certificate < ActiveRecord::Base
   attr_accessor :disable_charge
 
+  validates_presence_of :serial_number
+  validates_uniqueness_of :serial_number
   validates_presence_of :purchaser, :sponsorship
   validates_numericality_of :amount, :greater_than => 0
+
   belongs_to :purchaser, :class_name => 'User'
   belongs_to :sponsorship
-  validates_presence_of :stripeToken, :on => :create
-  attr_accessor :stripeToken
+
   scope :for_business, -> (business) {
     joins(:sponsorship).where('sponsorships.business_id = ?', business.id)
   }
@@ -16,16 +18,21 @@ class Certificate < ActiveRecord::Base
     joins(:sponsorship).where('sponsorships.cause_id = ?', cause.id)
   }
 
-  validate :business_has_access_code
+  validate :business_is_published
+  validate :business_is_activated
 
   before_create :copy_donation_percentage
-  before_create :execute_charge, :unless => :disable_charge
-  before_create :send_certificate, :unless => :disable_charge
   before_create :generate_redemption_code
 
-  def business_has_access_code
-    if !sponsorship.business.access_code
-      errors.add(:business, "Must have connected their banking details")
+  def business_is_published
+    if !sponsorship.business.is_published
+      errors.add(:business, "Must be published")
+    end
+  end
+
+  def business_is_activated
+    if !sponsorship.business.is_activated
+      errors.add(:business, "Must be activated")
     end
   end
 
@@ -43,20 +50,6 @@ class Certificate < ActiveRecord::Base
 
   def donated_amount_in_cents
     (amount * donation_percentage).to_i
-  end
-
-  def execute_charge
-    StripeCharge.call(
-                      :amount => (amount * 100).to_i,
-                      :card => stripeToken,
-                      :application_fee => donated_amount_in_cents,
-                      :description => "Gift Certificate for #{sponsorship.business.company_name}",
-                      :access_token => sponsorship.business.access_code
-                      )
-  end
-
-  def send_certificate
-    TalifloMailer.certificate_purchase(self).deliver
   end
 
   def generate_redemption_code

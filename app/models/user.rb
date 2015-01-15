@@ -32,7 +32,6 @@ class User < ActiveRecord::Base
   before_create :set_authentication_token
   before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
- # after_touch :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
   after_save :update_sponsors_if_unpublished, :if => 'cause?'
 
@@ -86,7 +85,6 @@ class User < ActiveRecord::Base
     if  !self.description.blank? &&
         !self.summary.blank? &&
         !self.causes.empty?
-        # && !self.access_code.blank?
         self.is_published = true
     else
       self.is_published = false
