@@ -60,4 +60,12 @@ class Certificate < ActiveRecord::Base
     self.redemption_code = SecureRandom.hex.first(6).upcase
   end
 
+  comma do
+    created_at 'Date'
+    serial_number 'Serial Number'
+    sponsorship 'Cause' do |sponsorship| sponsorship.cause.company_name end
+    donation_percentage 'Sponsorship Rate'
+    amount 'Amount'
+  end
+
 end

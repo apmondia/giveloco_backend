@@ -213,6 +213,18 @@ describe V1::Users::UsersController do
       expect(response.status).to eq(401)
     end
 
+
+    describe '/csv' do
+      it 'should allow business to download their certificates as CSV files' do
+        get "#{@url}/csv", {}, auth_session(@b)
+        expect(response.status).to eq(200)
+        expect(response.content_type).to eq('text/csv')
+        expect(response.header['Content-Disposition']).to eq('attachment; filename=certificates.csv')
+        expect(response.body).to eq( @b.purchased_certificates.to_comma )
+      end
+    end
+
+
     it 'should not allow another user to view a businesses certificates' do
       get @url, {}, auth_session(@c1.sponsorship.cause)
       expect(response.status).to eq(403)

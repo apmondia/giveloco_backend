@@ -15,12 +15,16 @@ describe 'As a business I want a transaction history' do
     expect(page).to have_content(c.serial_number)
   end
 
-  it 'should allow the business to view the transaction history' do
-
+  def goto_certificates
     login(@b)
     click_profile_menu
     click_link 'Dashboard'
     click_link 'Certificates'
+  end
+
+  it 'should allow the business to view the transaction history' do
+
+    goto_certificates
     expect(page).to have_content('Certificates')
     expect_certificate_content(@c)
     expect_certificate_content(@c2)

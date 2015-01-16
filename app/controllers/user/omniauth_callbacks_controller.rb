@@ -2,7 +2,7 @@ require 'net/http'
 
 class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
-  include UserAuth
+  include V1::Helpers::UsersHelper
 
   def stripe_connect
     account = Stripe::Account.retrieve(request.env["omniauth.auth"].credentials.token)

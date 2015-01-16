@@ -1,5 +1,10 @@
 class V1::Users::UsersController < V1::Base
 
+  content_type :json, "application/json"
+  content_type :csv, "text/csv"
+
+  default_format :json
+
   logger = Rails.logger
 
 	resource :users do
@@ -203,6 +208,20 @@ class V1::Users::UsersController < V1::Base
             @certificates = @user.purchased_certificates
             present @certificates, :with => V1::Certificates::Entity
           end
+
+          resource '/csv' do
+            desc 'Returns a CSV of the certificates for this business'
+            get do
+              authenticate!
+              @user = User.find(params[:id])
+              env['api.format'] = :csv
+              can_or_die :read_purchased_certificates, @user
+              @certificates = @user.purchased_certificates
+              header 'Content-Disposition', 'attachment; filename=certificates.csv'
+              body @certificates.to_comma
+            end
+          end
+
         end
 
       end

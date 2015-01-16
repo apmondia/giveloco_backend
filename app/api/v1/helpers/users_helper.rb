@@ -3,7 +3,14 @@ module V1::Helpers::UsersHelper
 	SESSION_TOKEN_HEADER = 'X-Session-Token'
 
 	def user_from_session
-		@session_token = request.headers[SESSION_TOKEN_HEADER]
+    session_token = nil
+    if (defined? session)
+      session_token = session[:session_token]
+    end
+    if (defined? params)
+      params_token = params[:session_token]
+    end
+		@session_token = request.headers[SESSION_TOKEN_HEADER] || session_token || params_token
 		User.where(:authentication_token => @session_token).first if !@session_token.nil?
 	end
 
