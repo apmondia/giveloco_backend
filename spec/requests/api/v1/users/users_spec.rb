@@ -205,15 +205,24 @@ describe V1::Users::UsersController do
       @b = create(:business)
       @c1 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
       @c2 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+      @url = "/v1/users/#{@b.id}/sponsorships/certificates"
+    end
+
+    it 'should not allow the public to view a businesses certificates' do
+      get @url
+      expect(response.status).to eq(401)
+    end
+
+    it 'should not allow another user to view a businesses certificates' do
+      get @url, {}, auth_session(@c1.sponsorship.cause)
+      expect(response.status).to eq(403)
     end
 
     it 'should show the business all of its certificates' do
-
-      get "/v1/users/#{@b.id}/sponsorships/certificates"
+      get @url, {}, auth_session(@b)
       expect(response.status).to eq(200)
       json = JSON.parse(response.body)
       expect( json.length ).to eq(2)
-
     end
 
   end

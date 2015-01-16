@@ -190,7 +190,6 @@ class V1::Users::UsersController < V1::Base
       resource '/sponsorships' do
         desc 'Returns a list of sponsorships for this business'
         get do
-          can_or_die :read, Sponsorship
           @sponsorships = User.find(params[:id]).sponsorships
           present @sponsorships, :with => V1::Sponsorships::Entity
         end
@@ -198,7 +197,10 @@ class V1::Users::UsersController < V1::Base
         resource '/certificates' do
           desc 'Returns all of the certificates for this business'
           get do
-            @certificates = User.find(params[:id]).purchased_certificates
+            authenticate!
+            @user = User.find(params[:id])
+            can_or_die :read_purchased_certificates, @user
+            @certificates = @user.purchased_certificates
             present @certificates, :with => V1::Certificates::Entity
           end
         end

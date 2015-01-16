@@ -18,6 +18,7 @@ class Ability
 
     can :create, Sponsorship, :business_id => user.id
 
+    can :read_purchased_certificates, User, :id => user.id
     can :redeem, Certificate if user.admin?
     can :redeem, Certificate do |certificate|
       user.id == certificate.sponsorship.business.id
