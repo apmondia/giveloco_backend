@@ -53,7 +53,7 @@ describe User do
   it 'should automatically activate businesses and causes if they have sponsorships' do
 
     c = create(:cause)
-    expect(c.is_activated).to eq(false)
+    expect(c.is_activated).to eq(true)
 
     b = create(:business)
     expect(b.is_activated).to eq(false)
@@ -65,7 +65,7 @@ describe User do
     s.destroy
 
     expect(b.is_activated).to eq(false)
-    expect(c.is_activated).to eq(false)
+    expect(c.is_activated).to eq(true)
 
   end
 

@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
+  before_save :automatically_activate_cause, :if => 'cause?'
   after_save :update_sponsors_if_unpublished, :if => 'cause?'
 
   def update_sponsors_if_unpublished
@@ -100,6 +101,10 @@ class User < ActiveRecord::Base
       self.is_published = false
     end
     true
+  end
+
+  def automatically_activate_cause
+    self.is_activated = true
   end
 
 	def admin?
