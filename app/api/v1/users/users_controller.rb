@@ -91,7 +91,7 @@ class V1::Users::UsersController < V1::Base
 		put ':id' do
 			authenticate!
 			@user = User.find(params[:id])
-      		can_or_die :update, @user
+      can_or_die :update, @user
 			# safe_params function is in the helpers.rb file
 			update_user_params = safe_params(params).permit([:email,
                                                       :password, :password_confirmation, :current_password,
@@ -100,8 +100,8 @@ class V1::Users::UsersController < V1::Base
                                                       :street_address, :city, :state, :country, :zip,
                                                       :summary, :description, :website, :twitter,
                                                       (:is_activated if current_user.admin?),
+                                                      ({ :campaign_list => [] } if current_user.admin?),
                                                       tag_list: []].compact )
-
 			@user.update_attributes(update_user_params)
 			present @user, with: V1::Users::Entity
 		end

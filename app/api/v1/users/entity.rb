@@ -30,6 +30,7 @@ module V1
 			expose :country, :documentation => {:type => "string", :desc => "The user's Country"}
 			expose :zip, :documentation => {:type => "string", :desc => "The user's Zip / Postal Code"}
 			expose :tag_list, :as => :tags, :documentation => {:type => "text", :desc => "Tags describing the business/cause's field of operation"}
+      expose :campaign_list, :as => :campaigns, :documentation => {:type => "text", :desc => "Tags linking the business/cause's to campaigns"}
 			expose :summary, :documentation => {:type => "text", :desc => "A tweet-length summary description of the business/cause"}
 			expose :description, :documentation => {:type => "text", :desc => "A long form description of the business/cause"}
 			expose :website, :documentation => {:type => "string", :desc => "The business / cause's website"}

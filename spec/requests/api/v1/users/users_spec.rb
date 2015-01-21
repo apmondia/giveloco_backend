@@ -243,19 +243,34 @@ describe V1::Users::UsersController do
 
     before(:each) do
       @b = create(:business)
+      @admin = create(:admin)
     end
 
-    it 'should allow the business to change passwords' do
-
+    it 'should allow the business to update its profile' do
       put "/v1/users/#{@b.id}", {
-          :id => @b.id,
-          :user => {
-              :current_password => 'password',
-              :password => 'testtest',
-              :password_confirmation => 'testtest'
-          }
+        :company_name => 'asdf'
       }, auth_session(@b)
+      expect(User.find(@b.id).company_name).to eq('asdf')
+    end
 
+    it 'should not allow a business to update its campaign tags' do
+      put "/v1/users/#{@b.id}", {
+        :campaign_list => [
+            'hello'
+        ]
+      }, auth_session(@b)
+      expect(response.status).to eq(200)
+      expect(User.find(@b.id).campaign_list).not_to include('hello')
+    end
+
+    it 'should allow the admin to update the campaign tags' do
+      put "/v1/users/#{@b.id}", {
+        :campaign_list => [
+            'hello'
+        ]
+      }, auth_session(@admin)
+      expect(response.status).to eq(200)
+      expect(User.find(@b.id).campaign_list).to include('hello')
     end
 
   end

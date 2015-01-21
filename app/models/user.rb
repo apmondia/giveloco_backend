@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 	       :recoverable, :rememberable, :trackable, :validatable
   	devise :omniauthable, :omniauth_providers => [:stripe_connect]
 
+
+
 	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
 
 	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :business
@@ -17,18 +19,35 @@ class User < ActiveRecord::Base
   has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
   accepts_nested_attributes_for :certificates
+  ########################################################################
+  # =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
+  ########################################################################
+  has_attached_file 	:profile_picture,
+                     :styles => {
+                         :medium => ["260x192#", :jpeg],
+                         :thumb => ["100x100#", :jpeg]
+                     },
+                     #:convert_options => { :all => '-quality 99' },
+                     :default_url => "/images/users/default.png"
 
+  validates_attachment :profile_picture,
+                       :content_type => { :content_type => ["image/jpeg", "image/png"] }
+  ########################################################################
+
+  validates :profile_picture, :dimensions => { :width => 800, :height => 800 }
   validates_presence_of :role, :email
-
-	attr_accessor :disable_admin
+  attr_accessor :disable_admin
 	validate :cannot_set_role_to_admin, :unless => :disable_admin
-
   validate :agree_to_tc, :acceptance => true
-
   validates_presence_of :company_name, :if => 'cause? || business?'
   validates_uniqueness_of :company_name, :if => 'cause? || business?'
   validates :email, :uniqueness => true
 
+  # Taggable
+  acts_as_taggable_on :tags, :campaigns
+
+  # Callbacks
+  before_save :smart_add_url_protocol
   before_create :set_authentication_token
   before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
@@ -143,12 +162,6 @@ class User < ActiveRecord::Base
 		password == password_confirmation && !password.blank?
 	end
 
-	# Taggable
-	acts_as_taggable
-
-	# Callbacks
-	before_save :smart_add_url_protocol
-
 	# =======================================================================
 	# 	Model Scopes
 	# =======================================================================
@@ -159,23 +172,6 @@ class User < ActiveRecord::Base
 	def filter_by_transaction_type
 		where("connection.trans_type = 'donation'", true)
 	end
-
-	########################################################################
-	# =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
-	########################################################################
-  has_attached_file 	:profile_picture,
-            :styles => {
-              :medium => ["260x192#", :jpeg],
-              :thumb => ["100x100#", :jpeg]
-            },
-            #:convert_options => { :all => '-quality 99' },
-            :default_url => "/images/users/default.png"
-
-  validates_attachment :profile_picture,
-    :content_type => { :content_type => ["image/jpeg", "image/png"] }
-	########################################################################
-
-  validates :profile_picture, :dimensions => { :width => 800, :height => 800 }
 
 	# =======================================================================
 	# 	User Roles (to be completed later)

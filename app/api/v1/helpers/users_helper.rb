@@ -35,7 +35,7 @@ module V1::Helpers::UsersHelper
 	end
 
 	def current_ability
-		@current_ability ||= Ability.new(current_user, params)
+		@current_ability ||= Ability.new(authenticate!, params)
 	end
 
   # Authenticate user by auth_token and request header
