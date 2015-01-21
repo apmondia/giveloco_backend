@@ -25,6 +25,10 @@ describe 'As an individual I want to search businesses and causes' do
 
   end
 
+  def click_company(name)
+    find("a[title='#{name}']").click
+  end
+
   it 'should allow the user to search businesses by campaign tag' do
 
     visit '/'
@@ -32,6 +36,8 @@ describe 'As an individual I want to search businesses and causes' do
     fill_in :search_businesses, :with => 'campaign'
     expect(page).to have_content(@sponsorships.first.business.company_name)
     expect(page).not_to have_content(@sponsorships.last.business.company_name)
+    click_company(@sponsorships.first.business.company_name)
+    expect(page).to have_content('campaign')
 
   end
 
