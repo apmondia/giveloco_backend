@@ -25,6 +25,8 @@ class V1::Users::UsersController < V1::Base
     get do
       if params[:t]
         @users = User.active.tagged_with(params[:t])
+      elsif is_admin
+        @users = User.all
       else
         @users = User.active
       end
