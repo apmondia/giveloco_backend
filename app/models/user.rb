@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   validates_presence_of :company_name, :if => 'cause? || business?'
   validates_uniqueness_of :company_name, :if => 'cause? || business?'
   validates :email, :uniqueness => true
+  validate :remove_campaign_tags_from_tag
 
   # Taggable
   acts_as_taggable_on :tags, :campaigns
@@ -74,7 +75,14 @@ class User < ActiveRecord::Base
 
 	def has_stripe_connect
 		!self.provider.blank? && self.provider.to_sym == :stripe_connect && !self.uid.blank?
-	end
+  end
+
+  def remove_campaign_tags_from_tag
+    campaign_counts = User.tag_counts_on(:campaigns)
+    campaign_counts.each do |count|
+      tag_list.delete(count.name)
+    end
+  end
 
 	def stripe_user_omniauth_authorize_path
     Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect,

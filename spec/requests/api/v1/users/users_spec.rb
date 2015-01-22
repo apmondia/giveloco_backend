@@ -243,6 +243,7 @@ describe V1::Users::UsersController do
 
     before(:each) do
       @b = create(:business)
+      @b2 = create(:business)
       @admin = create(:admin)
     end
 
@@ -251,6 +252,14 @@ describe V1::Users::UsersController do
         :company_name => 'asdf'
       }, auth_session(@b)
       expect(User.find(@b.id).company_name).to eq('asdf')
+    end
+
+    it 'should remove any tags that are campaign tags' do
+      put "/v1/users/#{@b.id}", {
+        :tags_list => [
+            'foo'
+        ]
+      }
     end
 
     it 'should not allow a business to update its campaign tags' do

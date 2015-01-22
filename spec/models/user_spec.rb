@@ -5,6 +5,9 @@ describe User do
   before(:each) do
     @b = create(:business)
     @c = create(:cause)
+    @b2 = create(:business)
+    @b2.campaign_list.add('foo')
+    @b2.save!
     @s = create(:sponsorship, :business => @b, :cause => @c)
   end
 
@@ -66,6 +69,13 @@ describe User do
 
     expect(b.is_activated).to eq(false)
     expect(c.is_activated).to eq(true)
+
+  end
+
+  it 'should remove campaign tags from regular tags' do
+
+    b = create(:business, :tag_list => ['foo', 'bar'])
+    expect(b.tag_list).to_not include('foo')
 
   end
 

@@ -5,7 +5,19 @@ describe 'As an admin I want to manipulate the campaign tags for a business or c
   before(:each) do
     @admin = create(:admin)
     @b = create(:business)
+    @b2 = create(:business)
+    @b2.campaign_list.add 'campaign'
+    @b2.save!
     @s = create(:sponsorship, :business => @b, :status => :accepted)
+  end
+
+  it 'should allow the admin to see all tags' do
+    login(@admin)
+    expect(page).to have_content(@b2.company_name)
+    expect(page).to have_content('campaign')
+    click_link 'campaign'
+    expect(page).to have_content('Explore Businesses')
+    expect(page).to have_content(@b2.company_name)
   end
 
   it 'should allow the admin to add tags' do

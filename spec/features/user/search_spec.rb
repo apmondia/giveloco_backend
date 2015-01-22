@@ -38,6 +38,9 @@ describe 'As an individual I want to search businesses and causes' do
     expect(page).not_to have_content(@sponsorships.last.business.company_name)
     click_company(@sponsorships.first.business.company_name)
     expect(page).to have_content('campaign')
+    click_link('campaign')
+    expect(page).to have_content('Explore Businesses')
+    expect(page).to have_content(@sponsorships.first.business.company_name)
 
   end
 
