@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
   before_save :automatically_activate_cause, :if => 'cause?'
   after_save :update_sponsors_if_unpublished, :if => 'cause?'
 
+  scope :active, -> {
+    where("role != 'business' or (role = 'business' and is_activated = ? and is_published = ?)", true, true)
+  }
+
   def update_sponsors_if_unpublished
     if self.is_published_changed? && !self.is_published
       self.businesses.each do |b|

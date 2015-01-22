@@ -18,9 +18,16 @@ class V1::Users::UsersController < V1::Base
       end
     end
 
-    desc "Return complete list of users"
+    desc "Return complete list of users.  Optional search param."
+    params do
+      optional :t
+    end
     get do
-			@users = User.all
+      if params[:t]
+        @users = User.active.tagged_with(params[:t])
+      else
+        @users = User.active
+      end
 			if is_admin
 				present @users, with: V1::Users::Entity, type: 'authorized'
 			else
@@ -61,7 +68,7 @@ class V1::Users::UsersController < V1::Base
 			else
 				present @user, with: V1::Users::Entity
 			end
-		end
+    end
 
 	# =======================================================================
 	# 	Update single user

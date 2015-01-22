@@ -3,6 +3,50 @@ require 'stripe_charge'
 
 describe V1::Users::UsersController do
 
+
+  describe 'GET /v1/users' do
+
+    before(:each) do
+      @b1 = create(:business)
+      @b1.campaign_list.add 'foo'
+      @b1.tag_list.add 'none'
+      @b1.save!
+      @s1 = create(:sponsorship, :business => @b1, :status => :accepted)
+      @b2 = create(:business)
+      @b2.tag_list.add 'bar'
+      @b2.campaign_list.add 'foo'
+      @b2.save!
+      @b3 = create(:business)
+      @s3 = create(:sponsorship, :business => @b3, :status => :accepted)
+      @b3.campaign_list.add 'bar'
+      @b3.campaign_list.add 'none'
+      @b3.save!
+    end
+
+    it 'should allow the user to search by regular tags' do
+
+      get "/v1/users", { :t => 'foo' }
+      expect(response.status).to eq(200)
+      json = JSON.parse(response.body)
+      expect(json.length).to eq(1)
+      expect(json[0]['id']).to eq(@b1.id)
+
+
+      get "/v1/users", { :t => 'none' }
+      expect(response.status).to eq(200)
+      json = JSON.parse(response.body)
+      ids = json.map { |val| val['id'] }
+      expect(ids).to include(@b1.id)
+      expect(ids).to include(@b3.id)
+
+    end
+
+    it 'should allow the user to search by campaign tags' do
+
+    end
+
+  end
+
   describe 'GET /v1/users/role/cause' do
 
     it 'should not return anything' do
