@@ -23,7 +23,7 @@ describe 'As a user I want to purchase a gift certificate' do
     click_link 'Donate'
     expect(page).to have_content(Certificate.format_donated_amount(50, @b.sponsorship_rate) )
     fill_in :email, :with => email
-    find('label[for="agree_to_tc"]').click
+    #find('label[for="agree_to_tc"]').click
     click_link_or_button 'Confirm'
     expect(page).to have_content('Thank you for giving it forward!')
 
