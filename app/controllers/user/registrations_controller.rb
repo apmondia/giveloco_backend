@@ -56,7 +56,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 	protected
 
 	def create_user_params
-		params.require(:user).permit(:role, :email, :password, :first_name, :last_name,
+		params.require(:user).permit(:role, :email, :password, :first_name, :last_name, :sponsorship_rate,
                                  :company_name, :phone,
                                  :street_address, :city, :state, :country, :zip,
                                  :summary, :description, :website, :profile_picture, :mailing_list_opt_in, :agree_to_tc, :tag_list)

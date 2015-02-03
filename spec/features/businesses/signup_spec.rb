@@ -15,6 +15,7 @@ describe 'As a business I want to sign up' do
     fill_in :last_name, :with => 'Sapphire'
     fill_in :email, :with => 'test@afseijf.com'
     fill_in :password, :with => 'password'
+    fill_in :sponsorship_rate, :with => '32%'
     find('label[for="business-registration-terms"]').click
   end
 
@@ -32,6 +33,10 @@ describe 'As a business I want to sign up' do
     visit confirmation_link
     expect(page).to have_content('Your account was successfully confirmed.')
     expect(page).to have_content("Hi, Bob")
+
+    u = User.last
+    expect(u.email).to eq('test@afseijf.com')
+    expect(u.sponsorship_rate).to eq(32)
 
   end
 
