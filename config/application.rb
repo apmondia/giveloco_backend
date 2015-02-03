@@ -44,7 +44,7 @@ module ApiBase
     config.filter_parameters += [:password]
 
     config.action_mailer.default_options = {
-      :from => '"Taliflo" <admin@taliflo.com>'
+      :from => '"Taliflo Community" <community@taliflo.com>'
     }
 
     # Enable escaping HTML in JSON.
