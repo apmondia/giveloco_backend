@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'As a cause I want to edit my profile' do
 
   before(:each) do
-    @c = create(:cause)
+    @c = create(:cause, :company_name => 'Company Name 1')
   end
 
   def goto_edit_profile
@@ -18,6 +18,7 @@ describe 'As a cause I want to edit my profile' do
 
     goto_edit_profile
     expect(page).to have_content('Edit Cause Location')
+    fill_in :company, :with => 'Company Name 2'
     fill_in :userStreetAddress, :with => '1234 Evergreen Terrace'
     fill_in :userCity, :with => 'Moncton'
     fill_in :userDescription, :with => 'This is a large company'
@@ -28,6 +29,10 @@ describe 'As a cause I want to edit my profile' do
     expect(page).to have_content('Your account information was successfully updated')
     expect(page).to have_content('Edit Profile')
     expect(page).to have_content('1234 Evergreen Terrace')
+    find("button.close").click
+    click_profile_menu
+    click_link 'My Profile'
+    expect(page).not_to have_content('Company Name 1')
 
   end
 

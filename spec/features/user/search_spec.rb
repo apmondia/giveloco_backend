@@ -15,7 +15,7 @@ describe 'As an individual I want to search businesses and causes' do
   it 'should allow the user to search businesses by tag' do
 
     visit '/'
-    click_link 'Explore'
+    click_link 'Start Shopping'
     fill_in :search_businesses, :with => "laiwejfasliejf"
     expect(page).to_not have_content(@sponsorships.first.business.company_name)
     expect(page).to_not have_content(@sponsorships.last.business.company_name)
@@ -32,7 +32,7 @@ describe 'As an individual I want to search businesses and causes' do
   it 'should allow the user to search businesses by campaign tag' do
 
     visit '/'
-    click_link 'Explore'
+    click_link 'Start Shopping'
     fill_in :search_businesses, :with => 'campaign'
     expect(page).to have_content(@sponsorships.first.business.company_name)
     expect(page).not_to have_content(@sponsorships.last.business.company_name)
@@ -47,7 +47,7 @@ describe 'As an individual I want to search businesses and causes' do
   it 'should allow the user to search businesses by name' do
 
     visit '/'
-    click_link 'Explore'
+    click_link 'Start Shopping'
     fill_in :search_businesses, :with => "laiwejfasliejf"
     expect(page).to_not have_content(@sponsorships.first.business.company_name)
     expect(page).to_not have_content(@sponsorships.last.business.company_name)

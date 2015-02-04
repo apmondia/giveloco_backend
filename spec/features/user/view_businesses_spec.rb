@@ -31,7 +31,7 @@ describe 'As a user I want to view the businesses' do
   it 'should show all published businesses' do
 
     visit '/'
-    click_link 'Explore'
+    click_link 'Start Shopping'
     expect(page).to have_content(@b.company_name)
     expect(page).not_to have_content(@b2.company_name)
 
@@ -44,7 +44,7 @@ describe 'As a user I want to view the businesses' do
   it 'should allow the user to explore via tag' do
 
     visit '/'
-    click_link 'Explore'
+    click_link 'Start Shopping'
     expect(page).to have_content(@b.company_name)
     expect(page).to have_content(@b3.company_name)
     expect(page).to have_content(@b4.company_name)
