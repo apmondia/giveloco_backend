@@ -219,7 +219,7 @@ class V1::Users::UsersController < V1::Base
           end
 
           resource '/csv' do
-            desc 'Returns a CSV of the certificates for this business'
+            desc 'returns a csv of the certificates for this business'
             get do
               authenticate!
               @user = User.find(params[:id])
@@ -229,6 +229,7 @@ class V1::Users::UsersController < V1::Base
               header 'Content-Disposition', 'attachment; filename=certificates.csv'
               body @certificates.to_comma
             end
+
           end
 
         end

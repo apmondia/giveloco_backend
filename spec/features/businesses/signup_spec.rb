@@ -21,7 +21,7 @@ describe 'As a business I want to sign up' do
 
   it 'should allow the business to sign up ' do
 
-    visit '/'
+    visit_root
     find("#footer-sign-up").click
     fill_out_signup
     find_button('Sign Up').click
@@ -43,7 +43,7 @@ describe 'As a business I want to sign up' do
   it 'should display a message if the name or email address already exists' do
 
 
-    visit '/'
+    visit_root
     find("#footer-sign-up").click
     fill_out_signup
     fill_in :email, :with => @b.email

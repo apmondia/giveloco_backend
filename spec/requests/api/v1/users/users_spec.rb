@@ -263,8 +263,8 @@ describe V1::Users::UsersController do
         get "#{@url}/csv", {}, auth_session(@b)
         expect(response.status).to eq(200)
         expect(response.content_type).to eq('text/csv')
-        expect(response.header['Content-Disposition']).to eq('attachment; filename=certificates.csv')
         expect(response.body).to eq( @b.purchased_certificates.to_comma )
+        expect(response.header['Content-Disposition']).to eq('attachment; filename=certificates.csv')
       end
     end
 

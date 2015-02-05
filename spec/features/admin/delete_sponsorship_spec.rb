@@ -20,6 +20,12 @@ describe 'As the admin I want to delete sponsorships' do
     expect(page).to have_content("Deleted")
     expect(page).to_not have_content(@s.cause.company_name)
 
+    within ".navbar-header" do
+      click_link 'Businesses'
+    end
+
+    expect(page).to_not have_content(@s.business.company_name)
+
   end
 
 end

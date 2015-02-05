@@ -6,19 +6,16 @@ class User < ActiveRecord::Base
 	       :recoverable, :rememberable, :trackable, :validatable
   	devise :omniauthable, :omniauth_providers => [:stripe_connect]
 
-
-
 	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
-
-	has_many :sponsorships, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :business
-	has_many :causes, -> { where :is_published => true }, :through => :sponsorships, :source => :cause
+	has_many :sponsorships, -> { where.not(:status => :deleted) }, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :business
+	has_many :causes, -> { where(:is_published => true, :is_activated => true) }, :through => :sponsorships, :source => :cause
   has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
-
-	has_many :sponsors, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :cause
-	has_many :businesses,  -> { where :is_published => true }, :through => :sponsors
+	has_many :sponsors, -> { where.not(:status => :deleted) }, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :cause
+	has_many :businesses,  -> { where(:is_published => true, :is_activated => true) }, :through => :sponsors
   has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
   accepts_nested_attributes_for :certificates
+
   ########################################################################
   # =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
   ########################################################################

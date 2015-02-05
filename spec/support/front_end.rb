@@ -16,5 +16,10 @@ module Support
         raise_front_end_error
       end
     end
+
+    def visit_root
+      visit '/explore/businesses'
+    end
+
   end
 end

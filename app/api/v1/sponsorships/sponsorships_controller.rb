@@ -4,7 +4,7 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
 
     desc 'List all sponsorships'
     get do
-      @sponsorships = Sponsorship.all
+      @sponsorships = Sponsorship.not_deleted
       if is_authenticated
         present @sponsorships, :with => V1::Sponsorships::Entity
       else

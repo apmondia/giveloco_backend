@@ -26,8 +26,8 @@ describe 'As a user I want to view the causes' do
 
   it 'should show all published causes' do
 
-    visit '/'
-    click_link 'Start Shopping'
+    visit_root
+
     click_link 'Causes'
     expect(page).to have_content(@c.company_name)
     expect(page).to have_content(@c2.company_name)
@@ -40,8 +40,8 @@ describe 'As a user I want to view the causes' do
 
   it 'should allow the user to explore via tag' do
 
-    visit '/'
-    click_link 'Start Shopping'
+    visit_root
+
     click_link 'Causes'
     expect(page).to have_content(@c.company_name)
     expect(page).to have_content(@c2.company_name)

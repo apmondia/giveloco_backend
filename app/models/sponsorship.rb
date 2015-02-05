@@ -3,7 +3,7 @@ class Sponsorship < ActiveRecord::Base
   MAX_FAILED_REQUESTS = 2
   MAX_SPONSORED_CAUSES = 3
 
-  enum :status => [ :pending, :accepted, :cancelled ]
+  enum :status => [ :pending, :accepted, :cancelled, :deleted ]
 
   validates_presence_of :business
   validates_associated :business
@@ -15,6 +15,10 @@ class Sponsorship < ActiveRecord::Base
   belongs_to :business, :class_name => User
   belongs_to :cause, :class_name => User
 
+  scope :not_deleted, -> {
+    where.not(:status => Sponsorship.statuses[:deleted])
+  }
+
   before_create :default_status
 
   after_update :check_status
@@ -22,6 +26,7 @@ class Sponsorship < ActiveRecord::Base
   has_many :certificates
 
   after_create :set_is_activated_true
+  after_save :check_is_activated
   after_destroy :check_is_activated
 
   def set_is_activated_true
@@ -30,8 +35,8 @@ class Sponsorship < ActiveRecord::Base
   end
 
   def check_is_activated
-    cause.update_attributes!({:is_activated => false}) if cause.sponsorships.empty?
-    business.update_attributes!({:is_activated => false}) if business.sponsorships.empty?
+    cause.update_attributes!({:is_activated => false}) if cause.sponsorships.not_deleted.empty?
+    business.update_attributes!({:is_activated => false}) if business.sponsorships.not_deleted.empty?
   end
 
   def check_status

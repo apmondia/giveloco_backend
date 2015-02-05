@@ -22,7 +22,7 @@ module Support
     end
 
     def login(user)
-      visit '/'
+      visit_root
       find('footer a.login').click
       fill_in :email, :with => user.email
       fill_in :password, :with => user.password

@@ -11,8 +11,8 @@ describe 'As a user I want to purchase a gift certificate' do
 
     email = 'fake@fake.com'
 
-    visit '/'
-    click_link 'Start Shopping'
+    visit_root
+
     click_link @b.company_name
     click_link 'Enter Gift Card'
     fill_in :serial_number, :with => '1234'
