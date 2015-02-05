@@ -2,6 +2,8 @@ class V1::Users::UsersController < V1::Base
 
   content_type :json, "application/json"
   content_type :csv, "text/csv"
+  content_type :txt, "text/plain"
+  content_type :html, "text/html"
 
   default_format :json
 
