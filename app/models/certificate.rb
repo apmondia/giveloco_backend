@@ -63,9 +63,9 @@ class Certificate < ActiveRecord::Base
   comma do
     created_at 'Date'
     serial_number 'Serial Number'
-    sponsorship 'Cause' do |sponsorship| sponsorship.cause.company_name end
-    donation_percentage 'Sponsorship Rate'
     amount 'Amount'
+    donation_percentage 'Donation Rate'
+    sponsorship 'Cause' do |sponsorship| sponsorship.cause.company_name end
   end
 
 end
