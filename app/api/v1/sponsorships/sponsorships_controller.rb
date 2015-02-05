@@ -63,13 +63,9 @@ class V1::Sponsorships::SponsorshipsController < V1::Base
           authenticate!
           sponsorship = Sponsorship.find(params[:id])
           can_or_die :resolve, sponsorship
-          if sponsorship.status.to_sym == :pending
-            sponsorship.update_attributes(:status => params[:status])
-            sponsorship.resolved_at = DateTime.now
-            sponsorship.save
-          else
-            status 422
-          end
+          sponsorship.update_attributes(:status => params[:status])
+          sponsorship.resolved_at = DateTime.now
+          sponsorship.save
           sponsorship
         end
       end

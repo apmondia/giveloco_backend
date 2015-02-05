@@ -10,13 +10,18 @@ class User < ActiveRecord::Base
 
 	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
 	has_many :sponsorships, -> { not_deleted }, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :business
-	has_many :causes, -> { where(:is_published => true, :is_activated => true) }, :through => :sponsorships, :source => :cause
+	has_many :causes, -> { is_public }, :through => :sponsorships, :source => :cause
+  has_many :active_causes, -> { is_public }, :through => :sponsorships, :source => :cause
   has_many :purchased_certificates, :through => :sponsorships, :source => :certificates
 	has_many :sponsors, -> { not_deleted }, :foreign_key => 'cause_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :cause
-	has_many :businesses,  -> { where(:is_published => true, :is_activated => true) }, :through => :sponsors
+	has_many :businesses,  -> { is_public }, :through => :sponsors
   has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
   accepts_nested_attributes_for :certificates
+
+  scope :is_public, -> {
+    where(:is_published => true, :is_activated => true)
+  }
 
   ########################################################################
   # =>    Image uploads with the Paperclip gem (Amazon S3 storage)	<= #
@@ -52,7 +57,7 @@ class User < ActiveRecord::Base
   before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
-  before_save :automatically_activate_cause, :if => 'cause?'
+  before_create :set_activated_true
   after_save :update_sponsors_if_unpublished, :if => 'cause?'
 
   before_save :check_mailing_list_opt_in
@@ -130,7 +135,7 @@ class User < ActiveRecord::Base
   def automatically_publish_business_if_profile_complete
     if  !self.description.blank? &&
         !self.summary.blank? &&
-        !self.causes.empty?
+        !self.sponsorships.accepted.empty?
         self.is_published = true
     else
       self.is_published = false
@@ -148,7 +153,7 @@ class User < ActiveRecord::Base
     true
   end
 
-  def automatically_activate_cause
+  def set_activated_true
     self.is_activated = true
   end
 

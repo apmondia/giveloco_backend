@@ -19,24 +19,22 @@ class Sponsorship < ActiveRecord::Base
     where.not(:status => Sponsorship.statuses[:deleted])
   }
 
+  scope :accepted, -> {
+    where(:status => Sponsorship.statuses[:accepted])
+  }
+
   before_create :default_status
 
   after_update :check_status
 
   has_many :certificates
 
-  after_create :set_is_activated_true
   after_save :check_is_activated
   after_destroy :check_is_activated
 
-  def set_is_activated_true
-    cause.update_attributes!({ :is_activated => true })
-    business.update_attributes!({ :is_activated => true })
-  end
-
   def check_is_activated
-    cause.update_attributes!({:is_activated => false}) if cause.sponsorships.not_deleted.empty?
-    business.update_attributes!({:is_activated => false}) if business.sponsorships.not_deleted.empty?
+    business.automatically_publish_business_if_profile_complete
+    business.save!
   end
 
   def check_status
