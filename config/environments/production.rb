@@ -104,6 +104,6 @@ Rails.application.configure do
 
   config.front_end_base_url = ENV['FRONT_END_BASE_URL']
 
-  config.community_email = 'community@taliflo.com'
+  config.community_email = 'community@giveloco.com'
 
 end

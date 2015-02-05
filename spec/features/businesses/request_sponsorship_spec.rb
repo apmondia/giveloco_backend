@@ -28,8 +28,8 @@ describe 'As a business I want to request to sponsor a cause' do
 
     expect(ActionMailer::Base.deliveries).to_not be_empty
     mail = ActionMailer::Base.deliveries.last
-    expect(mail.to).to eq(['test_community@taliflo.com'])
-    expect(mail.body).to have_content('Dear Taliflo Community')
+    expect(mail.to).to eq(['test_community@giveloco.com'])
+    expect(mail.body).to have_content('Dear GiveLoco Community')
 
   end
 
