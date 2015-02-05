@@ -232,10 +232,31 @@ describe V1::Users::UsersController do
       expect(response.status).to eq(201)
       last_user = User.last
       expect(last_user.certificates).to_not be_empty
+      expect(last_user.certificates.size).to eq(1)
       last_mail = ActionMailer::Base.deliveries.last
       # users don't have account anymore.
       expect(last_user.email).to eq('testman@fake.com')
       expect(last_user.mailing_list_opt_in).to eq(true)
+
+      post '/v1/users/certificates', {
+          :newUser => {
+              :first_name => 'Bob',
+              :last_name => 'Odenkirk',
+              :email => 'testman@fake.com',
+              :mailing_list_opt_in => true,
+              :agree_to_tc => true,
+              :certificates_attributes => [{
+                                               :sponsorship_id => @s.id,
+                                               :amount => "20",
+                                               :serial_number => '1121234'
+                                           }]
+          }
+      }
+
+      expect(response.status).to eq(201)
+      last_user = User.last
+      expect(last_user.certificates).to_not be_empty
+      expect(last_user.certificates.size).to eq(2)
 
     end
 

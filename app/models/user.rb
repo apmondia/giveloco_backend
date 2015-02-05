@@ -1,3 +1,5 @@
+require 'mailchimp'
+
 class User < ActiveRecord::Base
 
 	# Include default devise modules. Others available are:
@@ -53,6 +55,8 @@ class User < ActiveRecord::Base
   before_save :automatically_activate_cause, :if => 'cause?'
   after_save :update_sponsors_if_unpublished, :if => 'cause?'
 
+  before_save :check_mailing_list_opt_in
+
   scope :active, -> {
     where("role != 'business' or (role = 'business' and is_activated = ? and is_published = ?)", true, true)
   }
@@ -65,6 +69,19 @@ class User < ActiveRecord::Base
       end
     end
     true
+  end
+
+  def check_mailing_list_opt_in
+    if (mailing_list_opt_in &&
+        Rails.application.config.mailchimp_api_key &&
+        Rails.application.config.mailchimp_list_id)
+      mailchimp = Mailchimp::API.new(Rails.application.config.mailchimp_api_key)
+      begin
+        mailchimp.lists.subscribe(Rails.application.config.mailchimp_list_id, {:email => self.email }, nil, 'html', false, true)
+      rescue Exception => e
+        logger.info("Error subscribing using to list #{Rails.application.config.mailchimp_list_id}: " + e)
+      end
+    end
   end
 
 	def cannot_set_role_to_admin

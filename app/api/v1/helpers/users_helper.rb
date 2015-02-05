@@ -14,7 +14,9 @@ module V1::Helpers::UsersHelper
     end
     if (defined? cookies)
       cookies_token = cookies[:auth_token]
-      cookies_token = cookies_token.gsub /"/, ''
+      if cookies_token
+        cookies_token = cookies_token.gsub /"/, ''
+      end
     end
 		@session_token = request.headers[SESSION_TOKEN_HEADER] || cookies_token  || session_token || params_token
 		User.where(:authentication_token => @session_token).first if !@session_token.nil?

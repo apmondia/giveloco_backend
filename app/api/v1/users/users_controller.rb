@@ -177,7 +177,12 @@ class V1::Users::UsersController < V1::Base
                 { :certificates_attributes => [:sponsorship_id, :amount, :serial_number] })
         logger.info("Creating a new gift certificate: #{_params.to_json}")
         begin
-          user = User.create!(_params)
+          user = User.find_by_email(_params[:email])
+          if (user)
+            user.update_attributes! _params
+          else
+            user = User.create!(_params)
+          end
         rescue Exception => e
           logger.error("There was an error: #{e}")
           logger.error(e)

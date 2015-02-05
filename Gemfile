@@ -19,6 +19,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'premailer'
 #gem 'actionmailer_inline_css'
 
+gem 'mailchimp-api'
+
 gem "comma", "~> 3.2.1"
 
 gem 'cancan'
