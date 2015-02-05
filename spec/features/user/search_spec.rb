@@ -54,6 +54,9 @@ describe 'As an individual I want to search businesses and causes' do
     fill_in :search_businesses, :with => "Juju"
     expect(page).to have_content(@sponsorships.first.business.company_name)
     expect(page).to_not have_content(@sponsorships.last.business.company_name)
+    click_link 'Businesses' #here it should reset the search
+    expect(page).to have_content(@sponsorships.first.business.company_name)
+    expect(page).to have_content(@sponsorships.last.business.company_name)
 
   end
 
