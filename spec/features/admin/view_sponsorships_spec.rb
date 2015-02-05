@@ -19,6 +19,7 @@ describe 'As the admin I want to view all sponsorships' do
     expect(page).to have_content('accepted')
     expect(page).to have_content('pending')
     expect(page).to have_content(@s2.id)
+    expect(page).to have_content(@s2.business.sponsorship_rate)
 
   end
 
