@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :certificate do
     association :purchaser, :factory => :user
-    sponsorship
+    sponsorship { FactoryGirl.create(:sponsorship, :status => :accepted) }
     donation_percentage "9.99"
     amount 9.99
     recipient "happyuser@fake.com"

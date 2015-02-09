@@ -7,7 +7,7 @@ describe 'As a user I want to view the causes' do
     @c = create(:cause)
     @c.tag_list.add('foo')
     @c.save!
-    @s = create(:sponsorship, :business => @b, :cause => @c)
+    @s = create(:sponsorship, :business => @b, :cause => @c, :status => :accepted)
     expect(@b.is_published).to eq(true)
     expect(@c.is_published).to eq(true)
 

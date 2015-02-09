@@ -88,17 +88,18 @@ describe V1::Users::UsersController do
     end
 
     it 'should not allow users to update their active/inactive state' do
+      expect( User.find(@b.id).is_activated ).to eq(true)
       put "/v1/users/#{@b.id}", {
-          :is_activated => true
+          :is_activated => false
       }, auth_session(@b)
-      expect( User.find(@b.id).is_activated ).to eq(false)
+      expect( User.find(@b.id).is_activated ).to eq(true)
     end
 
     it 'should allow admins to update profiles and activate / deactive them' do
       put "/v1/users/#{@b.id}", {
-          :is_activated => true
+          :is_activated => false
       }, auth_session(@admin)
-      expect( User.find(@b.id).is_activated ).to eq(true)
+      expect( User.find(@b.id).is_activated ).to eq(false)
     end
 
     describe 'exception scenarios' do
@@ -175,8 +176,8 @@ describe V1::Users::UsersController do
   describe 'GET /v1/users/:id/transactions' do
 
     before(:each) do
-      @b = create(:business)
-      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+      @c1 = create(:certificate)
+      @b = @c1.sponsorship.business
     end
 
     it 'should allow a business or admin to access the businesses certificates' do
@@ -192,8 +193,8 @@ describe V1::Users::UsersController do
   describe 'GET /v1/users/:id/donations' do
 
     before(:each) do
-      @c = create(:cause)
-      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :cause => @c))
+      @c1 = create(:certificate)
+      @c = @c1.sponsorship.cause
     end
 
     it 'should allow a cause to look up its certificates' do
@@ -209,7 +210,7 @@ describe V1::Users::UsersController do
   describe 'POST /users/certificates' do
 
     before(:each) do
-      @s = create(:sponsorship)
+      @s = create(:sponsorship, :status => :accepted)
     end
 
     it 'should allow an anonymous user to purchase a certificate' do
@@ -268,8 +269,8 @@ describe V1::Users::UsersController do
 
     before(:each) do
       @b = create(:business)
-      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
-      @c2 = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :status => :accepted, :business => @b))
+      @c2 = create(:certificate, :sponsorship => create(:sponsorship, :status => :accepted, :business => @b))
       @url = "/v1/users/#{@b.id}/sponsorships/certificates"
     end
 
@@ -353,8 +354,8 @@ describe V1::Users::UsersController do
 
     before(:each) do
       @cause = create(:cause)
-      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :cause => @cause))
-      @c2 = create(:certificate, :sponsorship => create(:sponsorship, :cause => @cause))
+      @c1 = create(:certificate, :sponsorship => create(:sponsorship, :status => :accepted, :cause => @cause))
+      @c2 = create(:certificate, :sponsorship => create(:sponsorship, :status => :accepted, :cause => @cause))
     end
 
     it 'should show a cause all of the certificates purchased for it' do

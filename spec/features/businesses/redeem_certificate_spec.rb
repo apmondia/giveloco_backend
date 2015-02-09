@@ -3,8 +3,8 @@ require 'rails_helper'
 describe 'As a business I want to redeem a certificate' do
 
   before(:each) do
-    @b = create(:business)
-    @c = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
+    # @b = create(:business)
+    # @c = create(:certificate, :sponsorship => create(:sponsorship, :business => @b))
   end
 
   it 'main success scenario' do

@@ -4,6 +4,7 @@ describe '/v1/certificates' do
 
   before(:each) do
     @c = create(:certificate)
+    expect(@c).to be_valid
   end
 
   describe '/redeem' do

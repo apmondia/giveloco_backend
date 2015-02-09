@@ -5,7 +5,7 @@ describe 'As an admin I want to manipulate the campaign tags for a business or c
   before(:each) do
     @admin = create(:admin)
     @b = create(:business)
-    @b.tag_list.add 'testing'
+    @b.campaign_list.add 'testing'
     @b.save!
     @s = create(:sponsorship, :business => @b, :status => :accepted)
   end

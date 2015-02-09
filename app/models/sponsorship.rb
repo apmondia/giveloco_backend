@@ -29,10 +29,10 @@ class Sponsorship < ActiveRecord::Base
 
   has_many :certificates
 
-  after_save :check_is_activated
-  after_destroy :check_is_activated
+  after_save :check_business_is_published
+  after_destroy :check_business_is_published
 
-  def check_is_activated
+  def check_business_is_published
     business.automatically_publish_business_if_profile_complete
     business.save!
   end

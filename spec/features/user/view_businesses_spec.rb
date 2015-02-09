@@ -7,7 +7,7 @@ describe 'As a user I want to view the businesses' do
     @b.tag_list.add('foo')
     @b.save!
     @c = create(:cause)
-    @s1 = create(:sponsorship, :business => @b, :cause => @c)
+    @s1 = create(:sponsorship, :business => @b, :cause => @c, :status => :accepted)
 
     @b2 = create(:business)
     @b2.tag_list.add('foo')
@@ -24,11 +24,12 @@ describe 'As a user I want to view the businesses' do
     @b4 = create(:business)
     @s4 = create(:sponsorship, :business => @b4, :status => :accepted)
 
-
-
   end
 
   it 'should show all published businesses' do
+
+    expect(@b.is_published).to eq(true)
+    expect(@b2.is_published).to eq(false)
 
     visit_root
 

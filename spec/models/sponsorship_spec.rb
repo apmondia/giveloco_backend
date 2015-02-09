@@ -7,12 +7,15 @@ RSpec.describe Sponsorship, :type => :model do
     before(:each) do
       @business = create(:business)
       @cause = create(:cause)
-      @s = create(:sponsorship, :business => @business, :cause => @cause)
+      @s = create(:sponsorship, :business => @business, :cause => @cause, :status => :accepted)
+      @s2 = create(:sponsorship, :cause => @cause)
     end
 
     it 'the association should create' do
+      coz = User.find(@cause.id)
       expect(User.find(@business.id).causes).to include(@cause)
-      expect(User.find(@cause.id).businesses).to include(@business)
+      expect(coz.businesses).to include(@business)
+      expect(coz.businesses).to_not include(@s2.business)
     end
 
     it 'should recognize multiple sponsorships' do

@@ -135,7 +135,8 @@ class User < ActiveRecord::Base
   def automatically_publish_business_if_profile_complete
     if  !self.description.blank? &&
         !self.summary.blank? &&
-        !self.sponsorships.accepted.empty?
+        !self.sponsorships.accepted.empty? &&
+        !self.causes.empty?
         self.is_published = true
     else
       self.is_published = false

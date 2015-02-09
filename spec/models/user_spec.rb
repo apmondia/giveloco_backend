@@ -8,7 +8,17 @@ describe User do
     @b2 = create(:business)
     @b2.campaign_list.add('foo')
     @b2.save!
-    @s = create(:sponsorship, :business => @b, :cause => @c)
+    @s = create(:sponsorship, :business => @b, :cause => @c, :status => :accepted)
+  end
+
+  it 'should activate a cause on creation' do
+    @c = create(:cause)
+    expect(@c.is_activated).to eq(true)
+  end
+
+  it 'should activate a business on creation' do
+    @b = create(:business)
+    expect(@b.is_activated).to eq(true)
   end
 
   it 'should create an authentication token' do
@@ -17,8 +27,8 @@ describe User do
   end
 
   it 'should publish businesses and causes if their profile is complete' do
-    expect(@b.is_published).to eq(true)
     expect(@c.is_published).to eq(true)
+    expect(@b.is_published).to eq(true)
   end
 
   it 'should unpublish businesses that have no sponsorships' do
@@ -53,22 +63,27 @@ describe User do
 
   end
 
-  it 'should automatically activate businesses and causes if they have sponsorships' do
+  it 'should automatically publish businesses and causes if they have sponsorships' do
 
     c = create(:cause)
-    expect(c.is_activated).to eq(true)
+    expect(c.is_published).to eq(true)
 
     b = create(:business)
-    expect(b.is_activated).to eq(false)
+    expect(b.is_published).to eq(false)
 
     s = create(:sponsorship, :business => b, :cause => c)
-    expect(b.is_activated).to eq(true)
-    expect(c.is_activated).to eq(true)
+    expect(b.is_published).to eq(false)
+    expect(c.is_published).to eq(true)
+
+    s.status = :accepted
+    s.save!
+    expect(b.is_published).to eq(true)
+    expect(c.is_published).to eq(true)
 
     s.destroy
 
-    expect(b.is_activated).to eq(false)
-    expect(c.is_activated).to eq(true)
+    expect(b.is_published).to eq(false)
+    expect(c.is_published).to eq(true)
 
   end
 
