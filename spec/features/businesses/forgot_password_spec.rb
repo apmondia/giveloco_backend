@@ -20,12 +20,12 @@ describe 'As a business I want to change my password' do
     url = expect_password_reset_email(@business)
 
     visit url
-    expect(page).to have_content("Enter your new Password")
+    expect(page).to have_content("Enter your new password")
 
     fill_in :password, :with => 'password2'
     fill_in :password_confirmation, :with => 'password2'
 
-    click_link_or_button 'Confirm New Password'
+    click_link_or_button 'Update Password'
     expect(page).to have_content("Your password has been reset")
 
     fill_in :email, :with => @business.email
