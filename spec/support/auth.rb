@@ -21,6 +21,14 @@ module Support
       matches[1]
     end
 
+    def expect_password_reset_email(recipient)
+      last_mail = ActionMailer::Base.deliveries.last
+      expect(last_mail.to).to eq([recipient.email])
+      matches = /"(https?:\/\/localhost(:\d+)?\/user\/complete-password-reset\?reset_password_token=.*)"/.match(last_mail.body.to_s)
+      expect(matches.length).to eq(3)
+      matches[1]
+    end
+
     def login(user)
       visit_root
       find('footer a.login').click

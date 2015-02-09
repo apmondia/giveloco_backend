@@ -11,6 +11,37 @@ class V1::Users::UsersController < V1::Base
 
 	resource :users do
 
+    resource :password do
+      desc 'Resets a user password'
+      params do
+        requires :email
+      end
+      post do
+        @user = User.find_by_email!( params[:email] )
+        @user.send_reset_password_instructions
+        if @user.errors.empty?
+          { :status => 'ok' }
+        else
+          { :status => 'error', :message => @user.errors.full_messages }
+        end
+      end
+
+      desc 'Creates a new password'
+      params do
+        requires :reset_password_token
+        requires :password
+        requires :password_confirmation
+      end
+      put do
+        resource = User.reset_password_by_token(params)
+        if resource.errors.empty?
+          { :status => 'ok' }
+        else
+          { :status => 'error', :message => resource.errors.full_messages }
+        end
+      end
+    end
+
     resource :confirmations do
       desc "Resend the confirmation email"
       post do

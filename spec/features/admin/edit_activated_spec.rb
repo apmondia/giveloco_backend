@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'As the admin I want to update sponsorship status' do
+describe 'As the admin I want to activate and deactivate businesses' do
 
   before(:each) do
     assert_front_end_up
