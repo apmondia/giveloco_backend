@@ -13,7 +13,7 @@
           board.
         </p>
         <p>
-          Before we start, we'll just need you to <%= link_to 'confirm your account', confirmation_url(@resource, confirmation_token: @token) %> to ensure that you are not a robot.
+          Before we start, we'll just need you to <%= link_to 'confirm your account', confirmation_url(@resource, confirmation_token: @token, only_path: false) %> to ensure that you are not a robot.
         </p>
         <p>
           If you received this email by mistake, simply delete it. You won't be signed-up if you don't click
@@ -38,7 +38,7 @@
         </p>
 
         <p>
-          <img src='<%= image_url 'small_teal_trademarked_logo.png' %>' />
+          <img src='<%= image_url 'small_teal_trademarked_logo.png', :only_path => false %>' alt="GiveLoco" />
         </p>
     </body>
 </html>

@@ -14,6 +14,7 @@ Rails.application.configure do
   # Show full error business_reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  config.action_controller.asset_host = "localhost:3000"
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -33,6 +34,7 @@ Rails.application.configure do
 
   # Raise an exception if there is an error when sending an email
   config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.asset_host = "http://#{config.action_controller.asset_host}"
 
   # Email configuration settings
   config.action_mailer.delivery_method = :sendmail
