@@ -15,8 +15,8 @@ module Support
       last_mail = ActionMailer::Base.deliveries.last
       expect(last_user.email).to eq(recipient)
       expect(last_mail.to).to eq([last_user.email])
-      expect(last_mail.body).to include( user_confirmation_path )
-      matches = /"(https?:\/\/localhost:\d+\/user\/confirmation\?confirmation_token=.*)"/.match(last_mail.body.to_s)
+      expect(last_mail.text_part.body).to include( user_confirmation_path )
+      matches = /(https?:\/\/localhost:\d+\/user\/confirmation\?confirmation_token=[^\s]+)/.match(last_mail.text_part.body.to_s)
       expect(matches.length).to eq(2)
       matches[1]
     end
@@ -24,7 +24,7 @@ module Support
     def expect_password_reset_email(recipient)
       last_mail = ActionMailer::Base.deliveries.last
       expect(last_mail.to).to eq([recipient.email])
-      matches = /"(https?:\/\/localhost(:\d+)?\/user\/complete-password-reset\?reset_password_token=.*)"/.match(last_mail.body.to_s)
+      matches = /(https?:\/\/localhost(:\d+)?\/user\/complete-password-reset\?reset_password_token=[^\s]+)/.match(last_mail.text_part.body.to_s)
       expect(matches.length).to eq(3)
       matches[1]
     end

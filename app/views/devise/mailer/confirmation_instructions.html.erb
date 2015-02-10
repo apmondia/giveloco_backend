@@ -1,36 +1,44 @@
-<h4>
-  Hey there <%= @user.first_name %> <%= @user.last_name %>!
-</h4>
+<html>
+    <head>
 
-<p>
-Welcome to the GiveLoco community. You're awesome and we are excited to have you on
-board.
-</p>
-<p>
-Before we start, we'll just need you to <%= link_to 'confirm your account', confirmation_url(@resource, confirmation_token: @token) %> to ensure that you are not a robot.
-</p>
-<p>
-If you received this email by mistake, simply delete it. You won't be signed-up if you don't click
-the confirmation link above.
-</p>
-<p>
-Once that's done, see how you can start using GiveLoco by visiting our How it Works page, get
-familiar with our community atmosphere by reading about our team, our goals and visions on our
-blog.
-</p>
-<p>
-For even more information on how it works, what we do, or if you just want to say hi and offer
-feedback feel free to shoot us an email at <%= link_to 'community@giveloco.com', 'mailto:community@giveloco.com' %>
-</p>
-<p>
-All the best,
-<br />
-GiveLoco
-</p>
-<p>
-Because investing in community is good business.
-</p>
+    </head>
+    <body>
 
-<p>
-  <img src='<%= image_url 'small_teal_trademarked_logo.png' %>' />
-</p>
+        <h4>
+          Hey there <%= @user.first_name %> <%= @user.last_name %>!
+        </h4>
+
+        <p>
+          Welcome to the GiveLoco community. You're awesome and we are excited to have you on
+          board.
+        </p>
+        <p>
+          Before we start, we'll just need you to <%= link_to 'confirm your account', confirmation_url(@resource, confirmation_token: @token) %> to ensure that you are not a robot.
+        </p>
+        <p>
+          If you received this email by mistake, simply delete it. You won't be signed-up if you don't click
+          the confirmation link above.
+        </p>
+        <p>
+          Once that's done, see how you can start using GiveLoco by visiting our How it Works page, get
+          familiar with our community atmosphere by reading about our team, our goals and visions on our
+          blog.
+        </p>
+        <p>
+          For even more information on how it works, what we do, or if you just want to say hi and offer
+          feedback feel free to shoot us an email at <%= link_to 'community@giveloco.com', 'mailto:community@giveloco.com' %>
+        </p>
+        <p>
+          All the best,
+          <br />
+          GiveLoco
+        </p>
+        <p>
+          Because investing in community is good business.
+        </p>
+
+        <p>
+          <img src='<%= image_url 'small_teal_trademarked_logo.png' %>' />
+        </p>
+    </body>
+</html>
