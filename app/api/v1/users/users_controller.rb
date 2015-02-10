@@ -9,7 +9,7 @@ class V1::Users::UsersController < V1::Base
 
   logger = Rails.logger
 
-	resource :users do
+  resource :users do
 
     resource :password do
       desc 'Resets a user password'
@@ -224,6 +224,22 @@ class V1::Users::UsersController < V1::Base
       end
     end
 
+    resource '/sponsorships' do
+      resource '/certificates' do
+        resource '/csv' do
+          desc 'Returns a CSV of all certificates'
+          get do
+            authenticate!
+            can_or_die :index, Certificate
+            @certificates = Certificate.order_by_date
+            env['api.format'] = :csv
+            header 'Content-Disposition', 'attachment; filename=certificates.csv'
+            body @certificates.to_comma
+          end
+        end
+      end
+    end
+
 	# =======================================================================
 	# 	Return single user's transactions and tags (requires authentication)
 	# =======================================================================
@@ -261,9 +277,9 @@ class V1::Users::UsersController < V1::Base
             get do
               authenticate!
               @user = User.find(params[:id])
-              env['api.format'] = :csv
               can_or_die :read_purchased_certificates, @user
               @certificates = @user.purchased_certificates
+              env['api.format'] = :csv
               header 'Content-Disposition', 'attachment; filename=certificates.csv'
               body @certificates.to_comma
             end

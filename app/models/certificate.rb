@@ -18,6 +18,10 @@ class Certificate < ActiveRecord::Base
     joins(:sponsorship).where('sponsorships.cause_id = ?', cause.id)
   }
 
+  scope :order_by_date, -> () {
+    order('created_at DESC')
+  }
+
   validate :business_is_published
   validate :business_is_activated
 
@@ -66,6 +70,7 @@ class Certificate < ActiveRecord::Base
     amount 'Amount'
     donation_percentage 'Donation Rate'
     sponsorship 'Cause' do |sponsorship| sponsorship.cause.company_name end
+    sponsorship 'Business' do |sponsorship| sponsorship.business.company_name end
   end
 
 end

@@ -265,6 +265,39 @@ describe V1::Users::UsersController do
 
   end
 
+  describe '/v1/users/sponsorships/certificates' do
+
+    before(:each) do
+      @admin = create(:admin)
+      @s1 = create(:sponsorship, :status => :accepted)
+      @s2 = create(:sponsorship, :status => :accepted)
+      @c1s = create_list(:certificate, 10, :sponsorship => @s1)
+      @c2s = create_list(:certificate, 10, :sponsorship => @s2)
+      @url = '/v1/users/sponsorships/certificates/csv'
+    end
+
+    it 'should allow the admin to download a CSV of all certificates' do
+
+      get @url, {}, auth_session(@admin)
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq('text/csv')
+      expect(response.body).to eq( Certificate.order_by_date.to_comma )
+      expect(response.header['Content-Disposition']).to eq('attachment; filename=certificates.csv')
+
+    end
+
+    it 'should not allow anonymous users to access all certificates' do
+      get @url, {}, {}
+      expect(response.status).to eq(401)
+    end
+
+    it 'should not allow users to access all certificates' do
+      get @url, {}, auth_session(@s1.business)
+      expect(response.status).to eq(403)
+    end
+
+  end
+
   describe '/v1/users/:id/sponsorships/certificates' do
 
     before(:each) do
