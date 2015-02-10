@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 	has_many :businesses,  -> { is_public }, :through => :sponsors
   has_many :sponsor_certificates, :through => :sponsors, :source => :certificates
 
+  has_one :report, :class_name => 'BusinessReport', :foreign_key => :id, :inverse_of => :business
+
   accepts_nested_attributes_for :certificates
 
   scope :is_public, -> {

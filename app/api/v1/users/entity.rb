@@ -64,4 +64,4 @@ module V1
   end
 end
 
-# Ex.Entities: https://github.com/bloudraak/grape-sample-blog-api-with-entities/blob/master/app/api/blog/entity.rb
+# Ex.Entities: https://github.com/bloudraak/grape-sample-blog-api-with-entities/blob/master/app/api/blog/business_report_entity.rb
