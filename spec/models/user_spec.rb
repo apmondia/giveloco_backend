@@ -3,6 +3,7 @@ require 'rails_helper'
 describe User do
 
   before(:each) do
+    @admin = create(:admin)
     @b = create(:business)
     @c = create(:cause)
     @b2 = create(:business)
