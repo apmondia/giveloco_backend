@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
                        :content_type => { :content_type => ["image/jpeg", "image/png"] }
   ########################################################################
 
-  validates :profile_picture, :dimensions => { :width => 800, :height => 800 }
+  #validates :profile_picture, :dimensions => { :width => 800, :height => 800 }
   validates_presence_of :role, :email
   attr_accessor :disable_admin
 	validate :cannot_set_role_to_admin, :unless => :disable_admin
