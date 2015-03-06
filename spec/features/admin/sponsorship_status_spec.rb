@@ -33,9 +33,23 @@ describe 'As the admin I want to update sponsorship status' do
     login(@admin)
     open_sponsorships
     expect(find('tr.sponsorship')).to have_content('pending')
-    find('tr.sponsorship .user-actions a.dropdown-toggle').click
+    open_sponsorship_row_tool
     click_link 'Cancel'
     expect(find('tr.sponsorship')).to have_content('cancelled')
+  end
+
+  it 'should allow the admin to move to pending' do
+    login(@admin)
+    open_sponsorships
+    expect(find('tr.sponsorship')).to have_content('pending')
+    open_sponsorship_row_tool
+    click_link 'Cancel'
+    expect(find('tr.sponsorship')).to have_content('cancelled')
+
+    open_sponsorship_row_tool
+    click_link 'Pending'
+    expect(find('tr.sponsorship')).to have_content('pending')
+
   end
 
 end

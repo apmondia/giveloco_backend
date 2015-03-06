@@ -24,6 +24,10 @@ module Support
         find(".user-actions a.dropdown-toggle").click
       end
 
+      def open_sponsorship_row_tool
+        find('tr.sponsorship .user-actions a.dropdown-toggle').click
+      end
+
     end
   end
 end
