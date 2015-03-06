@@ -25,7 +25,7 @@ describe 'As a user I want to purchase a gift certificate' do
     fill_in :email, :with => email
     #find('label[for="agree_to_tc"]').click
     click_link_or_button 'Confirm'
-    expect(page).to have_content('Thank you for giving it forward!')
+    expect(page).to have_content('Thank you for spending it forward!')
 
     c = Certificate.last
     expect(c).to be
