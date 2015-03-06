@@ -8,6 +8,7 @@ require 'support/front_end'
 require 'support/capybara_helpers'
 require 'support/pages/main'
 require 'support/pages/admin'
+require 'support/pages/profile'
 require 'support/pages/create_sponsorship_modal'
 require 'capybara/rails'
 require 'capybara/poltergeist'
@@ -55,6 +56,7 @@ RSpec.configure do |config|
   include Support::FrontEnd
   include Support::Pages::Main
   include Support::Pages::Admin
+  include Support::Pages::Profile
   include Support::Pages::CreateSponsorshipModal
   include Support::Auth
 

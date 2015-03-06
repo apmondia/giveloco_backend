@@ -6,20 +6,9 @@ describe 'As a cause I want to upload my profile picture' do
     @c = create(:cause)
   end
 
-  def goto_edit_profile
-    login(@c)
-    click_link "Hi, #{@c.first_name}"
-    click_link 'My Account'
-    click_link 'Edit Profile'
-    expect(page).to have_css('input[type="file"]')
-  end
-
-  def attach(fixture_name)
-    page.attach_file 'profile-picture-upload', Rails.root.join('spec','fixtures',fixture_name)
-  end
-
   it 'should allow them to upload a photo' do
-    goto_edit_profile
+    login(@c)
+    goto_edit_profile(@c)
     attach('captain-kirk-william-shatner.jpg')
     find_button('upload').click
     expect(page).to have_content('Your file was successfully uploaded')

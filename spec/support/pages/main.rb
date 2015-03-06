@@ -12,6 +12,14 @@ module Support
         click_profile_menu
         click_link 'My Account'
       end
+
+      def goto_edit_profile(user)
+        click_link "Hi, #{user.first_name}"
+        click_link 'My Account'
+        click_link 'Edit Profile'
+        expect(page).to have_css('input[type="file"]')
+      end
+
       def stripe_connect(business)
         login(business)
         click_profile_menu
@@ -23,6 +31,7 @@ module Support
         expect(page).to have_content('Your account has been connected to Stripe', :wait => 4)
         logout(business)
       end
+
     end
   end
 end
