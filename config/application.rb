@@ -43,8 +43,11 @@ module ApiBase
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    giveloco_email = '"GiveLoco Community" <community@giveloco.com>'
+
     config.action_mailer.default_options = {
-      :from => '"GiveLoco Community" <community@giveloco.com>'
+      :from => giveloco_email,
+      :reply_to => giveloco_email
     }
 
     # Enable escaping HTML in JSON.

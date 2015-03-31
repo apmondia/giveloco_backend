@@ -9,27 +9,26 @@
         </h4>
 
         <p>
-          Welcome to the GiveLoco community. You're awesome and we are excited to have you on
-          board.
+          Welcome to the GiveLoco community. You're awesome and we are excited to have you on board.
         </p>
         <p>
-          Before we start, we'll just need you to <%= link_to 'confirm your account', confirmation_url(@resource, confirmation_token: @token, only_path: false) %> to ensure that you are not a robot.
+          Before we start, we'll just need you to <%= link_to 'click here', confirmation_url(@resource, confirmation_token: @token, only_path: false) %> to confirm your account to ensure that you are not a robot. If the link does not work, copy and paste this URL in your browser:
+          <br />
+          <%= confirmation_url(@resource, confirmation_token: @token, only_path: false) %>
         </p>
         <p>
-          If you received this email by mistake, simply delete it. You won't be signed-up if you don't click
-          the confirmation link above.
+          If you received this email by mistake, simply reply to let us know. You won't be signed-up if you don't click the confirmation link above.
         </p>
         <p>
-          For even more information on how it works, what we do, or if you just want to say hi and offer
-          feedback feel free to shoot us an email at <%= link_to 'community@giveloco.com', 'mailto:community@giveloco.com' %>
+          For even more information on how it works, what we do, or if you just want to say hi and offer feedback feel free to shoot us an email at <%= link_to 'community@giveloco.com', 'mailto:community@giveloco.com' %>.
         </p>
         <p>
           All the best,
           <br />
-          <a href="http://giveloco.com" title="GiveLoco">GiveLoco</a>
+          The GiveLoco Team
         </p>
         <p>
-          Because investing in community is good business.
+          Give local with your everyday purchases at <a href="http://giveloco.com" title="GiveLoco">GiveLoco.com</a>!
         </p>
 
         <p>
