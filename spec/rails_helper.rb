@@ -13,9 +13,13 @@ require 'support/pages/create_sponsorship_modal'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
 Capybara.configure do |config|
   config.run_server = true
-  config.default_driver = :selenium
+  config.default_driver = :chrome
   #config.default_driver = :poltergeist
   config.server_port = 6999
   config.app_host = 'http://localhost:4999'
