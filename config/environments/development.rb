@@ -39,11 +39,10 @@ Rails.application.configure do
   # Email configuration settings
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              ENV["EMAIL_SERVER"],
+    address:              secrets.email_server || ENV["EMAIL_SERVER"],
     port:                 587,
-    #domain:               ENV["EMAIL_DOMAIN"],
-    user_name:            ENV["EMAIL_USERNAME"],
-    password:             ENV["EMAIL_PASSWORD"],
+    user_name:            secrets.email_username || ENV["EMAIL_USERNAME"],
+    password:             secrets.email_password || ENV["EMAIL_PASSWORD"],
     authentication:       'plain',
     enable_starttls_auto: true
   }
@@ -54,9 +53,9 @@ Rails.application.configure do
       :url => ':s3_domain_url',
       :path => ':class/:attachment/:id_partition/:style/:filename',
       :s3_credentials => {
-          :bucket => ENV['S3_BUCKET_NAME'],
-          :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-          :secret_access_key => ENV['AWS_SECRET_KEY']
+          :bucket => secrets.s3_bucket_name || ENV['S3_BUCKET_NAME'],
+          :access_key_id => secrets.aws_access_key_id || ENV['AWS_ACCESS_KEY_ID'],
+          :secret_access_key => secrets.aws_secret_key || ENV['AWS_SECRET_KEY']
       }
   }
 

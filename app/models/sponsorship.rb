@@ -25,7 +25,7 @@ class Sponsorship < ActiveRecord::Base
 
   before_create :default_status
 
-  after_update :check_status
+  after_save :check_status
 
   has_many :certificates
 
@@ -38,7 +38,7 @@ class Sponsorship < ActiveRecord::Base
   end
 
   def check_status
-    if self.status_changed?
+    if self.status_changed? && !self.status.nil?
       if self.cancelled?
         TalifloMailer.sponsorship_cancelled_admin_notification(self).deliver
       elsif self.accepted?

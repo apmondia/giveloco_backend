@@ -12,7 +12,7 @@ describe 'As a cause I want to upload my profile picture' do
     attach('captain-kirk-william-shatner.jpg')
     find_button('upload').click
     expect(page).to have_content('Your file was successfully uploaded')
-    expect(page).to have_css(".user-profile-picture img[src='#{User.find(@c.id).profile_picture.url(:medium)}']")
+    expect(page).to have_css(".profile-image[style*='#{User.find(@c.id).profile_picture.url(:medium)}']")
   end
 
   #we removed restrictions here

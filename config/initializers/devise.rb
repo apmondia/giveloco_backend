@@ -249,7 +249,7 @@ Devise.setup do |config|
   # end
   config.warden do |manager|
     manager.strategies.add :token_header_authenticable, TokenHeaderAuthenticable
-    manager.default_strategies(:scope => :user).unshift :token_header_authenticable
+    manager.default_strategies(:scope => :devise).unshift :token_header_authenticable
   end
 
   # ==> Mountable engine configurations

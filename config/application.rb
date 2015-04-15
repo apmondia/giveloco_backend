@@ -57,8 +57,8 @@ module ApiBase
     config.paths.add 'app/api', glob: '**/*.rb'
     config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
 
-    config.mailchimp_api_key = ENV['MAILCHIMP_API_KEY']
-    config.mailchimp_list_id = ENV['MAILCHIMP_LIST_ID']
+    config.mailchimp_api_key = secrets.mailchimp_api_key
+    config.mailchimp_list_id = secrets.mailchimp_list_id
 
     # Auto-Load all library files
     config.autoload_paths += Dir["#{Rails.root}/lib"]

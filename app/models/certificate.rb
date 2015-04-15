@@ -1,5 +1,3 @@
-require 'securerandom'
-
 class Certificate < ActiveRecord::Base
   attr_accessor :disable_charge
 
@@ -41,11 +39,11 @@ class Certificate < ActiveRecord::Base
   end
 
   def copy_donation_percentage
-    self.donation_percentage = sponsorship.business.sponsorship_rate
+    self.donation_percentage = (sponsorship.business.sponsorship_rate || 0)
   end
 
   def donated_amount
-    format_donated_amount(amount, donation_percentage)
+    self.class.format_donated_amount(amount, donation_percentage)
   end
 
   def self.format_donated_amount(amount, percentage)
@@ -61,7 +59,7 @@ class Certificate < ActiveRecord::Base
   end
 
   def generate_redemption_code
-    self.redemption_code = SecureRandom.hex.first(6).upcase
+    self.redemption_code = Devise.friendly_token.first(6).upcase
   end
 
   comma do

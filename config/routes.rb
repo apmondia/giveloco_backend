@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
 
-  devise_for  :user, 
+  devise_for  :user,
             #  skip: [:sessions], 
               controllers: { 
-                registrations:  'user/registrations', 
-                sessions:       'user/sessions',
-                passwords:      'user/passwords',
-                confirmations:  'user/confirmations',
-                omniauth_callbacks: "user/omniauth_callbacks"
+                registrations:  'registrations',
+                sessions:       'sessions',
+                passwords:      'passwords',
+                confirmations:  'confirmations',
+                omniauth_callbacks: "omniauth_callbacks"
               }
   as :user do
-    post '/user/login' => 'user/sessions#create'
-    delete '/user/logout' => 'user/sessions#destroy'
-    post '/user/signup' => 'user/registrations#create'
+    post '/user/login' => 'sessions#create'
+    delete '/user/logout' => 'sessions#destroy'
+    post '/user/signup' => 'registrations#create'
   end
 
   if Rails.env.development? || Rails.env.test?

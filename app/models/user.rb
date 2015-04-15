@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 	       :recoverable, :rememberable, :trackable, :validatable
   	devise :omniauthable, :omniauth_providers => [:stripe_connect]
 
-	has_many :certificates, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
+	has_many :certificates, -> { order('created_at DESC') }, :foreign_key => 'purchaser_id', :inverse_of => :purchaser
 	has_many :sponsorships, -> { not_deleted }, :foreign_key => 'business_id', :class_name => 'Sponsorship', :dependent => :destroy, :inverse_of => :business
 	has_many :causes, -> { is_public }, :through => :sponsorships, :source => :cause
   has_many :active_causes, -> { is_public }, :through => :sponsorships, :source => :cause
@@ -55,6 +55,7 @@ class User < ActiveRecord::Base
   # Callbacks
   before_save :smart_add_url_protocol
   before_create :set_authentication_token
+  before_validation :check_anonymous_email
   before_save :generate_password
   before_save :automatically_publish_business_if_profile_complete, :if => 'business?'
   before_save :automatically_publish_cause_if_profile_complete, :if => 'cause?'
@@ -78,14 +79,15 @@ class User < ActiveRecord::Base
   end
 
   def check_mailing_list_opt_in
-    if (mailing_list_opt_in &&
+    if (!Rails.env.test? &&
+        mailing_list_opt_in &&
         Rails.application.config.mailchimp_api_key &&
         Rails.application.config.mailchimp_list_id)
       mailchimp = Mailchimp::API.new(Rails.application.config.mailchimp_api_key)
       begin
         mailchimp.lists.subscribe(Rails.application.config.mailchimp_list_id, {:email => self.email }, nil, 'html', false, true)
       rescue Exception => e
-        logger.info("Error subscribing using to list #{Rails.application.config.mailchimp_list_id}: " + e)
+        logger.info("Error subscribing using to list: ", e)
       end
     end
   end
@@ -112,7 +114,24 @@ class User < ActiveRecord::Base
     Rails.application.routes.url_helpers.user_omniauth_authorize_url(:stripe_connect,
                                                                       :'stripe_user[email]' => self.email,
                                                                       :redirect_uri => Rails.application.routes.url_helpers.user_omniauth_callback_url(:stripe_connect))
-	end
+  end
+
+  def generate_email
+    if self.email.blank?
+      while self.email.blank?
+        email = "user-#{Devise.friendly_token.first(8)}@giveloco.com"
+        if User.find_by_email(email).nil?
+          self.email = email
+        end
+      end
+    end
+  end
+
+  def check_anonymous_email
+    if generate_email
+      self.skip_confirmation!
+    end
+  end
 
 	def generate_password
 		if self.individual? && self.new_record? && self.password.blank?

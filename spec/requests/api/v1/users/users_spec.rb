@@ -209,26 +209,48 @@ describe V1::Users::UsersController do
 
   describe 'POST /users/certificates' do
 
+    def valid_post_attrs(opts = {})
+      {
+        :newUser => valid_user_attrs
+      }.merge!(opts)
+    end
+
+    def valid_user_attrs(opts = {})
+      {
+        :first_name => 'Bob',
+        :last_name => 'Odenkirk',
+        :email => 'testman@fake.com',
+        :mailing_list_opt_in => true,
+        :agree_to_tc => true,
+        :certificates_attributes => [ valid_certificate_attrs ]
+      }.merge!(opts)
+    end
+
+    def valid_certificate_attrs(opts = {})
+      {
+           :sponsorship_id => @s.id,
+           :amount => "20",
+           :serial_number => '1234'
+      }.merge!(opts)
+    end
+
     before(:each) do
       @s = create(:sponsorship, :status => :accepted)
     end
 
+    it 'should allow someone to purchase a certificate without entering their email' do
+
+      post '/v1/users/certificates', valid_post_attrs(:newUser => valid_user_attrs(:email => ''))
+      expect(response.status).to eq(201)
+      last_user = User.last
+      expect(last_user.certificates).not_to be_empty
+      expect(last_user.email).to include("@giveloco.com")
+
+    end
+
     it 'should allow an anonymous user to purchase a certificate' do
 
-      post '/v1/users/certificates', {
-          :newUser => {
-              :first_name => 'Bob',
-              :last_name => 'Odenkirk',
-              :email => 'testman@fake.com',
-              :mailing_list_opt_in => true,
-              :agree_to_tc => true,
-              :certificates_attributes => [{
-                  :sponsorship_id => @s.id,
-                  :amount => "20",
-                  :serial_number => '1234'
-              }]
-          }
-      }
+      post '/v1/users/certificates', valid_post_attrs
 
       expect(response.status).to eq(201)
       last_user = User.last
@@ -239,20 +261,9 @@ describe V1::Users::UsersController do
       expect(last_user.email).to eq('testman@fake.com')
       expect(last_user.mailing_list_opt_in).to eq(true)
 
-      post '/v1/users/certificates', {
-          :newUser => {
-              :first_name => 'Bob',
-              :last_name => 'Odenkirk',
-              :email => 'testman@fake.com',
-              :mailing_list_opt_in => true,
-              :agree_to_tc => true,
-              :certificates_attributes => [{
-                                               :sponsorship_id => @s.id,
-                                               :amount => "20",
-                                               :serial_number => '1121234'
-                                           }]
-          }
-      }
+      attrs = valid_post_attrs(:newUser => valid_user_attrs(:certificates_attributes => [ valid_certificate_attrs(:serial_number => '1121234') ]))
+
+      post '/v1/users/certificates', attrs
 
       expect(response.status).to eq(201)
       last_user = User.last

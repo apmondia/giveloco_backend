@@ -19,8 +19,9 @@ end
 
 Capybara.configure do |config|
   config.run_server = true
-  config.default_driver = :chrome
+  config.default_driver = :selenium
   #config.default_driver = :poltergeist
+  config.default_wait_time = 6
   config.server_port = 6999
   config.app_host = 'http://localhost:4999'
 end

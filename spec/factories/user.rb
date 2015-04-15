@@ -30,6 +30,7 @@ FactoryGirl.define do
     factory :business do
       role :business
       access_code '1234'
+      sponsorship_rate 20
       description "I make money as a business"
       summary "Make money"
     end

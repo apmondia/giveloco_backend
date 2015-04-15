@@ -82,6 +82,7 @@ group :development, :test do
 	# Strategies for cleaning databases in Ruby.
 	gem 'database_cleaner'
 
+  gem 'pry'
 end
 
 gem 'sqlite3'
