@@ -1,4 +1,3 @@
-source 'https://code.stripe.com'
 source 'https://rubygems.org'
 #ruby '2.1'
 
@@ -44,7 +43,7 @@ group :default do
 	# Library for generating fake data such as names, addresses, and phone numbers. http://faker.rubyforge.org
 	gem 'faker'
 	# Stripe Payment Processor
-	gem 'stripe'
+	gem 'stripe', source: 'https://code.stripe.com'
 
 	### API Gems ###
 	gem 'grape', '~> 0.9.0'

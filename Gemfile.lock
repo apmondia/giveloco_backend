@@ -1,6 +1,6 @@
 GEM
-  remote: https://code.stripe.com/
   remote: https://rubygems.org/
+  remote: https://code.stripe.com/
   specs:
     actionmailer (4.1.1)
       actionpack (= 4.1.1)
@@ -329,5 +329,8 @@ DEPENDENCIES
   selenium-webdriver
   spring
   sqlite3
-  stripe
+  stripe!
   unicorn
+
+BUNDLED WITH
+   1.10.3

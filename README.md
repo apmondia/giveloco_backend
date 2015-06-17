@@ -26,6 +26,18 @@ bundle install
 bundle exec rake db:create db:migrate db:seed
 ```
 
+To seed some fake data:
+
+```
+rake db:seed:development
+```
+
+To run the server:
+
+```
+rails s
+```
+
 ## Environments
 
 Rails has three built-in environments: test, development and production.
@@ -48,6 +60,12 @@ To add dummy data to the database so that you can play with the API run:
 
 ```
 bundle exec rake db:seed:development
+```
+
+If you'd like to install some particular data try looking at the rake tasks:
+
+```
+rake -T
 ```
 
 ## Running the tests
