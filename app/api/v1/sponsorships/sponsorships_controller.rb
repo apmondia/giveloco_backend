@@ -35,7 +35,7 @@ module V1
           sponsorship = Sponsorship.new(create_sponsorship_params)
           can_or_die :create, sponsorship
           if @request_user.business?
-            TalifloMailer.sponsorship_request(sponsorship.business, sponsorship.cause).deliver
+            givelocoMailer.sponsorship_request(sponsorship.business, sponsorship.cause).deliver
           end
           sponsorship.save!
           sponsorship

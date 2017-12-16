@@ -1,7 +1,7 @@
-Taliflo API
+giveloco API
 ===============
 
-Taliflo API built with Ruby on Rails using Grape.
+giveloco API built with Ruby on Rails using Grape.
 
 ## Requirements
 

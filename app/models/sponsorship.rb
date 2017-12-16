@@ -40,9 +40,9 @@ class Sponsorship < ActiveRecord::Base
   def check_status
     if self.status_changed? && !self.status.nil?
       if self.cancelled?
-        TalifloMailer.sponsorship_cancelled_admin_notification(self).deliver
+        givelocoMailer.sponsorship_cancelled_admin_notification(self).deliver
       elsif self.accepted?
-        TalifloMailer.sponsorship_accepted_admin_notification(self).deliver
+        givelocoMailer.sponsorship_accepted_admin_notification(self).deliver
       end
     end
   end

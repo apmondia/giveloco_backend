@@ -9,13 +9,13 @@
 admin = User.create do |u|
 	u.role = User::Roles::ROLES[0]
     u.disable_admin = true
-    u.first_name = "Taliflo"
+    u.first_name = "giveloco"
     u.last_name = "Admin"
-    u.email = "admin@taliflo.com"
+    u.email = "admin@giveloco.com"
     u.password = "tony%&flow"
     u.agree_to_tc = true
-    u.company_name = "Taliflo Inc."
-    u.website = "http://www.taliflo.com"
+    u.company_name = "giveloco Inc."
+    u.website = "http://www.giveloco.com"
     u.street_address = nil
     u.country = "Canada"
     u.state = "BC"

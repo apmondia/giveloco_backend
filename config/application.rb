@@ -68,8 +68,8 @@ module ApiBase
       allow do
         # origins(/http:\/\/localhost:(\d*)/, 
         #         /http:\/\/127.0.0.1:(\d*)/, 
-        #         'http://www.taliflo.com', 
-        #         'https://www.taliflo.com'
+        #         'http://www.giveloco.com', 
+        #         'https://www.giveloco.com'
         #         )
         origins '*'
         resource '*', 

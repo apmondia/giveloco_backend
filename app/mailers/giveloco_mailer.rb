@@ -1,6 +1,6 @@
 require 'premailer'
 
-class TalifloMailer < ActionMailer::Base
+class givelocoMailer < ActionMailer::Base
 
   self.asset_host = nil
 
