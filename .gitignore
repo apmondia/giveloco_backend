@@ -36,3 +36,4 @@ app_(old_version)
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 config\secrets.yml
+config\secrets.yml
