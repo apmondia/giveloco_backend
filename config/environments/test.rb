@@ -48,6 +48,6 @@ Rails.application.configure do
 
   config.front_end_base_url = 'http://localhost:4999'
 
-  config.community_email = 'test_community@giveloco.com'
+  config.community_email = 'test_support@giveloco.com'
 
 end

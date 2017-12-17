@@ -67,7 +67,7 @@ Rails.application.configure do
 
   # Required for Devise gem. Make sure to change the host to your production URL (ex: 'yoursite.herokuapp.com')
   # config.action_mailer.default_url_options = { host: ENV["API_BASE_URL"] }
-  
+
   # If a "ActionView::Template::Error:" is displayed when deploying to heroku, uncomment and configure the following line:
   # Rails.application.routes.default_url_options[:host] = 'yoursite.herokuapp.com'
 
@@ -105,6 +105,6 @@ Rails.application.configure do
 
   config.front_end_base_url = ENV['FRONT_END_BASE_URL']
 
-  config.community_email = 'community@giveloco.com'
+  config.community_email = 'support@giveloco.com'
 
 end

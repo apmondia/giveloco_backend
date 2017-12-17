@@ -43,7 +43,7 @@ module ApiBase
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    giveloco_email = '"GiveLoco Community" <community@giveloco.com>'
+    giveloco_email = '"GiveLoco Community" <support@giveloco.com>'
 
     config.action_mailer.default_options = {
       :from => giveloco_email,
@@ -66,22 +66,22 @@ module ApiBase
     # CORS configuration
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
-        # origins(/http:\/\/localhost:(\d*)/, 
-        #         /http:\/\/127.0.0.1:(\d*)/, 
-        #         'http://www.giveloco.com', 
+        # origins(/http:\/\/localhost:(\d*)/,
+        #         /http:\/\/127.0.0.1:(\d*)/,
+        #         'http://www.giveloco.com',
         #         'https://www.giveloco.com'
         #         )
         origins '*'
-        resource '*', 
-            :headers => '*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type', 
+        resource '*',
+            :headers => '*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type',
             :methods => [:get, :post, :put, :delete, :options]
       end
     end
 
-    config.stripe_client_id = ENV['STRIPE_APP_CLIENT_ID'] || 'ca_5CxcTXvWWjcC06sYJRP1mDNypRZHjaSM'
-    config.stripe_secret_key = ENV['STRIPE_SECRET_KEY'] || 'sk_test_Z0cbu6Jx5FeoPj217bEBLm5J'
+    config.stripe_client_id = ENV['STRIPE_APP_CLIENT_ID'] || ''
+    config.stripe_secret_key = ENV['STRIPE_SECRET_KEY'] || ''
 
-    config.community_email = 'community@giveloco.com'
+    config.community_email = 'support@giveloco.com'
 
   end
 end
